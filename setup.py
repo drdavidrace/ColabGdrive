@@ -6,6 +6,6 @@ setup(name='ColabGDrive',
       url='https://github.com/drdavidrace/ColabGdrive.git',
       author='Dr David Race',
       author_email='dr.david.race@gmail.com',
-      license='MIT',
+      license='Apache License 2',
       packages=['ColabGDrive'],
       zip_safe=False)
