@@ -21,6 +21,6 @@ As I get more experience with Google's methodology, these assumption may be modi
 
 ##Testing
 
-The testing is primarily performed within a standard python command line environment on my chromebox and chromebook.
+The testing is primarily performed within Colaboratory, so it is a little laborous in this initial testing.
 
 WARNING:  This code creates an *"object"* for the Google Drive, then the functionality is performed by methods of the object.  
