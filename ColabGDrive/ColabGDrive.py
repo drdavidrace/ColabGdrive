@@ -1,4 +1,5 @@
 import os, sys, re
+import subprocess
 import importlib
 importlib.reload(pip)
 
@@ -13,9 +14,9 @@ class ColabGDrive:
       from oauth2client.client import GoogleCredentials
       print("PyDrive Already Exists")
     except:
-      pip.main(['install','-U -q','PyDrive'])
+      #pip.main(['install','-U -q','PyDrive'])
       #print('pydrive is not installed')
-      #subprocess.call(['pip', 'install -U -q','PyDrive'])
+      subprocess.call(['python','-m','pip', 'install -U -q','PyDrive'])
       import pydrive
       from pydrive.auth import GoogleAuth
       from pydrive.drive import GoogleDrive
