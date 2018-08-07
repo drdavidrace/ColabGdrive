@@ -3,7 +3,7 @@ This is a python repository for basic tools for working with Google Drive in a C
 will be reserved for later.)  The Basice assumptions are:
 
 *  The structure of the folders will be very "Linux" like
->*  Some of the basic "Linux" commands are available; however, they are designed for moving between the local environment and the Google Drive.
+>*  Some of the basic *"Linux-like"* commands are available; however, they are designed for moving between the local environment and the Google Drive.
 >*  The commands are very basic at this point.  Maybe they will be expanded in the future.
 *  There will not be multiple parent files/folders
 >*  It is easy to have multiple files/folders for an individual file; however, that will be a problem for the semantics.
