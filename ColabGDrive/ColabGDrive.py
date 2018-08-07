@@ -19,3 +19,4 @@ class ColabGDrive:
       from google.colab import auth
       from oauth2client.client import GoogleCredentials
       print("PyDrive installed and imported")
+    self.myGDrive = 
