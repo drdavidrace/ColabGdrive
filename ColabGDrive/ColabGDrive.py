@@ -43,7 +43,7 @@ class ColabGDrive:
         return None
   #
   def  is_connected(self):
-    return True if(self.myGdrive is not None) False
+    return True if(self.myGdrive is not None) else False
   #
   def get_drive_info(self):
     return self.myGDrive
