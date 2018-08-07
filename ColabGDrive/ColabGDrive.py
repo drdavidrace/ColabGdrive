@@ -10,9 +10,11 @@ class ColabGDrive:
   def __init__(self, current_dir = 'root'):
     #
     print("Entering Initialization")
-    self.myGdrive = []
+    self.myGdrive = None
     self.cur_dir = current_dir
-  
+  #
+  #  Connect the drive
+  #
   def connect_drive(self, cur_dir = None):
     #
     auth.authenticate_user()
@@ -23,3 +25,4 @@ class ColabGDrive:
       #  check if the directory exists
       
     
+  def  is_connected():
