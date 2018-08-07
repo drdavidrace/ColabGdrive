@@ -7,6 +7,7 @@ class ColabGDrive:
   
   def __init__(self, current_dir = 'root'):
     try:
+      subprocess(['python','-m','pip','install','-U -q','PyDrive'])
       import pydrive
       from pydrive.auth import GoogleAuth
       from pydrive.drive import GoogleDrive
