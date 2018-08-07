@@ -26,7 +26,7 @@ def list_file_dict(drive = None, inStr = ''):
   if (drive is None):
     return None
 
-  wStr = cleanDirectoryPath(inStr)
+  wStr = clean_directory_path(inStr)
   inStruct = wStr.split('/')
   if (not (inStruct[0] == "root")):
     inStruct = ["root"] + inStruct
