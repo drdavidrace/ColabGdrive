@@ -21,7 +21,7 @@ def clean_directory_path(pathString):
     wStr = wStr[:-1]
   return(wStr)
 
-def list_file_dict(drive = None, inStr):
+def list_file_dict(drive = None, inStr = ''):
   '''Returns a dictionary with the file name and file ID (if exists) - None otherwise'''
   if (drive is None):
     return None
