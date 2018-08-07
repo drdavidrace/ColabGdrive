@@ -1,7 +1,7 @@
 import os, sys, re
 import subprocess
 import importlib
-importlib.reload(pip)
+del(pip)
 
 class ColabGDrive:
   
