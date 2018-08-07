@@ -1,7 +1,7 @@
 import os, sys, re
 import pip
 
-Class ColabGDrive:
+class ColabGDrive:
   
   __init__(current_dir = 'root'):
     try:
