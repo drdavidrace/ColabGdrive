@@ -3,7 +3,7 @@ import pip
 
 class ColabGDrive:
   
-  __init__(current_dir = 'root'):
+  def __init__(self, current_dir = 'root'):
     try:
       import pydrive
       from pydrive.auth import GoogleAuth
