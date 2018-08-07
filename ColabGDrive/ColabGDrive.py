@@ -1,6 +1,5 @@
 import os, sys, re
 del pip
-import pip
 
 class ColabGDrive:
   
