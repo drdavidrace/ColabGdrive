@@ -1,5 +1,4 @@
 import os, sys, re
-import pydrive
 
 class ColabGDrive:
   #
