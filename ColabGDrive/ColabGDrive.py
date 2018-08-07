@@ -4,25 +4,49 @@ from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 from google.colab import auth
 from oauth2client.client import GoogleCredentials
+#
+#  import the helper files
+#
+from ColabGDrive.helper import clean_directory_path, list_file_dict
 
 class ColabGDrive:
   #
   def __init__(self, current_dir = 'root'):
     #
     print("Entering Initialization")
-    self.myGdrive = None
-    self.cur_dir = current_dir
+    self.myGDrive = None
+    self.cur_dir = clean_directory_path(current_dir)
   #
   #  Connect the drive
   #
   def connect_drive(self, cur_dir = None):
+    #return none if failure
     #
     auth.authenticate_user()
     gauth = GoogleAuth()
     gauth.credentials = GoogleCredentials.get_application_default()
     self.myGDrive = GoogleDrive(gauth)
-    if(cur_dir is not None):
-      #  check if the directory exists
-      
+    #  make sure cur_dir is good
+    #
+    if(self.myGDrive is not None):
+        directory_dictionary = list_file_dict(self.myGDrive, self.cur_dir)
+        if(directory_dictionary is None):
+            self.cur_dir = 'root'
+        if(cur_dir is not None):
+          #  check if the directory exists
+          c_cur_dir = clean_directory_path(cur_dir)
+          #  check if the directory exists
+          directory_dictionary = list_file_dict(c_cur_dir)
+          if(directory_dictionary is not None):
+              self.cur_dir = c_cur_dir
+    else:
+        return None
+  #
+  def  is_connected(self):
+    return True if(self.myGdrive is not None) False
+  #
+  def get_drive_info(self):
+    return self.myGDrive
+  def get_current_directory(self):
+    return self.cur_dir
     
-  def  is_connected():

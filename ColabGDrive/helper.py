@@ -5,8 +5,8 @@ import re, sys
 #
 #  clean directory path
 #
-def cleanDirectoryPath(pathString):
-  '''Returns a cleaned up path string.  
+def clean_directory_path(pathString):
+  '''Returns a cleaned up path string.
   
   Currently no checks for a string, but probably should be added.
   
@@ -21,8 +21,11 @@ def cleanDirectoryPath(pathString):
     wStr = wStr[:-1]
   return(wStr)
 
-def listFileDict(inStr):
-  '''Returns a string with the file name and file ID (if exists) - None otherwise'''
+def list_file_dict(drive = None, inStr):
+  '''Returns a dictionary with the file name and file ID (if exists) - None otherwise'''
+  if (drive is None):
+    return None
+
   wStr = cleanDirectoryPath(inStr)
   inStruct = wStr.split('/')
   if (not (inStruct[0] == "root")):
