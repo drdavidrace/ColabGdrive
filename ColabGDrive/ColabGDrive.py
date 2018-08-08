@@ -78,6 +78,7 @@ class ColabGDrive:
           fileID = None
           break
         else:
+          print(file_list)
           fileID = file_list[0]['id']
           if(i == len(inStruct) - 1):
             fileName = inStruct[i]
