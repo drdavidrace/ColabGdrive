@@ -53,7 +53,7 @@ class ColabGDrive:
   def get_file_information(self,file_name = ''):
     if(len(file_name) == 0):
       return None
-    return self.myGDrive.__list_file_dict_(self,file_name)
+    return __list_file_dict_(file_name)
     
     
   #change directory
