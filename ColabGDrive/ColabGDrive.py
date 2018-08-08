@@ -62,7 +62,7 @@ class ColabGDrive:
   #helpers
   def list_file_dict(self, inStr = ''):
     '''Returns a dictionary with the file name and file ID (if exists) - None otherwise'''
-    if (drive is None):
+    if (self.myGDrive is None):
       return None
 
     wStr = clean_directory_path(inStr)
@@ -89,7 +89,6 @@ class ColabGDrive:
           fileID = None
           break
         else:
-          print(file_list[0])
           fileID = file_list[0]['id']
           if(i == len(inStruct) - 1):
             fileName = inStruct[i]
