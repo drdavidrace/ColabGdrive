@@ -53,13 +53,14 @@ class ColabGDrive:
   def get_file_information(self,file_name = ''):
     if(len(file_name) == 0):
       return None
-    return __list_file_dict_(file_name)
+    return self.list_file_dict(file_name)
+  
     
     
   #change directory
   
   #helpers
-  def __list_file_dict_(self, inStr = ''):
+  def list_file_dict(self, inStr = ''):
     '''Returns a dictionary with the file name and file ID (if exists) - None otherwise'''
     if (drive is None):
       return None
