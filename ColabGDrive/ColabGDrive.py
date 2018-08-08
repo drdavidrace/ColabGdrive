@@ -41,12 +41,19 @@ class ColabGDrive:
               self.cur_dir = c_cur_dir
     else:
         return None
-  #
+  #  Check drive/file/directory information
   def  is_connected(self):
     return True if(self.myGDrive is not None) else False
-  #
+  
+  #  Basic information
   def get_drive_info(self):
     return self.myGDrive
   def get_current_directory(self):
     return self.cur_dir
+  def get_file_information(self,file_name = ''):
+    if(len(file_name) == 0):
+      return None
+    return list_file_dict(self,file_name)
     
+    
+  #change directory

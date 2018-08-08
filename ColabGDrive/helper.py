@@ -50,6 +50,7 @@ def list_file_dict(drive = None, inStr = ''):
         fileID = None
         break
       else:
+        print(file_list[0])
         fileID = file_list[0]['id']
         if(i == len(inStruct) - 1):
           fileName = inStruct[i]
