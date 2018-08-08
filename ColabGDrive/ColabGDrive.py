@@ -59,7 +59,7 @@ class ColabGDrive:
   #change directory
   
   #helpers
-  def __list_file_dict_(drive = None, inStr = ''):
+  def __list_file_dict_(self, inStr = ''):
   '''Returns a dictionary with the file name and file ID (if exists) - None otherwise'''
   if (drive is None):
     return None
@@ -72,7 +72,7 @@ class ColabGDrive:
   fileResult = None
   for i in range(1,len(inStruct)):
     if(i == 1):
-      file_list = drive.ListFile({'q': "'root' in parents and title = '{:s}' and trashed=false".format(inStruct[1])}).GetList()
+      file_list = self.myGDrive.ListFile({'q': "'root' in parents and title = '{:s}' and trashed=false".format(inStruct[1])}).GetList()
       if(not file_list):
         fileID = None
         break
@@ -83,7 +83,7 @@ class ColabGDrive:
           fileResult = {"title" : fileName, "id":  fileID}
           break
     else:
-      file_list = drive.ListFile({'q': "title = '{:s}' and '{:s}' in parents and trashed=false".format(inStruct[i],fileID)}).GetList()
+      file_list = self.myGDrive.ListFile({'q': "title = '{:s}' and '{:s}' in parents and trashed=false".format(inStruct[i],fileID)}).GetList()
       if(not file_list):
         fileID = None
         break
