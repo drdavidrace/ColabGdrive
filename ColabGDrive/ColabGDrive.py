@@ -23,7 +23,7 @@ class ColabGDrive:
   #
   #  Connect the drive
   #
-  def connect_gdrive(self, cur_dir = 'root'):
+  def connect_gdrive(self):
     #return none if failure
     #
     auth.authenticate_user()
