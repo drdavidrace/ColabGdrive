@@ -38,10 +38,13 @@ class ColabGDrive:
     try:
       self.cur_dir = 'root'
       self.myGDrive = self.__connect_gdrive_()
+      self.initialized = True
+      return None
     except:
       self.myGDrive = None
       self.cur_dir = None
-    return None
+      self.initialized = False
+      return None
   #
   #  Connect the drive
   #
