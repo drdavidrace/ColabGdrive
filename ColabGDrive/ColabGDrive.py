@@ -63,7 +63,7 @@ class ColabGDrive:
 #     if(len(work_file_name) == 0):  work_file_name = self.cur_dir + '/*'
 #     else:
 #       if(work_file_name[0] != '/'): work_file_name = self.cur_dir + '/' + clean_directory_path(work_file_name)
-    work_file_name = build_full_path(self.myGDrive, file_name.strip())
+    work_file_name = build_full_path(self, file_name.strip())
     if(len(work_file_name) == 0):
       if(print_val): print(None)
       return None

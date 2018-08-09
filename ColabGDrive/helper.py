@@ -21,13 +21,13 @@ def clean_directory_path(pathString):
     wStr = wStr[:-1]
   return(wStr)
 
-def build_full_path(drive = None, inStr=''):
+def build_full_path(gdrive = None, inStr=''):
     if(drive is None):
       return(inStr)
     work_file_name = inStr
-    if(len(work_file_name) == 0):  work_file_name = drive.cwd() + '/*'
+    if(len(work_file_name) == 0):  work_file_name = gdrive.cwd() + '/*'
     else:
-      if(work_file_name[0] != '/'): work_file_name = drive.cwd() + '/' + clean_directory_path(work_file_name)
+      if(work_file_name[0] != '/'): work_file_name = gdrive.cwd() + '/' + clean_directory_path(work_file_name)
     return work_file_name
 
 def list_file_dict(drive = None, inStr = ''):
