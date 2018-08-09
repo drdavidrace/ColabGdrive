@@ -22,7 +22,7 @@ def clean_directory_path(pathString):
   return(wStr)
 
 def build_full_path(gdrive = None, inStr=''):
-    if(drive is None):
+    if(gdrive is None):
       return(inStr)
     work_file_name = inStr
     if(len(work_file_name) == 0):  work_file_name = gdrive.cwd() + '/*'
