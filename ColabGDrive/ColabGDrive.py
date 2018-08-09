@@ -7,7 +7,7 @@ from oauth2client.client import GoogleCredentials
 #
 #  import the helper files
 #
-from ColabGDrive.helper import clean_directory_path, list_file_dict
+from ColabGDrive.helper import clean_directory_path, list_file_dict, build_full_path
 #
 #  Set logging level
 #
@@ -33,13 +33,13 @@ class ColabGDrive:
     #  make sure cur_dir is good
     #
     if(self.myGDrive is not None):
-        directory_dictionary = self.ls_file('')
+        directory_dictionary = self.ls('')
         if(directory_dictionary is None):
             self.cur_dir = 'root'
         #  check if the directory exists
         c_cur_dir = clean_directory_path(self.cur_dir)
         #  check if the directory exists
-        directory_dictionary = self.ls_file(c_cur_dir)
+        directory_dictionary = self.ls(c_cur_dir)
         if(directory_dictionary is not None):
             self.cur_dir = c_cur_dir
     else:
@@ -51,18 +51,19 @@ class ColabGDrive:
   #  Basic information
   def get_info(self):
     return self.myGDrive
-  def get_current_directory(self):
+  def cwd(self):
     return self.cur_dir
-  def ls_file(self,file_name = '',print_val=False):
+  def ls(self,file_name = '',print_val=False):
     '''
       TODO:  
     '''
-    work_file_name = file_name.strip()
+#     work_file_name = 
     
     #choose to use absolute or relative path
-    if(len(work_file_name) == 0):  work_file_name = self.cur_dir + '/*'
-    else:
-      if(work_file_name[0] != '/'): work_file_name = self.cur_dir + '/' + clean_directory_path(work_file_name)
+#     if(len(work_file_name) == 0):  work_file_name = self.cur_dir + '/*'
+#     else:
+#       if(work_file_name[0] != '/'): work_file_name = self.cur_dir + '/' + clean_directory_path(work_file_name)
+    work_file_name = build_full_path(self.myGDrive, file_name.strip())
     if(len(work_file_name) == 0):
       if(print_val): print(None)
       return None
