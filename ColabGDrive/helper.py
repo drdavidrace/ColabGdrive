@@ -25,13 +25,12 @@ def list_file_dict(drive = None, inStr = ''):
   '''Returns a dictionary with the file name and file ID (if exists) - None otherwise'''
   if (drive is None):
     return None
-  fileResult = []
   wStr = clean_directory_path(inStr)
   inStruct = wStr.split('/')
   if (not (inStruct[0] == "root")):
     inStruct = ["root"] + inStruct
   fileID = None
-  fileResult = None
+  fileResult = []
   for i in range(1,len(inStruct)):
     if(i == 1):
       file_list = drive.ListFile({'q': "'root' in parents and title = '{:s}' and trashed=false".format(inStruct[1])}).GetList()
