@@ -32,8 +32,9 @@ def list_file_dict(drive = None, inStr = ''):
   fileID = None
   fileResult = []
   for i in range(1,len(inStruct)):
+    fileResult = []
     if(i == 1):
-      file_list = drive.ListFile({'q': "'root' in parents and title = '{:s}' and trashed=false".format(inStruct[1])}).GetList()
+      file_list = drive.ListFile({'q': "'root' in parents and title contains '{:s}' and trashed=false".format(inStruct[1])}).GetList()
       if(not file_list):
         fileID = None
         break
@@ -45,7 +46,7 @@ def list_file_dict(drive = None, inStr = ''):
           fileResult.append({"title" : fileName, "id":  fileID, "mimeType": fileType})
           break
     else:
-      file_list = drive.ListFile({'q': "title = '{:s}' and '{:s}' in parents and trashed=false".format(inStruct[i],fileID)}).GetList()
+      file_list = drive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(inStruct[i],fileID)}).GetList()
       if(not file_list):
         fileID = None
         break
