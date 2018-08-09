@@ -38,10 +38,8 @@ def list_file_dict(drive = None, inStr = ''):
       inStruct.append(name)
   print(inStruct)
   #house cleaning for edge cases
-  if(len(inStruct) == 1): inStruct = inStruct + ['*']
+  if(len(inStruct) == 0): inStruct.append(['*'])
   if( not (inStruct[0] == 'root')): inStruct = ['root'] + inStruct
-
-
               
   fileID = None
   fileResult = []
