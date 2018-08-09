@@ -33,7 +33,7 @@ class ColabGDrive:
     #  make sure cur_dir is good
     #
     if(self.myGDrive is not None):
-        directory_dictionary = self.ls_file(self.cur_dir)
+        directory_dictionary = self.ls_file('')
         if(directory_dictionary is None):
             self.cur_dir = 'root'
         if(cur_dir is not None):
