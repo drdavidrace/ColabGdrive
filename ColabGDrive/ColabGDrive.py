@@ -50,7 +50,7 @@ class ColabGDrive:
     return self.myGDrive
   def get_current_directory(self):
     return self.cur_dir
-  def get_file_information(self,file_name = ''):
+  def ls_file_information(self,file_name = ''):
     if(len(file_name) == 0):
       return None
     return list_file_dict(self.myGDrive, file_name)
