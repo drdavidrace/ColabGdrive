@@ -40,7 +40,7 @@ class ColabGDrive:
           #  check if the directory exists
           c_cur_dir = clean_directory_path(cur_dir)
           #  check if the directory exists
-          directory_dictionary = list_file_dict(c_cur_dir)
+          directory_dictionary = self.ls_file(c_cur_dir)
           if(directory_dictionary is not None):
               self.cur_dir = c_cur_dir
     else:
