@@ -42,15 +42,15 @@ class ColabGDrive:
     else:
         return None
   #  Check drive/file/directory information
-  def  is_gdrive_connected(self):
+  def  is_connected(self):
     return True if(self.myGDrive is not None) else False
   
   #  Basic information
-  def get_gdrive_info(self):
+  def get_info(self):
     return self.myGDrive
   def get_current_directory(self):
     return self.cur_dir
-  def ls_gdrive_file(self,file_name = '',print_val=False):
+  def ls_file(self,file_name = '',print_val=False):
     if(len(file_name) == 0):
       if(print_val): print(None)
       return None
