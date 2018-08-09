@@ -19,7 +19,7 @@ class ColabGDrive:
   #
   def __init__(self, current_dir = 'root'):
     #
-    print("Entering Initialization")
+    #print("Entering Initialization")
     self.myGDrive = None
     self.cur_dir = clean_directory_path(current_dir)
   #
@@ -62,10 +62,9 @@ class ColabGDrive:
     
     work_file_name = build_full_path(self, file_name.strip())
     if(len(work_file_name) == 0):
-      if(print_val): print(None)
+      if(print_val): pprint(None)
       return None
     else:
-      print('**' + work_file_name + '**')
       ls_file_dict = list_file_dict(self.myGDrive, work_file_name)
       if(print_val):
         for lf in ls_file_dict: pprint(lf)
