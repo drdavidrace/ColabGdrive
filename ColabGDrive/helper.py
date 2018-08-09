@@ -26,7 +26,17 @@ def list_file_dict(drive = None, inStr = ''):
   if (drive is None):
     return None
   wStr = clean_directory_path(inStr)
-  inStruct = wStr.split('/')
+  wStruct = wStr.split('/')
+  inStruct = []
+  #Take care of standard unix '.' and '..'
+  for name in wStruct:
+    if(name == '.'):
+      pass
+    elif (name == '..'):
+      inStruct = inStruct[:-1]
+    else:
+      inStruct.append(name)
+      
   if (not (inStruct[0] == "root")):
     inStruct = ["root"] + inStruct
   fileID = None
