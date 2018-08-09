@@ -45,12 +45,12 @@ def list_file_dict(drive = None, inStr = ''):
       inStruct = inStruct[:-1]
     else:
       inStruct.append(name)
-  print(inStruct)
+#   print(inStruct)
   #house cleaning for edge cases
   if(len(inStruct) == 0): inStruct.append('*')
   if(len(inStruct) == 1 and inStruct[0] == 'root'): inStruct.append('*')
   if( not (inStruct[0] == 'root')): inStruct = ['root'] + inStruct
-  print(inStruct) 
+#   print(inStruct) 
   fileID = None
   fileResult = []
   for i in range(1,len(inStruct)):
