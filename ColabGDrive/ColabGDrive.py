@@ -19,7 +19,7 @@ class ColabGDrive:
   #
   #  Connect the drive
   #
-  def connect_drive(self, cur_dir = None):
+  def connect_gdrive(self, cur_dir = None):
     #return none if failure
     #
     auth.authenticate_user()
@@ -42,59 +42,23 @@ class ColabGDrive:
     else:
         return None
   #  Check drive/file/directory information
-  def  is_connected(self):
+  def  is_gdrive_connected(self):
     return True if(self.myGDrive is not None) else False
   
   #  Basic information
-  def get_drive_info(self):
+  def get_gdrive_info(self):
     return self.myGDrive
   def get_current_directory(self):
     return self.cur_dir
-  def ls_file_information(self,file_name = ''):
+  def ls_gdrive_file(self,file_name = '',print_val=False):
     if(len(file_name) == 0):
+      if(print_val): print(None)
       return None
-    return list_file_dict(self.myGDrive, file_name)
+    else:
+      ls_file_dict = list_file_dict(self.myGDrive, file_name)
+      if(print_val):
+        for lf in ls_file_dict: print(lf)
+      return list_file_dict(self.myGDrive, file_name)
   
     
     
-  #change directory
-  
-#   #helpers
-#   def list_file_dict(self, inStr = ''):
-#     '''Returns a dictionary with the file name and file ID (if exists) - None otherwise'''
-#     if (self.myGDrive is None):
-#       return None
-
-#     wStr = clean_directory_path(inStr)
-#     inStruct = wStr.split('/')
-#     if (not (inStruct[0] == "root")):
-#       inStruct = ["root"] + inStruct
-#     fileID = None
-#     fileResult = None
-#     for i in range(1,len(inStruct)):
-#       if(i == 1):
-#         file_list = self.myGDrive.ListFile({'q': "'root' in parents and title = '{:s}' and trashed=false".format(inStruct[1])}).GetList()
-#         if(not file_list):
-#           fileID = None
-#           break
-#         else:
-#           print(file_list)
-#           fileID = file_list[0]['id']
-#           if(i == len(inStruct) - 1):
-#             fileName = inStruct[i]
-#             fileResult = {"title" : fileName, "id":  fileID}
-#             break
-#       else:
-#         file_list = self.myGDrive.ListFile({'q': "title = '{:s}' and '{:s}' in parents and trashed=false".format(inStruct[i],fileID)}).GetList()
-#         if(not file_list):
-#           fileID = None
-#           break
-#         else:
-#           print(file_list)
-          
-#           fileID = file_list[0]['id']
-#           if(i == len(inStruct) - 1):
-#             fileName = inStruct[i]
-#             fileResult = {"title" : fileName, "id":  fileID}
-#             break
-#     return(fileResult)
