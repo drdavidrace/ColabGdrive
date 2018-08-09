@@ -36,13 +36,12 @@ class ColabGDrive:
         directory_dictionary = self.ls_file('')
         if(directory_dictionary is None):
             self.cur_dir = 'root'
-        if(cur_dir is not None):
-          #  check if the directory exists
-          c_cur_dir = clean_directory_path(self.cur_dir)
-          #  check if the directory exists
-          directory_dictionary = self.ls_file(c_cur_dir)
-          if(directory_dictionary is not None):
-              self.cur_dir = c_cur_dir
+        #  check if the directory exists
+        c_cur_dir = clean_directory_path(self.cur_dir)
+        #  check if the directory exists
+        directory_dictionary = self.ls_file(c_cur_dir)
+        if(directory_dictionary is not None):
+            self.cur_dir = c_cur_dir
     else:
         return None
   #  Check drive/file/directory information
