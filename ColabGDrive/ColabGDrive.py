@@ -51,14 +51,20 @@ class ColabGDrive:
   def get_current_directory(self):
     return self.cur_dir
   def ls_file(self,file_name = '',print_val=False):
-    if(len(file_name) == 0):
+    work_file_name = file_name.trim()
+    #choose to use absolute or relative path
+    if(len(work_file_name) == 0):  work_file_name = [self.cur_dir,'*']
+    else:
+      if(work_file_name[0] != '/'): work_file_name = self.cur_dir + '/' + clean_directory_path()
+ 
+    if(len(work_file_name) == 0):
       if(print_val): print(None)
       return None
     else:
-      ls_file_dict = list_file_dict(self.myGDrive, file_name)
+      ls_file_dict = list_file_dict(self.myGDrive, work_file_name)
       if(print_val):
         for lf in ls_file_dict: print(lf)
-      return list_file_dict(self.myGDrive, file_name)
+      return ls_file_dict
   
     
-    
+  #Current Directory Management, uses a quasi cd methodology
