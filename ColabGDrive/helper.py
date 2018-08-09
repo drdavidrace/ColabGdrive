@@ -39,23 +39,23 @@ def list_file_dict(drive = None, inStr = ''):
         fileID = None
         break
       else:
-        fileID = file_list[0]['id']
-        fileType = file_list[0]['mimeType']
-        if(i == len(inStruct) - 1):
-          fileName = inStruct[i]
-          fileResult.append({"title" : fileName, "id":  fileID, "mimeType": fileType})
-          break
+        for j in range(len(file_list)):
+          fileID = file_list[j]['id']
+          fileType = file_list[j]['mimeType']
+          if(i == len(inStruct) - 1):
+            fileName = file_list[j]['title']
+            fileResult.append({"title" : fileName, "id":  fileID, "mimeType": fileType})
     else:
       file_list = drive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(inStruct[i],fileID)}).GetList()
       if(not file_list):
         fileID = None
         break
       else:
-        print(file_list[0])
-        fileID = file_list[0]['id']
-        fileType = file_list[0]['mimeType']
-        if(i == len(inStruct) - 1):
-          fileName = inStruct[i]
-          fileResult.append({"title" : fileName, "id":  fileID,'mimeType':fileType})
-          break
+        for j in range(len(file_list)):
+          fileName = file_list[0]['title']
+          fileID = file_list[0]['id']
+          fileType = file_list[0]['mimeType']
+          if(i == len(inStruct) - 1):
+            fileName = file_list[j]['title']
+            fileResult.append({"title" : fileName, "id":  fileID,'mimeType':fileType})
   return(fileResult)
