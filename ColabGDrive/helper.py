@@ -25,7 +25,7 @@ def list_file_dict(drive = None, inStr = ''):
   '''Returns a dictionary with the file name and file ID (if exists) - None otherwise'''
   if (drive is None):
     return None
-
+  fileResult = []
   wStr = clean_directory_path(inStr)
   inStruct = wStr.split('/')
   if (not (inStruct[0] == "root")):
@@ -40,9 +40,10 @@ def list_file_dict(drive = None, inStr = ''):
         break
       else:
         fileID = file_list[0]['id']
+        fileType = file_list[0]['mimeType']
         if(i == len(inStruct) - 1):
           fileName = inStruct[i]
-          fileResult = {"title" : fileName, "id":  fileID}
+          fileResult.append({"title" : fileName, "id":  fileID, "mimeType": fileType})
           break
     else:
       file_list = drive.ListFile({'q': "title = '{:s}' and '{:s}' in parents and trashed=false".format(inStruct[i],fileID)}).GetList()
@@ -52,8 +53,9 @@ def list_file_dict(drive = None, inStr = ''):
       else:
         print(file_list[0])
         fileID = file_list[0]['id']
+        fileType = file_list[0]['mimeType']
         if(i == len(inStruct) - 1):
           fileName = inStruct[i]
-          fileResult = {"title" : fileName, "id":  fileID}
+          fileResult.append({"title" : fileName, "id":  fileID,'mimeType':fileType})
           break
   return(fileResult)
