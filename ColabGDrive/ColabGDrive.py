@@ -51,7 +51,8 @@ class ColabGDrive:
   def get_current_directory(self):
     return self.cur_dir
   def ls_file(self,file_name = '',print_val=False):
-    work_file_name = file_name.trim()
+    work_file_name = file_name.strip()
+    
     #choose to use absolute or relative path
     if(len(work_file_name) == 0):  work_file_name = [self.cur_dir,'*']
     else:
