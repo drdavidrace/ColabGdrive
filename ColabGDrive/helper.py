@@ -37,8 +37,11 @@ def list_file_dict(drive = None, inStr = ''):
     else:
       inStruct.append(name)
   print(inStruct)
-  if (not (inStruct[0] == "root")):
-    inStruct = ["root"] + inStruct
+  #house cleaning for edge cases
+  
+  inStruct = (["root"] + inStruct if(not(inStruct[0] == 'root') inStruct)
+  inStruct = (inStruct + ['*'] if(len(inStuct) == 1) inStruct)
+              
   fileID = None
   fileResult = []
   for i in range(1,len(inStruct)):
