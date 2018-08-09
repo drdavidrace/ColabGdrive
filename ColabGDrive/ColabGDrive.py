@@ -23,7 +23,7 @@ class ColabGDrive:
   #
   #  Connect the drive
   #
-  def connect_gdrive(self, cur_dir = None):
+  def connect_gdrive(self, cur_dir = 'root'):
     #return none if failure
     #
     auth.authenticate_user()
@@ -33,7 +33,7 @@ class ColabGDrive:
     #  make sure cur_dir is good
     #
     if(self.myGDrive is not None):
-        directory_dictionary = list_file_dict(self.myGDrive, self.cur_dir)
+        directory_dictionary = self.ls_file(self.cur_dir)
         if(directory_dictionary is None):
             self.cur_dir = 'root'
         if(cur_dir is not None):
