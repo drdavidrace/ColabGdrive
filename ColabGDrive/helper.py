@@ -36,7 +36,7 @@ def list_file_dict(drive = None, inStr = ''):
       inStruct = inStruct[:-1]
     else:
       inStruct.append(name)
-      
+  print(inStruct)
   if (not (inStruct[0] == "root")):
     inStruct = ["root"] + inStruct
   fileID = None
