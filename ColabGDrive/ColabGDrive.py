@@ -1,4 +1,6 @@
 import os, sys, re
+from pprint import pprint
+#PyDrive
 import pydrive
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
@@ -57,12 +59,7 @@ class ColabGDrive:
     '''
       TODO:  
     '''
-#     work_file_name = 
     
-    #choose to use absolute or relative path
-#     if(len(work_file_name) == 0):  work_file_name = self.cur_dir + '/*'
-#     else:
-#       if(work_file_name[0] != '/'): work_file_name = self.cur_dir + '/' + clean_directory_path(work_file_name)
     work_file_name = build_full_path(self, file_name.strip())
     if(len(work_file_name) == 0):
       if(print_val): print(None)
@@ -71,7 +68,7 @@ class ColabGDrive:
       print('**' + work_file_name + '**')
       ls_file_dict = list_file_dict(self.myGDrive, work_file_name)
       if(print_val):
-        for lf in ls_file_dict: print(lf)
+        for lf in ls_file_dict: pprint(lf)
       return ls_file_dict
   
     
