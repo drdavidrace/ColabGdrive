@@ -59,13 +59,11 @@ class ColabGDrive:
       TODO:  
     '''
     work_file_name = file_name.strip()
-    print(file_name)
-    print(work_file_name)
+    
     #choose to use absolute or relative path
     if(len(work_file_name) == 0):  work_file_name = [self.cur_dir,'*']
     else:
       if(work_file_name[0] != '/'): work_file_name = self.cur_dir + '/' + clean_directory_path(work_file_name)
-    print('3-' + work_file_name + '-')
     if(len(work_file_name) == 0):
       if(print_val): print(None)
       return None
