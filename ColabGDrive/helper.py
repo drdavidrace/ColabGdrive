@@ -39,7 +39,7 @@ def list_file_dict(drive = None, inStr = ''):
   print(inStruct)
   #house cleaning for edge cases
   
-  inStruct = (["root"] + inStruct if(not(inStruct[0] == 'root') inStruct)
+  inStruct = (["root"] + inStruct if(not(inStruct[0] == 'root')) inStruct)
   inStruct = (inStruct + ['*'] if(len(inStuct) == 1) inStruct)
               
   fileID = None
