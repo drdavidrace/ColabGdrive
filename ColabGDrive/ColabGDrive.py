@@ -123,7 +123,15 @@ class ColabGDrive:
   
   def getcwd(self):
     '''
+    Just returns the current working directory
     
+    Parameters:
+    -----------
+    None
+    
+    Returns:
+    --------
+    The current working directory
     '''
     return self.cur_dir
   def ls(self,name = '',print_val=False):
@@ -179,3 +187,22 @@ class ColabGDrive:
   
     
   #Directory Management, uses a quasi cd methodology
+  def chdir(self, name=''):
+    '''
+    This sets the current working directory (if valid directory) and returns the current working directory at the end of the method.
+    
+    Parameters:
+    -----------
+    name:  The proposed name of the directory.  If begins with /, then an absolute path.  Otherwise a relative path.
+    
+    Returns:
+    --------
+    The current working directory
+    '''
+    work_file = build_full_path(self,name)
+    work_file_info = self.ls(name=work_file)
+    print(work_file_info)
+    
+    
+    
+    return(self.getcwd())
