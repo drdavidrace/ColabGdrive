@@ -76,6 +76,8 @@ def list_file_dict(drive = None, inStr = ''):
   for i in range(1,len(inStruct)):
     fileResult = []
     file_list = drive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(inStruct[i],fileID)}).GetList()
+    print("++++list_file_dict 2")
+    print(file_list)
     if(not file_list):
       fileID = None
       break
