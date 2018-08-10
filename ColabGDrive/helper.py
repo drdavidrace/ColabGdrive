@@ -46,7 +46,7 @@ def simplify_path(path_array):
   '''
   simple_array = []
   #Take care of standard unix '.' and '..'
-  for i in range(len(path_array))
+  for i in range(len(path_array)):
     name = path_array[i]
     if(name == '.' and i < len(path_array) - 1):
       pass
