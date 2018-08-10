@@ -60,8 +60,11 @@ class ColabGDrive:
     #
     #print("Entering Initialization")
     try:
+      print("****************1")
       self.cur_dir = 'root'
+      print("****************2")
       self.myGDrive = self.__connect_gdrive_()
+      print("****************3")
       self.initialized = True
       print("****************")
       return None
