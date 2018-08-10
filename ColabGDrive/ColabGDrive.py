@@ -191,6 +191,7 @@ class ColabGDrive:
 #       self.Logger.info(pprint(work_name).split('\n'))
       
     if(len(work_name) == 0):
+      self.Logger.info("This is a test")
     #Info Information
 #       if(self.Logger.isEnabledFor(logging.INFO)):
 #         self.Logger.info(pprint("******Start******{:s}***********".format(work_name)).split('\n'))
