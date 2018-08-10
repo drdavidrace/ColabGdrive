@@ -70,7 +70,7 @@ class ColabGDrive:
 
     #
     try:
-      self.Logger = logging.getLogger('ColabGDrive')
+      self.Logger = logging.getLogger(__name__)
       self.Logger.setLevel(logging.INFO)
       self.cur_dir = 'root'
       self.myGDrive = self.__connect_gdrive_()
@@ -188,7 +188,7 @@ class ColabGDrive:
     
     work_name = build_full_path(self, name.strip())
     if(self.Logger.isEnabledFor(logging.INFO)):
-      logger.info('WORK NAME: {:s}'.format(work_name))
+      self.Logger.info('WORK NAME: {:s}'.format(work_name))
     if(len(work_name) == 0):
     #Info Information
       if(self.Logger.isEnabledFor(logging.INFO)):
