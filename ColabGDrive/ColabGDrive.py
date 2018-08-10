@@ -188,7 +188,7 @@ class ColabGDrive:
     
     work_name = build_full_path(self, name.strip())
     if(self.Logger.isEnabledFor(logging.INFO)):
-      self.Logger.info('WORK NAME: {:s}'.format(work_name))
+      logger.info('WORK NAME: {:s}'.format(work_name))
     if(len(work_name) == 0):
     #Info Information
       if(self.Logger.isEnabledFor(logging.INFO)):
