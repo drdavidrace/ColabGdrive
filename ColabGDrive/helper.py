@@ -89,7 +89,11 @@ def build_path_structure(inStr = ''):
   if(len(inStruct) == 0): inStruct.append('*')
   if(len(inStruct) == 1 and inStruct[0] == 'root'): inStruct.append('*')
   if( not (inStruct[0] == 'root')): inStruct = ['root'] + inStruct
-  tStruct = inStruct[:-1] if(inStruct[-1] == '*') inStruct
+  tStruct = None
+  if(inStruct[-1] == '*'):
+    tStrict = inStruct[:-1]
+  else:
+    tStruct = inStruct
   full_name = "/".join(tStruct)
   print(full_name)
   return({'full_name':full_name,'path_array':inStruct})
