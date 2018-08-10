@@ -89,7 +89,7 @@ class ColabGDrive:
     if(t_gdrive is not None):
       print("******1.1")
       self.myGDrive = t_gdrive
-      directory_dictionary = self.ls('.',print_val=True)
+      directory_dictionary = self.ls('*',print_val=True)
       print(directory_dictionary)
       if(directory_dictionary is None):
           self.cur_dir = 'root'
