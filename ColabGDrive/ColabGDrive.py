@@ -201,7 +201,7 @@ class ColabGDrive:
     '''
     work_file = build_full_path(self,name)
     work_file_info = self.ls(name=work_file)
-    print(work_file_info)
+    print(work_file_info,print_val=True))
     
     
     
