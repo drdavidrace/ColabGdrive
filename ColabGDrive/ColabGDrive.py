@@ -34,11 +34,17 @@ class ColabGDrive:
   It is possible to mount the GDrive into the local workspace, but that doesn't seem very "Google Ecosystem".  Since we may be using other 
   Google Storage with other applications, this library is trying to be more "Google Ecosystem" like.Google
   
+  WARNING:
+  -------
+  This could be more efficient if it kept the fileID information, but it doesn't right now.  The Use Case is generally assumed to be fairly 
+  low performance requirements
+  
   Main Methods:
   -------------
   
   getcwd  - returns the GDrive current working directory
   chdir  - changes the GDrive current working directory
+  ls  - gets the basic listing information for a file/directory
   '''
   #
   def __init__(self):
