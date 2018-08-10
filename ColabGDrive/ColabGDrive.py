@@ -186,19 +186,19 @@ class ColabGDrive:
     '''
     
     work_name = build_full_path(self, name.strip())
-    pprint(work_name)
+    pprint('WORK NAME: {:s}'.format(work_name))
     if(len(work_name) == 0):
     #Info Information
-      pprint(pformat("******Start******{:s}***********".format(work_name)))
-      pprint(pformat(None))
+      pprint("******Start******{:s}***********".format(work_name))
+      pprint(None)
       pprint(pformat("******End******{:s}***********".format(work_name)))
       return None
     else:
       ls_file_dict = list_file_dict(self.myGDrive, work_name)
-      if self.Logger.isEnabledFor(logging.INFO):
-        logging.INFO(pformat("******Start******{:s}***********".format(ls_file_dict['full_name'])))
-        for lf in ls_file_dict['file_result']: logging.INFO(pformat(lf))
-        logging.INFO(pformat("******End******{:s}***********".format(ls_file_dict['full_name'])))
+
+      pprint(pformat("******Start******{:s}***********".format(ls_file_dict['full_name'])))
+      for lf in ls_file_dict['file_result']: logging.INFO(pformat(lf))
+      pprint(pformat("******End******{:s}***********".format(ls_file_dict['full_name'])))
       return ls_file_dict
   
     
