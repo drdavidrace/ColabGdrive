@@ -197,7 +197,7 @@ class ColabGDrive:
       ls_file_dict = list_file_dict(self.myGDrive, work_name)
 
       pprint(pformat("******Start******{:s}***********".format(ls_file_dict['full_name'])))
-      for lf in ls_file_dict['file_result']: logging.INFO(pformat(lf))
+      for lf in ls_file_dict['file_result']: pprint(pformat(lf))
       pprint(pformat("******End******{:s}***********".format(ls_file_dict['full_name'])))
       return ls_file_dict
   
