@@ -71,8 +71,7 @@ class ColabGDrive:
     #
     try:
       logging.basicConfig(level=logging.INFO)
-      Logger = logging.getLogger('ColabGDrive')
-      
+      self.Logger = logging.getLogger('ColabGDrive')
       self.cur_dir = 'root'
       self.myGDrive = self.__connect_gdrive_()
       self.initialized = True
@@ -94,14 +93,13 @@ class ColabGDrive:
     t_gdrive = GoogleDrive(gauth)
     #  make sure cur_dir is good
     #
-    if Logger.isEnabledFor(logger.INFO):
+    if self.Logger.isEnabledFor(logger.INFO):
       pprint(t_gdrive)
     if(t_gdrive is not None):
       self.myGDrive = t_gdrive
       directory_dictionary = self.ls('*')
-      if Logger.isEnabledFor(logging.INFO):
+      if self.Logger.isEnabledFor(logging.INFO):
         pprint("Directory Information")
-        
         pprint(directory_dictionary['full_name'])
       if(directory_dictionary is None):
           self.cur_dir = 'root'
@@ -190,14 +188,14 @@ class ColabGDrive:
     work_name = build_full_path(self, name.strip())
     if(len(work_name) == 0):
     #Info Information
-      if(Logger.isEnabledFor(logging.INFO)):
+      if (self.Logger.isEnabledFor(logging.INFO)):
         logging.INFO(pformat("******Start******{:s}***********".format(work_name)))
         logging.INFO(pformat(None))
         logging.INFO(pformat("******End******{:s}***********".format(work_name)))
       return None
     else:
       ls_file_dict = list_file_dict(self.myGDrive, work_name)
-      if Logger.isEnabledFor(logging.INFO):
+      if self.Logger.isEnabledFor(logging.INFO):
         logging.INFO(pformat("******Start******{:s}***********".format(ls_file_dict['full_name'])))
         for lf in ls_file_dict['file_result']: logging.INFO(pformat(lf))
         logging.INFO(pformat("******End******{:s}***********".format(ls_file_dict['full_name'])))
