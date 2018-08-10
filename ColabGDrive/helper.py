@@ -91,5 +91,6 @@ def list_file_dict(drive = None, inStr = ''):
           fileID = file_list[j]['id']
           fileType = file_list[j]['mimeType']
           fileResult.append({"title" : fileName, "id":  fileID,'mimeType':fileType})
+  print("$$$$$$$")
   print(len(fileResult))
   return(fileResult)
