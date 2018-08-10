@@ -1,5 +1,6 @@
 import os, sys, re
 import logging
+logging.basicConfig(stream=sys.stdout)
 from pprint import pprint, pformat
 #PyDrive
 import pydrive
