@@ -228,8 +228,8 @@ class ColabGDrive:
     if(len(name) == 0): name = 'root'
       
     work_file_info = self.ls(name)
-    if Logger.isEnabledFor(logging.INFO):
-      logging.INFO(pformat(work_file_info['full_name']))
+    if self.Logger.isEnabledFor(logging.INFO):
+      self.Logger.ingo(pformat(work_file_info['full_name']))
     if(len(work_file_info['file_result']) == 1 and 'folder' in work_file_info['file_result'][0]['mimeType']):
       self.cur_dir = work_file_info['full_name']
     elif(work_file_info['full_name'] == 'root'):
