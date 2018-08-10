@@ -82,6 +82,7 @@ def list_file_dict(drive = None, inStr = ''):
       fileID = None
       break
     else:
+      print("ELSE")
       if(i < len(iStruct) - 1):
         fileID = file_list[0]['id']
       else:
