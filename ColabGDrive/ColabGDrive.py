@@ -126,7 +126,7 @@ class ColabGDrive:
     '''
     return True if(self.myGDrive is not None) else False
   
-  #  Basic information
+  #  Basic information 
   def get_info(self):
     '''
     This just returns the drive information.
@@ -186,12 +186,12 @@ class ColabGDrive:
     '''
     
     work_name = build_full_path(self, name.strip())
+    pprint(work_name)
     if(len(work_name) == 0):
     #Info Information
-      if (self.Logger.isEnabledFor(logging.INFO)):
-        logging.INFO(pformat("******Start******{:s}***********".format(work_name)))
-        logging.INFO(pformat(None))
-        logging.INFO(pformat("******End******{:s}***********".format(work_name)))
+      pprint(pformat("******Start******{:s}***********".format(work_name)))
+      pprint(pformat(None))
+      pprint(pformat("******End******{:s}***********".format(work_name)))
       return None
     else:
       ls_file_dict = list_file_dict(self.myGDrive, work_name)
