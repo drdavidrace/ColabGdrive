@@ -88,8 +88,7 @@ class ColabGDrive:
     #
     if(t_gdrive is not None):
       self.myGDrive = t_gdrive
-      directory_dictionary = self.ls('*',print_val=True)
-      print(directory_dictionary)
+      directory_dictionary = self.ls('*')
       if(directory_dictionary is None):
           self.cur_dir = 'root'
           return None
@@ -177,7 +176,6 @@ class ColabGDrive:
     '''
     
     work_name = build_full_path(self, name.strip())
-    print(work_name)
     if(len(work_name) == 0):
       if(print_val): 
         pprint("******Start******{:s}***********".format(work_name))

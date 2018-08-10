@@ -113,10 +113,9 @@ def list_file_dict(drive = None, inStr = ''):
   '''
   if (drive is None):
     return None
-  print("***")
-  print(inStr)
+  
   file_path = build_path_structure(inStr)
-  print(file_path)
+  
   inStruct = file_path['path_array']
   
   fileID = 'root'
