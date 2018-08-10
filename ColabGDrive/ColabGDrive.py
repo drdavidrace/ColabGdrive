@@ -63,6 +63,7 @@ class ColabGDrive:
       self.cur_dir = 'root'
       self.myGDrive = self.__connect_gdrive_()
       self.initialized = True
+      print("****************")
       return None
     except:
       self.myGDrive = None
