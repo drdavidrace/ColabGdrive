@@ -195,17 +195,17 @@ class ColabGDrive:
     if(len(work_name) == 0):
       self.Logger.info("This is a test")
     #Info Information
-#       if(self.Logger.isEnabledFor(logging.INFO)):
-#         self.Logger.info(pprint("******Start******{:s}***********".format(work_name)).split('\n'))
-#         self.Logger.info(pprint(None))
-#         self.logger.info(pprint(pformat("******End******{:s}***********".format(work_name))))
+      if(self.Logger.isEnabledFor(logging.INFO)):
+        self.Logger.info(pprint("******Start******{:s}***********".format(work_name)).split('\n'))
+        self.Logger.info(pprint(None))
+        self.logger.info(pprint(pformat("******End******{:s}***********".format(work_name))))
       return None
     else:
       ls_file_dict = list_file_dict(self.myGDrive, work_name)
-#       if(self.Logger.isEnabledFor(logging.INFO)):
-#         self.Logger.info(pprint("******Start******{:s}***********".format(ls_file_dict['full_name'])))
-#         for lf in ls_file_dict['file_result']: self.Logger.info(pprint(lf))
-#         self.Logger.info(pprint("******End******{:s}***********".format(ls_file_dict['full_name'])))
+      if(self.Logger.isEnabledFor(logging.INFO)):
+        self.Logger.info(pprint("******Start******{:s}***********".format(ls_file_dict['full_name'])))
+        for lf in ls_file_dict['file_result']: self.Logger.info(pprint(lf))
+        self.Logger.info(pprint("******End******{:s}***********".format(ls_file_dict['full_name'])))
       return ls_file_dict
   
     
