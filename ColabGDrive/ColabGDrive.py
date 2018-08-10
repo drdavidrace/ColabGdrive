@@ -1,5 +1,6 @@
 import os, sys, re
-from pprint import pprint
+import logging
+from pprint import pprint, pformat
 #PyDrive
 import pydrive
 from pydrive.auth import GoogleAuth
@@ -45,6 +46,9 @@ class ColabGDrive:
   getcwd  - returns the GDrive current working directory
   chdir  - changes the GDrive current working directory
   ls  - gets the basic listing information for a file/directory
+  copy_from - copies from the GDrive to the cwd of the local file system
+  copy_to - copies from the path give to the GDrive given
+  mkdir - makes a file folder on the GDrive, it does this recursively if necessary
   '''
   #
   def __init__(self):
@@ -140,9 +144,9 @@ class ColabGDrive:
     The current working directory
     '''
     return self.cur_dir
-  def ls(self,name = '',print_val=False):
+  def ls(self,name = ''):
     '''
-    ls provides a GoogleDrive listing of the information for a name, with an optional parameter for printing the value of the resulting
+    ls provides a GoogleDrive listing of the information for a name.  Informational logging is provided to stdout if the logging level is set to INFO
     name.  The resulting name goes through a series of steps from the input name:
       (1)  Full path implementation - If the name begins with /, then it is assumed to be a full path.  Otherwise, a relative path.
       (2)  / simplification, means reducing multiple slashes to a single slash akin to Linux operations
@@ -154,13 +158,12 @@ class ColabGDrive:
     name : String for name to list
       If the last component is a ., then the last folder contents are listed
       If the last component is a *, then the last folder contents are listed
-    print_val:  A boolean to indicate whether to print the contents information within this methodology
     
     Returns
     -------
     None:  If there is a problem with the name
     Otherwise:  A dictionary containing the full_name and a list of the full_name contents
-      List with the contents:
+      Contents of file_result are:
         id
         mimeType
         title
@@ -171,24 +174,23 @@ class ColabGDrive:
     
     TODO
     (1)  Raise basic errors
-    (2)  Replace the print_val with logging level
     
     '''
     
     work_name = build_full_path(self, name.strip())
     if(len(work_name) == 0):
-      if(print_val): 
-        pprint("******Start******{:s}***********".format(work_name))
-        pprint(None)
-        pprint("******End******{:s}***********".format(work_name))
+    #Info Information
+      if(Logger.isEnabledFor(logging.INFO)):
+        logging.INFO(pformat("******Start******{:s}***********".format(work_name)))
+        logging.INFO(pformat(None))
+        logging.INFO(pformat("******End******{:s}***********".format(work_name)))
       return None
     else:
       ls_file_dict = list_file_dict(self.myGDrive, work_name)
-      if(print_val):
-        pprint("******Start******{:s}***********".format(ls_file_dict['full_name']))
-        for lf in ls_file_dict['file_result']: pprint(lf)
-        pprint("******End******{:s}***********".format(ls_file_dict['full_name']))
-        
+      if Logger.isEnabledFor(logging.INFO):
+        logging.INFO(pformat("******Start******{:s}***********".format(ls_file_dict['full_name'])))
+        for lf in ls_file_dict['file_result']: logging.INFO(pformat(lf))
+        logging.INFO(pformat("******End******{:s}***********".format(ls_file_dict['full_name'])))
       return ls_file_dict
   
     
@@ -196,6 +198,7 @@ class ColabGDrive:
   def chdir(self, name=''):
     '''
     This sets the current working directory (if valid directory) and returns the current working directory at the end of the method.
+    If name is passed in as '', then it resets to 'root'
     
     Parameters:
     -----------
@@ -205,7 +208,11 @@ class ColabGDrive:
     --------
     The current working directory
     '''
+    if(len(name) == 0): name = 'root'
+      
     work_file_info = self.ls(name)
+    if Logger.isEnabledFor(logging.INFO):
+      logging.INFO(pformat(work_file_info['full_name']))
     if(len(work_file_info['file_result']) == 1 and 'folder' in work_file_info['file_result'][0]['mimeType']):
       self.cur_dir = work_file_info['full_name']
     elif(work_file_info['full_name'] == 'root'):
