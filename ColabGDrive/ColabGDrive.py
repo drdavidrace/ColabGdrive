@@ -175,6 +175,7 @@ class ColabGDrive:
       if(print_val): pprint(None)
       return None
     else:
+      print("++++ls 1")
       ls_file_dict = list_file_dict(self.myGDrive, work_name)
       if(print_val):
         for lf in ls_file_dict: pprint(lf)

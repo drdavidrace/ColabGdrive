@@ -63,6 +63,8 @@ def list_file_dict(drive = None, inStr = ''):
   wStr = clean_directory_path(inStr)
   wStruct = wStr.split('/')
   inStruct = simplify_path(wStruct)
+  print(inStruct)
+  
 #   print(inStruct)
   #house cleaning for edge cases
   if(len(inStruct) == 0): inStruct.append('*')
