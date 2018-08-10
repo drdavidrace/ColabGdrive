@@ -78,12 +78,12 @@ def list_file_dict(drive = None, inStr = ''):
     file_list = drive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(inStruct[i],fileID)}).GetList()
     print("++++list_file_dict 2")
     print(len(file_list))
-    if(not file_list):
+    if(len(file_list) == 0:
       fileID = None
       break
     else:
       print("ELSE")
-      if(i < len(iStruct) - 1):
+      if(i < len(inStruct) - 1):
         fileID = file_list[0]['id']
       else:
         for j in range(len(file_list)):
