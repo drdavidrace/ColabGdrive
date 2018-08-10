@@ -153,7 +153,7 @@ class ColabGDrive:
     Returns
     -------
     None:  If there is a problem with the name
-    Otherwise:
+    Otherwise:  A dictionary containing the full_name and a list of the full_name contents
       List with the contents:
         id
         mimeType
@@ -179,9 +179,9 @@ class ColabGDrive:
     else:
       ls_file_dict = list_file_dict(self.myGDrive, work_name)
       if(print_val):
-        pprint("******Start******{:s}***********".format(work_name))
-        for lf in ls_file_dict: pprint(lf)
-        pprint("******End******{:s}***********".format(work_name))
+        pprint("******Start******{:s}***********".format(ls_file_dict['full_name']))
+        for lf in ls_file_dict['file_result']: pprint(lf)
+        pprint("******End******{:s}***********".format(ls_file_dict['full_name']))
         
       return ls_file_dict
   
@@ -199,7 +199,9 @@ class ColabGDrive:
     --------
     The current working directory
     '''
-    work_file_info = self.ls(name,print_val=True)
-    print(work_file_info)
-    
+    work_file_info = self.ls(name)
+    if(len(work_file_info) == 1):
+      if(len(work_file_info['file_result']) == 1 and 'folder' in work_file_info['file_result'][0]['mimeType']):
+        self.cur_dir = work_file_info['full_name']
+        
     return(self.getcwd())

@@ -22,13 +22,26 @@ def clean_directory_path(pathString):
   return(wStr)
 
 def build_full_path(gdrive = None, inStr=''):
-    if(gdrive is None):
-      return(inStr)
-    work_file_name = inStr.strip()
-    if(len(work_file_name) == 0):  work_file_name = gdrive.getcwd() + '/*'
-    else:
-      if(work_file_name[0] != '/'): work_file_name = gdrive.getcwd() + '/' + clean_directory_path(work_file_name)
-    return work_file_name
+  '''
+  This decides on an absolute path or relative path
+  
+  Parameters:
+  ----------
+  gdrive:  The ColabGDrive being used (so we know the current working directory)
+  
+  inStr:  The proposed directory string
+  
+  Result:
+  ------
+  An absolute path starting at 'root'
+  '''
+  if(gdrive is None):
+    return(inStr)
+  work_file_name = inStr.strip()
+  if(len(work_file_name) == 0):  work_file_name = gdrive.getcwd() + '/*'
+  else:
+    if(work_file_name[0] != '/'): work_file_name = gdrive.getcwd() + '/' + clean_directory_path(work_file_name)
+  return work_file_name
   
 def simplify_path(path_array):
   '''
@@ -55,20 +68,51 @@ def simplify_path(path_array):
     else:
       simple_array.append(name)
   return simple_array
-#
-def list_file_dict(drive = None, inStr = ''):
-  '''Returns a dictionary with the file name and file ID (if exists) - None otherwise'''
-  if (drive is None):
-    return None
+
+def build_path_structure(inStr = ''):
+  '''
+  This provides a consistent path build for ColabGDrive
+  
+  Parameters:
+  ----------
+  
+  inStr:  This is assumed to be an absolute path
+  
+  Result: a dictionary with the full name and the path array
+    These are called full_path and path_array
+  
+  '''
   wStr = clean_directory_path(inStr)
   wStruct = wStr.split('/')
   inStruct = simplify_path(wStruct)
-
   #house cleaning for edge cases
   if(len(inStruct) == 0): inStruct.append('*')
   if(len(inStruct) == 1 and inStruct[0] == 'root'): inStruct.append('*')
   if( not (inStruct[0] == 'root')): inStruct = ['root'] + inStruct
+  full_name = "/".join(inStruct)
+  full_name = full_name[1:]
+  return({'full_name':full_name,'path_array':inStruct})
+#
+def list_file_dict(drive = None, inStr = ''):
+  '''
+  Returns a dictionary with the file name and file ID (if exists) - None otherwise
+  
+  Parameters:
+  ----------
+  drive:  The object pointing to the Google Drive
+  
+  inStr:  This is assumed to be an absolute path
+  
+  Result:  A dictionary with the file path and file results from the FileList
+    The results are called full_name and file_result
+  
+  '''
+  if (drive is None):
+    return None
 
+  file_path = build_path_structure(inStr)
+  inStruct = file_path['path_array']
+  
   fileID = 'root'
   fileResult = []
   for i in range(1,len(inStruct)):
@@ -86,4 +130,4 @@ def list_file_dict(drive = None, inStr = ''):
           fileID = file_list[j]['id']
           fileType = file_list[j]['mimeType']
           fileResult.append({"title" : fileName, "id":  fileID,'mimeType':fileType})
-  return(fileResult)
+  return({'full_name': file_path['full_name'],'file_result':fileResult})
