@@ -200,9 +200,7 @@ class ColabGDrive:
     The current working directory
     '''
     work_file = build_full_path(self,name)
-    work_file_info = self.ls(name=work_file)
-    print(work_file_info,print_val=True)
-    
-    
+    work_file_info = self.ls(name=work_file,print_val=True)
+    print(work_file_info)
     
     return(self.getcwd())
