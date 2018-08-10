@@ -1,6 +1,5 @@
 import os, sys, re
 import logging
-logging.basicConfig(stream=sys.stdout)
 from pprint import pprint, pformat
 #PyDrive
 import pydrive
@@ -72,6 +71,8 @@ class ColabGDrive:
     #
     try:
       self.Logger = logging.getLogger(__name__)
+      ch = logging.StreamHandler(sys.stdout)
+      self.Logger.addHandler(ch)
       self.Logger.setLevel(logging.INFO)
       self.cur_dir = 'root'
       self.myGDrive = self.__connect_gdrive_()
@@ -96,7 +97,7 @@ class ColabGDrive:
     #
     #if self.Logger.isEnabledFor(logger.INFO):
     if(self.Logger.isEnabledFor(logging.INFO)):
-      pprint(t_gdrive)
+      self.Logger.info(t_gdrive)
     if(t_gdrive is not None):
       self.myGDrive = t_gdrive
       directory_dictionary = self.ls('*')
