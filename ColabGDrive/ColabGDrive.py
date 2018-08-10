@@ -102,8 +102,8 @@ class ColabGDrive:
       self.myGDrive = t_gdrive
       directory_dictionary = self.ls('*')
       if self.Logger.isEnabledFor(logging.INFO):
-        pprint("Directory Information")
-        pprint(directory_dictionary['full_name'])
+        self.Logger.info("Directory Information")
+        self.Logger.info(directory_dictionary['full_name'])
       if(directory_dictionary is None):
           self.cur_dir = 'root'
           return None
