@@ -177,6 +177,7 @@ class ColabGDrive:
     '''
     
     work_name = build_full_path(self, name.strip())
+    print(work_name)
     if(len(work_name) == 0):
       if(print_val): 
         pprint("******Start******{:s}***********".format(work_name))
