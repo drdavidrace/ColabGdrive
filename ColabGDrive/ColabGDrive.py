@@ -87,14 +87,16 @@ class ColabGDrive:
     #  make sure cur_dir is good
     #
     if(t_gdrive is not None):
-        self.myGDrive = t_gdrive
-        directory_dictionary = self.ls('.')
-        if(directory_dictionary is None):
-            self.cur_dir = 'root'
-            return None
-        return t_gdrive
+      print("******1.1")
+      self.myGDrive = t_gdrive
+      directory_dictionary = self.ls('.')
+      if(directory_dictionary is None):
+          self.cur_dir = 'root'
+          return None
+      return t_gdrive
     else:
-        return None
+      print("******1.2")
+      return None
   #  Check drive/file/directory information
   def  is_connected(self):
     '''
