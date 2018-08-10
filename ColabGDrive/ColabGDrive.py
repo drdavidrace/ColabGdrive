@@ -67,6 +67,7 @@ class ColabGDrive:
     TODO:  
     (1)  Determine if I want to pass in an option for the cwd.  Unclear since a single cwd call can set this directory
     '''
+    logging.basicConfig(level=logging.INFO)
     #
     try:
       self.cur_dir = 'root'
