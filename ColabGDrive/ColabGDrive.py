@@ -16,6 +16,30 @@ from ColabGDrive.helper import clean_directory_path, list_file_dict, build_full_
 #  TODO:  Including logging level information
 
 class ColabGDrive:
+  '''
+  The class manages the connection to a user's Google Drive.
+  
+  Use Case:
+  ---------
+  The user is running a Colaboratory notebook from their Google Drive (GDrive).  The notebook cannot access the GDrive files information
+  since the Colaboratory notebook is running in a VM.  It can only access the local VM files; therefore, the user needs to
+  copy-from/copy-to between the local file system and the GDrive.  There is a great tool for setting up the connection to do the copies, but
+  it requires many lines of code to make this happen.  The many lines of code detracts from the Colaboratory notebook flow; therefore, it
+  is best to have a library for the management.  This is such a library.  
+  
+  It is modeled after python set of commands (which are used to manage the local VM drives); therefore, it should be easy to use.It
+  
+  Special Note:
+  -------------
+  It is possible to mount the GDrive into the local workspace, but that doesn't seem very "Google Ecosystem".  Since we may be using other 
+  Google Storage with other applications, this library is trying to be more "Google Ecosystem" like.Google
+  
+  Main Methods:
+  -------------
+  
+  getcwd  - returns the GDrive current working directory
+  chdir  - changes the GDrive current working directory
+  '''
   #
   def __init__(self):
     '''
@@ -31,7 +55,7 @@ class ColabGDrive:
     True if successful
     
     TODO:  
-    (1)  Determine if I want to pass in an option for the cwd.  Unclear since a single call can set this directory
+    (1)  Determine if I want to pass in an option for the cwd.  Unclear since a single cwd call can set this directory
     '''
     #
     #print("Entering Initialization")
@@ -68,18 +92,37 @@ class ColabGDrive:
         return None
   #  Check drive/file/directory information
   def  is_connected(self):
+    '''
+    This returns True if it is connected and False otherwise.
+    
+    Parameters:
+    -----------
+    None
+    
+    Returns:
+    --------
+    True if connected and False otherwise
+    
+    TODO:
+    -----
+    (1)  Just checks the local variable.  Probably should check the drive just incase it was timed out.
+    '''
     return True if(self.myGDrive is not None) else False
   
   #  Basic information
   def get_info(self):
     '''
-    This just returns the drive information.This
+    This just returns the drive information.
+    
+    Parameters:
+    -----------
+    None:
     
     WARNING:  I am not sure what this entails at this point, so it is just information.WARNING
     '''
     return self.myGDrive
   
-  def cwd(self):
+  def getcwd(self):
     '''
     
     '''
