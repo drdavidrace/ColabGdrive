@@ -54,17 +54,16 @@ class ColabGDrive:
     auth.authenticate_user()
     gauth = GoogleAuth()
     gauth.credentials = GoogleCredentials.get_application_default()
-    self.myGDrive = GoogleDrive(gauth)
+    t_gdrive = GoogleDrive(gauth)
     #  make sure cur_dir is good
     #
-    if(self.myGDrive is not None):
+    if(t_gdrive is not None):
+        self.myGDrive = t_gdrive
         directory_dictionary = self.ls('')
         if(directory_dictionary is None):
-            self.cur_dir = 'root'
-        #  check if the directory exists
-        directory_dictionary = self.ls(c_cur_dir)
-        if(directory_dictionary is not None):
-            self.cur_dir = c_cur_dir
+            self.cur_dir = None
+            return None
+        return t_gdrive
     else:
         return None
   #  Check drive/file/directory information
