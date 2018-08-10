@@ -63,26 +63,21 @@ def list_file_dict(drive = None, inStr = ''):
   wStr = clean_directory_path(inStr)
   wStruct = wStr.split('/')
   inStruct = simplify_path(wStruct)
-  print(inStruct)
-  
-#   print(inStruct)
+
   #house cleaning for edge cases
   if(len(inStruct) == 0): inStruct.append('*')
   if(len(inStruct) == 1 and inStruct[0] == 'root'): inStruct.append('*')
   if( not (inStruct[0] == 'root')): inStruct = ['root'] + inStruct
-#   print(inStruct) 
+
   fileID = 'root'
   fileResult = []
   for i in range(1,len(inStruct)):
     fileResult = []
     file_list = drive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(inStruct[i],fileID)}).GetList()
-    print("++++list_file_dict 2")
-    print(len(file_list))
     if len(file_list) == 0:
       fileID = None
       break
     else:
-      print("ELSE")
       if(i < len(inStruct) - 1):
         fileID = file_list[0]['id']
       else:
@@ -91,6 +86,4 @@ def list_file_dict(drive = None, inStr = ''):
           fileID = file_list[j]['id']
           fileType = file_list[j]['mimeType']
           fileResult.append({"title" : fileName, "id":  fileID,'mimeType':fileType})
-  print("$$$$$$$")
-  print(len(fileResult))
   return(fileResult)

@@ -58,15 +58,10 @@ class ColabGDrive:
     (1)  Determine if I want to pass in an option for the cwd.  Unclear since a single cwd call can set this directory
     '''
     #
-    #print("Entering Initialization")
     try:
-      print("****************1")
       self.cur_dir = 'root'
-      print("****************2")
       self.myGDrive = self.__connect_gdrive_()
-      print("****************3")
       self.initialized = True
-      print("****************")
       return None
     except:
       self.myGDrive = None
@@ -79,7 +74,6 @@ class ColabGDrive:
   def __connect_gdrive_(self):
     #return none if failure
     #
-    print("******1")
     auth.authenticate_user()
     gauth = GoogleAuth()
     gauth.credentials = GoogleCredentials.get_application_default()
@@ -87,16 +81,13 @@ class ColabGDrive:
     #  make sure cur_dir is good
     #
     if(t_gdrive is not None):
-      print("******1.1")
       self.myGDrive = t_gdrive
-      directory_dictionary = self.ls('*',print_val=True)
-      print(directory_dictionary)
+      directory_dictionary = self.ls('*')
       if(directory_dictionary is None):
           self.cur_dir = 'root'
           return None
       return t_gdrive
     else:
-      print("******1.2")
       return None
   #  Check drive/file/directory information
   def  is_connected(self):
@@ -172,16 +163,18 @@ class ColabGDrive:
     
     work_name = build_full_path(self, name.strip())
     if(len(work_name) == 0):
-      if(print_val): pprint(None)
+      if(print_val): 
+        pprint("******Start******{:s}***********".format(work_name))
+        pprint(None)
+        pprint("******End******{:s}***********".format(work_name))
       return None
     else:
-      print("++++ls 1")
-      print(work_name)
       ls_file_dict = list_file_dict(self.myGDrive, work_name)
-      print(ls_file_dict)
-      print("====ls 2")
       if(print_val):
+        pprint("******Start******{:s}***********".format(work_name))
         for lf in ls_file_dict: pprint(lf)
+        pprint("******End******{:s}***********".format(work_name))
+        
       return ls_file_dict
   
     
