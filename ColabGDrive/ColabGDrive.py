@@ -70,8 +70,8 @@ class ColabGDrive:
 
     #
     try:
-      logging.basicConfig(level=logging.INFO)
       self.Logger = logging.getLogger('ColabGDrive')
+      self.Logger.setLevel(logging.INFO)
       self.cur_dir = 'root'
       self.myGDrive = self.__connect_gdrive_()
       self.initialized = True
@@ -94,13 +94,13 @@ class ColabGDrive:
     #  make sure cur_dir is good
     #
     #if self.Logger.isEnabledFor(logger.INFO):
-    pprint(t_gdrive)
+    self.Logger.info(pformat(t_gdrive))
     if(t_gdrive is not None):
       self.myGDrive = t_gdrive
       directory_dictionary = self.ls('*')
-      #if self.Logger.isEnabledFor(logging.INFO):
-      pprint("Directory Information")
-      pprint(directory_dictionary['full_name'])
+      if self.Logger.isEnabledFor(logging.INFO):
+        self.logger.info(pformat("Directory Information"))
+        self.logger.info(pformat(directory_dictionary['full_name']))
       if(directory_dictionary is None):
           self.cur_dir = 'root'
           return None
