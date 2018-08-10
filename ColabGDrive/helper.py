@@ -90,7 +90,6 @@ def build_path_structure(inStr = ''):
   if(len(inStruct) == 1 and inStruct[0] == 'root'): inStruct.append('*')
   if( not (inStruct[0] == 'root')): inStruct = ['root'] + inStruct
   full_name = "/".join(inStruct)
-  full_name = full_name[1:]
   return({'full_name':full_name,'path_array':inStruct})
 #
 def list_file_dict(drive = None, inStr = ''):
