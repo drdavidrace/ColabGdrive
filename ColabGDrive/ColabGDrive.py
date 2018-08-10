@@ -66,6 +66,7 @@ class ColabGDrive:
     
     TODO:  
     (1)  Determine if I want to pass in an option for the cwd.  Unclear since a single cwd call can set this directory
+    (2)  Do a better logging error message
     '''
 
     #
@@ -73,7 +74,8 @@ class ColabGDrive:
       self.Logger = logging.getLogger(__name__)
       ch = logging.StreamHandler(sys.stdout)
       self.Logger.addHandler(ch)
-      self.Logger.setLevel(logging.INFO)
+      #DEBUG, INFO, WARNING, ERROR, CRITICAL
+      self.Logger.setLevel(logging.ERROR)
       self.cur_dir = 'root'
       self.myGDrive = self.__connect_gdrive_()
       self.initialized = True
