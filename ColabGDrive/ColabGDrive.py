@@ -200,8 +200,7 @@ class ColabGDrive:
     The current working directory
     '''
     work_file_info = self.ls(name)
-    if(len(work_file_info) == 1):
-      if(len(work_file_info['file_result']) == 1 and 'folder' in work_file_info['file_result'][0]['mimeType']):
-        self.cur_dir = work_file_info['full_name']
+    if(len(work_file_info['file_result']) == 1 and 'folder' in work_file_info['file_result'][0]['mimeType']):
+      self.cur_dir = work_file_info['full_name']
         
     return(self.getcwd())
