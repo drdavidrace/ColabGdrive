@@ -263,9 +263,13 @@ class ColabGDrive:
     if(len(work_file_name) == 0):  work_file_name = myGDrive.getcwd() + '/*'
     else:
       if self.Logger.isEnabledFor(logging.INFO):
-        self.Logger.info("_build_full_path_")
-        self.Logger.info(work_file_name)
-        self.Logger.info(self.myGDrive.getcwd())
+        try:
+          self.Logger.info("_build_full_path_")
+          self.Logger.info(work_file_name)
+          self.Logger.info(self.myGDrive.getcwd())
+        except:
+          self.Logger.info("_build_full_path_" + "except")
+          
         #pprint(os.path.normpath(work_file_name))
         #self.logger.info(os.path.normpath(work_file_name))
         
