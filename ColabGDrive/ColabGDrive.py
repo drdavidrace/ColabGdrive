@@ -1,6 +1,7 @@
 import os, sys, re
 import logging
 from pprint import pprint, pformat
+import inspect
 import traceback
 #PyDrive
 import pydrive
@@ -79,8 +80,7 @@ class ColabGDrive:
       self.myGDrive = self._connect_gdrive_()
       self.initialized = True
       if self.Logger.isEnabledFor(logging.INFO):
-        self.Logger.info(pprint("Return After Connect gdrive"))
-        self.Logger.info(pprint(self.cur_dir))
+        self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
       
       return None
     except:
@@ -92,8 +92,11 @@ class ColabGDrive:
   #  Connect the drive
   #
   def _connect_gdrive_(self):
+    #
     #return none if failure
     #
+    if self.Logger.isEnabledFor(logging.INFO):
+      self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
     auth.authenticate_user()
     gauth = GoogleAuth()
     gauth.credentials = GoogleCredentials.get_application_default()
@@ -101,14 +104,9 @@ class ColabGDrive:
     #  make sure cur_dir is good
     #
     #if self.Logger.isEnabledFor(logger.INFO):
-    if(self.Logger.isEnabledFor(logging.INFO)):
-      self.Logger.info(t_gdrive)
     if(t_gdrive is not None):
       self.myGDrive = t_gdrive
       directory_dictionary = self.ls('*')
-      if self.Logger.isEnabledFor(logging.INFO):
-        self.Logger.info("Directory Information")
-        self.Logger.info(directory_dictionary['full_name'])
       if(directory_dictionary is None):
           self.cur_dir = None
           self.initialized = False
@@ -203,26 +201,21 @@ class ColabGDrive:
     (1)  Raise basic errors
     
     '''
-    
-    work_name = self._build_full_path_(name.strip())
     if(self.Logger.isEnabledFor(logging.INFO)):
-      self.Logger.info(pprint("WORK NAME: {:s}".format(work_name)))
-    
+      self.logger.info("Entering")
+      self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
+    work_name = self._build_full_path_(name.strip())
+
+    retVal = None
     if(len(work_name) == 0):
-    #Info Information
-      if(self.Logger.isEnabledFor(logging.INFO)):
-        self.Logger.info("The length of the work_name is 0")
-        self.Logger.info(pprint("******Start******{:s}***********".format(work_name)).split('\n'))
-        self.Logger.info(pprint(None))
-        self.logger.info(pprint(pformat("******End******{:s}***********".format(work_name))))
-      return None
+      retVal = None
     else:
       ls_file_dict = self._list_file_dict_(work_name)
-      if(self.Logger.isEnabledFor(logging.INFO)):
-        self.Logger.info(pprint("******Start******{:s}***********".format(ls_file_dict['full_name'])))
-        for lf in ls_file_dict['file_result']: self.Logger.info(pprint(lf))
-        self.Logger.info(pprint("******End******{:s}***********".format(ls_file_dict['full_name'])))
-      return ls_file_dict
+      retVal = ls_file_dict
+    if(self.Logger.isEnabledFor(logging.INFO)):
+      self.logger.info("Leaving")
+      self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
+    return(retVal)
     
   #Directory Management, uses a quasi cd methodology
   def chdir(self, name=''):
@@ -238,6 +231,9 @@ class ColabGDrive:
     --------
     The current working directory
     '''
+    if(self.Logger.isEnabledFor(logging.INFO)):
+      self.logger.info("Entering")
+      self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
     if(len(name) == 0): name = 'root'
       
     work_file_info = self.ls(name)
@@ -247,7 +243,9 @@ class ColabGDrive:
       self.cur_dir = work_file_info['full_name']
     elif(work_file_info['full_name'] == 'root'):
       self.cur_dir = work_file_info['full_name']
-        
+    if(self.Logger.isEnabledFor(logging.INFO)):
+      self.logger.info("Leaving")
+      self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
     return(self.getcwd())
   #
   #  Helper functions
@@ -265,21 +263,20 @@ class ColabGDrive:
     ------
     An absolute path starting at 'root'
     '''
+    if(self.Logger.isEnabledFor(logging.INFO)):
+      self.logger.info("Entering")
+      self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
+    retVal = None
     if(self.myGDrive is None):
-      return(None)
+      retVal = None
     work_file_name = inStr.strip()
-    if(len(work_file_name) == 0):  work_file_name = self.getcwd() + '/*'
+    if(len(work_file_name) == 0):  retVal = self.getcwd() + '/*'
     else:
-      if self.Logger.isEnabledFor(logging.INFO):
-        try:
-          self.Logger.info("_build_full_path_")
-          self.Logger.info(work_file_name)
-          self.Logger.info(self.getcwd())
-          self.Logger.info(os.path.normpath(work_file_name))
-        except:
-          self.Logger.info("_build_full_path_" + "except")
-      if(work_file_name[0] != '/'): work_file_name = os.path.join(self.getcwd(),os.path.normpath(work_file_name))
-    return work_file_name
+      if(work_file_name[0] != '/'): retVal = os.path.join(self.getcwd(),os.path.normpath(work_file_name))
+    if(self.Logger.isEnabledFor(logging.INFO)):
+      self.logger.info("Leaving")
+      self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
+    return retVal
   #
   #
   #
