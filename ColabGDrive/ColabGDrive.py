@@ -193,7 +193,7 @@ class ColabGDrive:
     (1)  Raise basic errors
     
     '''
-    pprint(os.sep())
+    pprint(os.sep)
     
     work_name = self._build_full_path_(name.strip())
     if(self.Logger.isEnabledFor(logging.INFO)):
