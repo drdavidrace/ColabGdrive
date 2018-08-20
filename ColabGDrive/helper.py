@@ -2,6 +2,7 @@
 #  tools to provide a mapping between the folder hierarchy and Google Drive storage (not the general cloud storage)
 #Support libraries
 import os, re, sys
+from pprint import pprint, pformat
 #
 #  clean directory path
 #
@@ -120,8 +121,11 @@ def list_file_dict(drive = None, inStr = ''):
   '''
   if (drive is None):
     return None
-  
+  pprint("A")
+  pprint(inStr)
   file_path = build_path_structure(inStr)
+  pprint(file_path)
+  pprint("A END")
   
   inStruct = file_path['path_array']
   
