@@ -117,7 +117,7 @@ class ColabGDrive:
           self.initialized = False
           retVal = None
       self.cur_dir = 'root'
-      retVal t_gdrive
+      retVal = t_gdrive
     else:
       retVal = None
     if self.Logger.isEnabledFor(logging.INFO):
