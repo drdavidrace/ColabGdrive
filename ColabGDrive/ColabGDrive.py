@@ -122,7 +122,7 @@ class ColabGDrive:
   #  Basic Overrides
   #
   def __str__(self):
-    outStr = "{} : {} : {}".format(self.myGDrive, self.cur_dir, self.initialized)
+    outStr = pprint("{} : {} : {}".format(self.myGDrive, self.cur_dir, self.initialized))
     print(type(outStr))
     print(outStr)
     return outStr
@@ -305,7 +305,6 @@ class ColabGDrive:
     if(len(inStruct) == 0): inStruct.append('*')
     if(len(inStruct) == 1 and inStruct[0] == 'root'): inStruct.append('*')
     if( not (inStruct[0] == 'root')): inStruct = ['root'] + inStruct
-    pprint(inStruct)
     tStruct = None
     if(inStruct[-1] == '*'):
       tStruct = inStruct[:-1]
