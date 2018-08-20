@@ -114,7 +114,7 @@ class ColabGDrive:
           self.initialized = False
           return None
       self.cur_dir = 'root'
-      print(self)
+      print()
       return t_gdrive
     else:
       return None
@@ -122,6 +122,7 @@ class ColabGDrive:
   #  Basic Overrides
   #
   def __str__(self):
+    pprint("----")
     outStr = pformat(self.myGDrive) + " : " + pformat(self.cur_dir) + " : " + pformat(self.initialized)
     print(type(outStr))
     print(outStr)
