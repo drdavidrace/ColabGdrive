@@ -114,7 +114,7 @@ class ColabGDrive:
           self.initialized = False
           return None
       self.cur_dir = 'root'
-      #print(self)
+      print(self)
       return t_gdrive
     else:
       return None
@@ -123,6 +123,8 @@ class ColabGDrive:
   #
   def __str__(self):
     outStr = "{} : {} : {}".format(self.myGDrive, self.cur_dir, self.initialized)
+    print(type(outStr))
+    print(outStr)
     return outStr
   #  Check drive/file/directory information
   def  is_connected(self):
@@ -205,7 +207,6 @@ class ColabGDrive:
     work_name = self._build_full_path_(name.strip())
     if(self.Logger.isEnabledFor(logging.INFO)):
       self.Logger.info(pprint("WORK NAME: {:s}".format(work_name)))
-      #self.Logger.info(pprint(work_name.split("/")))
     
     if(len(work_name) == 0):
     #Info Information
@@ -216,14 +217,7 @@ class ColabGDrive:
         self.logger.info(pprint(pformat("******End******{:s}***********".format(work_name))))
       return None
     else:
-      pprint('+++++' + work_name)
-      pprint(type(work_name))
-      try:
-        ls_file_dict = self._list_file_dict_(work_name)
-      except:
-        traceback.print_exc()
-        pprint("Weird")
-      pprint('------')
+      ls_file_dict = self._list_file_dict_(work_name)
       if(self.Logger.isEnabledFor(logging.INFO)):
         self.Logger.info(pprint("******Start******{:s}***********".format(ls_file_dict['full_name'])))
         for lf in ls_file_dict['file_result']: self.Logger.info(pprint(lf))
