@@ -106,7 +106,7 @@ def build_path_structure(inStr = ''):
     tStruct = inStruct[:-1]
   else:
     tStruct = inStruct
-  full_name = os.path.join(os.sep,tStruct)
+  full_name = "/".join(tStruct)
   pprint("BB")
   
   pprint(full_name)
