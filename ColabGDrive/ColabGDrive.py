@@ -104,16 +104,17 @@ class ColabGDrive:
     gauth = GoogleAuth()
     gauth.credentials = GoogleCredentials.get_application_default()
     t_gdrive = GoogleDrive(gauth)
-    pprint(t_gdrive)
-    pprint()
     #  make sure cur_dir is good
     #
     #if self.Logger.isEnabledFor(logger.INFO):
     retVal = None
     if(t_gdrive is not None):
       self.myGDrive = t_gdrive
-      directory_dictionary = self.ls('*')
-      pprint(directory_dictionary)
+      directory_dictionary = None
+      try:
+        directory_dictionary = self.ls('*')
+      except:
+        print("?????")
       if(directory_dictionary is None):
           self.cur_dir = None
           self.initialized = False
@@ -219,7 +220,8 @@ class ColabGDrive:
       self.logger.info("Entering")
       self.Logger.info(pprint(inspect.currentframe().f_code.co_name))
     work_name = self._build_full_path_(name.strip())
-
+    print(work_name)
+    
     retVal = None
     if(len(work_name) == 0):
       retVal = None
