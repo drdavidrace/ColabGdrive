@@ -208,6 +208,7 @@ class ColabGDrive:
       return None
     else:
       pprint('+++++' + work_name)
+      pprint(type(work_name))
       try:
         ls_file_dict = self._list_file_dict_(work_name)
       except:
@@ -325,35 +326,36 @@ def _list_file_dict_(self, inStr = ''):
   '''
   pprint('!!!!!!')
   pprint(self.myGDrive)
-  try:
-    if (self.myGDrive is None):
-      return None
-    if self.Logger.isEnabledFor(logging.INFO):
-      self.Logger.info("_list_file_dict")
-      self.Logger.info(inStr)
-    file_path = self._build_path_structure_(inStr)
+  return False
+#   try:
+#     if (self.myGDrive is None):
+#       return None
+#     if self.Logger.isEnabledFor(logging.INFO):
+#       self.Logger.info("_list_file_dict")
+#       self.Logger.info(inStr)
+#     file_path = self._build_path_structure_(inStr)
 
-    inStruct = file_path['path_array']
+#     inStruct = file_path['path_array']
 
-    fileID = 'root'
-    fileResult = []
-    for i in range(1,len(inStruct)):
-      fileResult = []
-      file_list = self.myGDrive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(inStruct[i],fileID)}).GetList()
-      if len(file_list) == 0:
-        fileID = None
-        break
-      else:
-        if(i < len(inStruct) - 1):
-          fileID = file_list[0]['id']
-        else:
-          for j in range(len(file_list)):
-            fileName = file_list[j]['title']
-            fileID = file_list[j]['id']
-            fileType = file_list[j]['mimeType']
-            fileResult.append({"title" : fileName, "id":  fileID,'mimeType':fileType})
-    return({'full_name': file_path['full_name'],'file_result':fileResult})
-  except:
-    pprint("FAILURE")
-    return(None)
+#     fileID = 'root'
+#     fileResult = []
+#     for i in range(1,len(inStruct)):
+#       fileResult = []
+#       file_list = self.myGDrive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(inStruct[i],fileID)}).GetList()
+#       if len(file_list) == 0:
+#         fileID = None
+#         break
+#       else:
+#         if(i < len(inStruct) - 1):
+#           fileID = file_list[0]['id']
+#         else:
+#           for j in range(len(file_list)):
+#             fileName = file_list[j]['title']
+#             fileID = file_list[j]['id']
+#             fileType = file_list[j]['mimeType']
+#             fileResult.append({"title" : fileName, "id":  fileID,'mimeType':fileType})
+#     return({'full_name': file_path['full_name'],'file_result':fileResult})
+#   except:
+#     pprint("FAILURE")
+#     return(None)
   
