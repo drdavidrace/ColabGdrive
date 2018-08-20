@@ -73,7 +73,7 @@ class ColabGDrive:
       ch = logging.StreamHandler(sys.stdout)
       self.Logger.addHandler(ch)
       #DEBUG, INFO, WARNING, ERROR, CRITICAL
-      self.Logger.setLevel(logging.INFO)
+      self.Logger.setLevel(logging.ERROR)
      
       self.cur_dir = 'root'
       self.myGDrive = self._connect_gdrive_()
@@ -110,11 +110,20 @@ class ColabGDrive:
         self.Logger.info("Directory Information")
         self.Logger.info(directory_dictionary['full_name'])
       if(directory_dictionary is None):
-          self.cur_dir = 'root'
+          self.cur_dir = None
+          self.initialized = False
           return None
+      self.cur_dir = 'root'
+      print(self)
       return t_gdrive
     else:
       return None
+  #
+  #  Basic Overrides
+  #
+  def __str__(self):
+    outStr = "{} : {} : {}".format(self.myGDrive, self.cur_dir, self.initialized)
+    return outStr
   #  Check drive/file/directory information
   def  is_connected(self):
     '''
@@ -220,7 +229,6 @@ class ColabGDrive:
         for lf in ls_file_dict['file_result']: self.Logger.info(pprint(lf))
         self.Logger.info(pprint("******End******{:s}***********".format(ls_file_dict['full_name'])))
       return ls_file_dict
-  
     
   #Directory Management, uses a quasi cd methodology
   def chdir(self, name=''):
