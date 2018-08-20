@@ -81,8 +81,8 @@ class ColabGDrive:
       self.myGDrive = self._connect_gdrive_()
       self.initialized = True
       if self.Logger.isEnabledFor(logging.INFO):
-        pprint("Return After Connect gdrive")
-        pprint(self.cur_dir)
+        self.Logger.info(pprint("Return After Connect gdrive"))
+        self.Logger.info(pprint(self.cur_dir))
       
       return None
     except:
@@ -106,6 +106,7 @@ class ColabGDrive:
     if(self.Logger.isEnabledFor(logging.INFO)):
       self.Logger.info(t_gdrive)
     if(t_gdrive is not None):
+      pprint("ASDF")
       self.myGDrive = t_gdrive
       directory_dictionary = self.ls('*')
       if self.Logger.isEnabledFor(logging.INFO):
@@ -116,6 +117,7 @@ class ColabGDrive:
           return None
       return t_gdrive
     else:
+      pprint("SDFG")
       return None
   #  Check drive/file/directory information
   def  is_connected(self):
