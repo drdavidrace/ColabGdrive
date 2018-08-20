@@ -49,7 +49,7 @@ class ColabGDrive:
   mkdir - makes a file folder on the GDrive, it does this recursively if necessary
   '''
   #
-  def __init__(self):
+  def __init__(self, logging_level = logging.ERROR):
     '''
     The initialization routine sets up the internal information and sets up the GoogleDrive connection.The
     
@@ -70,7 +70,7 @@ class ColabGDrive:
 
     #
     try:
-      self.Logger = logging.getLogger(__name__, logging_level = logging.ERROR)
+      self.Logger = logging.getLogger(__name__)
       ch = logging.StreamHandler(sys.stdout)
       self.Logger.addHandler(ch)
       #DEBUG, INFO, WARNING, ERROR, CRITICAL
