@@ -209,6 +209,7 @@ class ColabGDrive:
     else:
       pprint('+++++')
       ls_file_dict = self._list_file_dict_(work_name)
+      pprint('------')
       if(self.Logger.isEnabledFor(logging.INFO)):
         self.Logger.info(pprint("******Start******{:s}***********".format(ls_file_dict['full_name'])))
         for lf in ls_file_dict['file_result']: self.Logger.info(pprint(lf))
