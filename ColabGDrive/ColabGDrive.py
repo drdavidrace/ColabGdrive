@@ -271,7 +271,7 @@ class ColabGDrive:
         except:
           self.Logger.info("_build_full_path_" + "except")
         
-      if(work_file_name[0] != '/'): work_file_name = os.path.join(self.myGDrive.getcwd(),os.path.normpath(work_file_name))
+      if(work_file_name[0] != '/'): work_file_name = os.path.join(self.getcwd(),os.path.normpath(work_file_name))
     return work_file_name
   #
   #
