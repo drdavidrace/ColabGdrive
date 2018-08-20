@@ -114,7 +114,7 @@ class ColabGDrive:
       try:
         directory_dictionary = self.ls('*')
       except:
-        print("?????")
+        traceback.print_exc()
       if(directory_dictionary is None):
           self.cur_dir = None
           self.initialized = False
