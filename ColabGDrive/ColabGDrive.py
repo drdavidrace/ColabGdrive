@@ -78,8 +78,10 @@ class ColabGDrive:
       #DEBUG, INFO, WARNING, ERROR, CRITICAL
       self.Logger.setLevel(logging.ERROR)
       self.cur_dir = 'root'
-      self.myGDrive = self.__connect_gdrive_()
+      self.myGDrive = self._connect_gdrive_()
       self.initialized = True
+      print(self.cur_dir)
+      
       return None
     except:
       self.myGDrive = None
@@ -89,7 +91,7 @@ class ColabGDrive:
   #
   #  Connect the drive
   #
-  def __connect_gdrive_(self):
+  def _connect_gdrive_(self):
     #return none if failure
     #
     auth.authenticate_user()
