@@ -104,6 +104,7 @@ class ColabGDrive:
     gauth = GoogleAuth()
     gauth.credentials = GoogleCredentials.get_application_default()
     t_gdrive = GoogleDrive(gauth)
+    pprint(t_gdrive)
     #  make sure cur_dir is good
     #
     #if self.Logger.isEnabledFor(logger.INFO):
@@ -120,6 +121,8 @@ class ColabGDrive:
         retVal = t_gdrive
     else:
       retVal = None
+      
+    pprint(retVal)
     if self.Logger.isEnabledFor(logging.INFO):
       self.Logger.info("Leaving")
       self.Logger.info(pprint(inspect.currentframe().f_code.co_name))
