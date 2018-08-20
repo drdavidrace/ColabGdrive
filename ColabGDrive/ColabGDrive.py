@@ -114,7 +114,7 @@ class ColabGDrive:
           self.initialized = False
           return None
       self.cur_dir = 'root'
-      print(self)
+      #print(self)
       return t_gdrive
     else:
       return None
