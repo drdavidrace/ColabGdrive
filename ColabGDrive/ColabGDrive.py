@@ -8,10 +8,6 @@ from pydrive.drive import GoogleDrive
 from google.colab import auth
 from oauth2client.client import GoogleCredentials
 #
-#  import the helper files
-#
-from ColabGDrive.helper import list_file_dict, build_full_path
-#
 #  Set logging level
 #
 #  TODO:  Including logging level information
@@ -76,7 +72,8 @@ class ColabGDrive:
       ch = logging.StreamHandler(sys.stdout)
       self.Logger.addHandler(ch)
       #DEBUG, INFO, WARNING, ERROR, CRITICAL
-      self.Logger.setLevel(logging.INFO)
+      self.Logger.setLevel(logging.ERROR)
+      
       self.cur_dir = 'root'
       self.myGDrive = self._connect_gdrive_()
       self.initialized = True
@@ -197,7 +194,7 @@ class ColabGDrive:
     
     '''
     
-    work_name = build_full_path(self, name.strip())
+    work_name = self._build_full_path_(self, name.strip())
     if(self.Logger.isEnabledFor(logging.INFO)):
       self.Logger.info(pprint("WORK NAME: {:s}".format(work_name)))
       self.Logger.info(pprint(work_name.split(os.sep)))
@@ -211,7 +208,7 @@ class ColabGDrive:
         self.logger.info(pprint(pformat("******End******{:s}***********".format(work_name))))
       return None
     else:
-      ls_file_dict = list_file_dict(self.myGDrive, work_name)
+      ls_file_dict = self._list_file_dict_(self.myGDrive, work_name)
       if(self.Logger.isEnabledFor(logging.INFO)):
         self.Logger.info(pprint("******Start******{:s}***********".format(ls_file_dict['full_name'])))
         for lf in ls_file_dict['file_result']: self.Logger.info(pprint(lf))
@@ -237,10 +234,114 @@ class ColabGDrive:
       
     work_file_info = self.ls(name)
     if self.Logger.isEnabledFor(logging.INFO):
-      self.Logger.ingo(pformat(work_file_info['full_name']))
+      self.Logger.info(pformat(work_file_info['full_name']))
     if(len(work_file_info['file_result']) == 1 and 'folder' in work_file_info['file_result'][0]['mimeType']):
       self.cur_dir = work_file_info['full_name']
     elif(work_file_info['full_name'] == 'root'):
       self.cur_dir = work_file_info['full_name']
         
     return(self.getcwd())
+  #
+  #  Helper functions
+  #
+  def _build_full_path_(gdrive = None, inStr=''):
+    '''
+    This decides on an absolute path or relative path
+
+    Parameters:
+    ----------
+    gdrive:  The ColabGDrive being used (so we know the current working directory)
+
+    inStr:  The proposed directory string
+
+    Result:
+    ------
+    An absolute path starting at 'root'
+    '''
+    if(gdrive is None):
+      return(None)
+    work_file_name = inStr.strip()
+    if(len(work_file_name) == 0):  work_file_name = gdrive.getcwd() + '/*'
+    else:
+      #if(work_file_name[0] != '/'): work_file_name = gdrive.getcwd() + '/' + clean_directory_path(work_file_name)
+      if self.Logger.isEnabledFor(logging.INFO):
+        self.Logger.info("_build_full_path")
+        self.Logger.info(work_file_name)
+        self.logger.info(os.path.normpath(work_file_name))
+      if(work_file_name[0] != '/'): work_file_name = os.path.join(gdrive.getcwd(),os.path.normpath(work_file_name))
+    return work_file_name
+  #
+  #
+  #
+  def _build_path_structure_(inStr = ''):
+    '''
+    This provides a consistent path build for ColabGDrive
+
+    Parameters:
+    ----------
+
+    inStr:  This is assumed to be an absolute path
+
+    Result: a dictionary with the full name and the path array
+      These are called full_path and path_array
+
+    '''
+  #   wStr = clean_directory_path(inStr)
+    wStr = os.path.normpath(inStr)
+    inStruct = wStr.split(os.sep)
+  #   wStruct = wStr.split('/')
+  #   inStruct = simplify_path(wStruct)
+    #house cleaning for edge cases
+    if(len(inStruct) == 0): inStruct.append('*')
+    if(len(inStruct) == 1 and inStruct[0] == 'root'): inStruct.append('*')
+    if( not (inStruct[0] == 'root')): inStruct = ['root'] + inStruct
+    pprint(inStruct)
+    tStruct = None
+    if(inStruct[-1] == '*'):
+      tStruct = inStruct[:-1]
+    else:
+      tStruct = inStruct
+    full_name = "/".join(tStruct)
+    return({'full_name':full_name,'path_array':inStruct})
+#
+def _list_file_dict_(drive = None, inStr = ''):
+  '''
+  Returns a dictionary with the file name and file ID (if exists) - None otherwise
+  
+  Parameters:
+  ----------
+  drive:  The object pointing to the Google Drive
+  
+  inStr:  This is assumed to be an absolute path
+  
+  Result:  A dictionary with the file path and file results from the FileList
+    The results are called full_name and file_result
+  
+  '''
+  if (drive is None):
+    return None
+  if self.Logger.isEnabledFor(logging.INFO):
+    self.Logger.info("_list_file_dict")
+    self.Logger.info(inStr)
+  file_path = self._build_path_structure_(inStr)
+  
+  inStruct = file_path['path_array']
+  
+  fileID = 'root'
+  fileResult = []
+  for i in range(1,len(inStruct)):
+    fileResult = []
+    file_list = drive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(inStruct[i],fileID)}).GetList()
+    if len(file_list) == 0:
+      fileID = None
+      break
+    else:
+      if(i < len(inStruct) - 1):
+        fileID = file_list[0]['id']
+      else:
+        for j in range(len(file_list)):
+          fileName = file_list[j]['title']
+          fileID = file_list[j]['id']
+          fileType = file_list[j]['mimeType']
+          fileResult.append({"title" : fileName, "id":  fileID,'mimeType':fileType})
+  return({'full_name': file_path['full_name'],'file_result':fileResult})
