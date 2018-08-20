@@ -1,6 +1,7 @@
 import os, sys, re
 import logging
 from pprint import pprint, pformat
+import traceback
 #PyDrive
 import pydrive
 from pydrive.auth import GoogleAuth
@@ -210,8 +211,9 @@ class ColabGDrive:
       pprint('+++++' + work_name)
       pprint(type(work_name))
       try:
-        ls_file_dict = self._list_file_dict_(work_name)
+        ls_file_dict = _list_file_dict_(work_name)
       except:
+        traceback.print_exc()
         pprint("Weird")
       pprint('------')
       if(self.Logger.isEnabledFor(logging.INFO)):
