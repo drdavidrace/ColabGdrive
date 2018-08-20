@@ -73,6 +73,7 @@ class ColabGDrive:
       self.Logger.addHandler(ch)
       #DEBUG, INFO, WARNING, ERROR, CRITICAL
       self.Logger.setLevel(logging.INFO)
+     
       
       self.cur_dir = 'root'
       self.myGDrive = self._connect_gdrive_()
@@ -103,7 +104,6 @@ class ColabGDrive:
     if(self.Logger.isEnabledFor(logging.INFO)):
       self.Logger.info(t_gdrive)
     if(t_gdrive is not None):
-      pprint("ASDF")
       self.myGDrive = t_gdrive
       directory_dictionary = self.ls('*')
       if self.Logger.isEnabledFor(logging.INFO):
@@ -194,7 +194,7 @@ class ColabGDrive:
     
     '''
     
-    work_name = self._build_full_path_(self, name.strip())
+    work_name = self._build_full_path_(name.strip())
     if(self.Logger.isEnabledFor(logging.INFO)):
       self.Logger.info(pprint("WORK NAME: {:s}".format(work_name)))
       self.Logger.info(pprint(work_name.split(os.sep)))
@@ -244,7 +244,7 @@ class ColabGDrive:
   #
   #  Helper functions
   #
-  def _build_full_path_(gdrive = None, inStr=''):
+  def _build_full_path_(self, inStr=''):
     '''
     This decides on an absolute path or relative path
 
@@ -273,7 +273,7 @@ class ColabGDrive:
   #
   #
   #
-  def _build_path_structure_(inStr = ''):
+  def _build_path_structure_(self, inStr = ''):
     '''
     This provides a consistent path build for ColabGDrive
 
@@ -304,7 +304,7 @@ class ColabGDrive:
     full_name = "/".join(tStruct)
     return({'full_name':full_name,'path_array':inStruct})
 #
-def _list_file_dict_(drive = None, inStr = ''):
+def _list_file_dict_(self, inStr = ''):
   '''
   Returns a dictionary with the file name and file ID (if exists) - None otherwise
   
