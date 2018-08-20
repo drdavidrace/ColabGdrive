@@ -92,6 +92,7 @@ def build_path_structure(inStr = ''):
   wStr = os.path.normpath(inStr)
   pprint(wStr)
   inStruct = wStr.split(os.sep)
+  pprint("AA")
   pprint(inStruct)
 #   wStruct = wStr.split('/')
 #   inStruct = simplify_path(wStruct)
@@ -106,6 +107,9 @@ def build_path_structure(inStr = ''):
   else:
     tStruct = inStruct
   full_name = os.path.join(os.sep,tStruct)
+  pprint("BB")
+  
+  pprint(full_name)
   return({'full_name':full_name,'path_array':inStruct})
 #
 def list_file_dict(drive = None, inStr = ''):
