@@ -76,14 +76,14 @@ class ColabGDrive:
       #DEBUG, INFO, WARNING, ERROR, CRITICAL
       self.Logger.setLevel(logging_level)
       if self.Logger.isEnabledFor(logging.INFO):
-        self.Logger.info("Entering")
-        self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
+        self.Logger.info("Entering __init__")
+        self.Logger.info(pprint(inspect.currentframe().f_code.co_name))
       self.cur_dir = 'root'
       self.myGDrive = self._connect_gdrive_()
       self.initialized = True
       if self.Logger.isEnabledFor(logging.INFO):
-        self.Logger.info("Leaving")
-        self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
+        self.Logger.info("Leaving __init__")
+        self.Logger.info(pprint(inspect.currentframe().f_code.co_name))
       return None
     except:
       self.myGDrive = None
@@ -99,7 +99,7 @@ class ColabGDrive:
     #
     if self.Logger.isEnabledFor(logging.INFO):
       self.Logger.info("Entering")
-      self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
+      self.Logger.info(pprint(inspect.currentframe().f_code.co_name))
     auth.authenticate_user()
     gauth = GoogleAuth()
     gauth.credentials = GoogleCredentials.get_application_default()
@@ -121,7 +121,7 @@ class ColabGDrive:
       retVal = None
     if self.Logger.isEnabledFor(logging.INFO):
       self.Logger.info("Leaving")
-      self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
+      self.Logger.info(pprint(inspect.currentframe().f_code.co_name))
     return retVal
   #
   #  Basic Overrides
@@ -211,7 +211,7 @@ class ColabGDrive:
     '''
     if(self.Logger.isEnabledFor(logging.INFO)):
       self.logger.info("Entering")
-      self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
+      self.Logger.info(pprint(inspect.currentframe().f_code.co_name))
     work_name = self._build_full_path_(name.strip())
 
     retVal = None
@@ -222,7 +222,7 @@ class ColabGDrive:
       retVal = ls_file_dict
     if(self.Logger.isEnabledFor(logging.INFO)):
       self.logger.info("Leaving")
-      self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
+      self.Logger.info(pprint(inspect.currentframe().f_code.co_name))
     return(retVal)
     
   #Directory Management, uses a quasi cd methodology
@@ -241,7 +241,7 @@ class ColabGDrive:
     '''
     if(self.Logger.isEnabledFor(logging.INFO)):
       self.logger.info("Entering")
-      self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
+      self.Logger.info(pprint(inspect.currentframe().f_code.co_name))
     if(len(name) == 0): name = 'root'
       
     work_file_info = self.ls(name)
@@ -253,7 +253,7 @@ class ColabGDrive:
       self.cur_dir = work_file_info['full_name']
     if(self.Logger.isEnabledFor(logging.INFO)):
       self.logger.info("Leaving")
-      self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
+      self.Logger.info(pprint(inspect.currentframe().f_code.co_name))
     return(self.getcwd())
   #
   #  Helper functions
@@ -273,7 +273,7 @@ class ColabGDrive:
     '''
     if(self.Logger.isEnabledFor(logging.INFO)):
       self.logger.info("Entering")
-      self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
+      self.Logger.info(pprint(inspect.currentframe().f_code.co_name))
     retVal = None
     if(self.myGDrive is None):
       retVal = None
@@ -283,7 +283,7 @@ class ColabGDrive:
       if(work_file_name[0] != '/'): retVal = os.path.join(self.getcwd(),os.path.normpath(work_file_name))
     if(self.Logger.isEnabledFor(logging.INFO)):
       self.logger.info("Leaving")
-      self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
+      self.Logger.info(pprint(inspect.currentframe().f_code.co_name))
     return retVal
   #
   #
