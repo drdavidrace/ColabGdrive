@@ -41,7 +41,7 @@ def build_full_path(gdrive = None, inStr=''):
   if(len(work_file_name) == 0):  work_file_name = gdrive.getcwd() + '/*'
   else:
     #if(work_file_name[0] != '/'): work_file_name = gdrive.getcwd() + '/' + clean_directory_path(work_file_name)
-    if(work_file_name[0] != '/'): work_file_name = os.path.join(gdrive.getcwd(),os.normpath(work_file_name))
+    if(work_file_name[0] != '/'): work_file_name = os.path.join(gdrive.getcwd(),os.path.normpath(work_file_name))
   return work_file_name
   
 def simplify_path(path_array):
