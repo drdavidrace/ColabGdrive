@@ -84,13 +84,12 @@ class ColabGDrive:
       if self.Logger.isEnabledFor(logging.INFO):
         self.Logger.info("Leaving")
         self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
-      
-      return True
+      return None
     except:
       self.myGDrive = None
       self.cur_dir = None
       self.initialized = False
-      return False
+      return None
   #
   #  Connect the drive
   #
