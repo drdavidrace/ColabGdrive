@@ -91,12 +91,14 @@ def build_path_structure(inStr = ''):
 #   wStr = clean_directory_path(inStr)
   wStr = os.path.normpath(inStr)
   inStruct = wStr.split(os.sep)
+  pprint(inStruc)
 #   wStruct = wStr.split('/')
 #   inStruct = simplify_path(wStruct)
   #house cleaning for edge cases
   if(len(inStruct) == 0): inStruct.append('*')
   if(len(inStruct) == 1 and inStruct[0] == 'root'): inStruct.append('*')
   if( not (inStruct[0] == 'root')): inStruct = ['root'] + inStruct
+  pprint(inStruct)
   tStruct = None
   if(inStruct[-1] == '*'):
     tStruct = inStruct[:-1]
