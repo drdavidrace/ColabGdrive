@@ -1,7 +1,7 @@
 #ColabGDrive Functions
 #  tools to provide a mapping between the folder hierarchy and Google Drive storage (not the general cloud storage)
 #Support libraries
-import re, sys
+import os, re, sys
 #
 #  clean directory path
 #
@@ -36,11 +36,12 @@ def build_full_path(gdrive = None, inStr=''):
   An absolute path starting at 'root'
   '''
   if(gdrive is None):
-    return(inStr)
+    return(None)
   work_file_name = inStr.strip()
   if(len(work_file_name) == 0):  work_file_name = gdrive.getcwd() + '/*'
   else:
-    if(work_file_name[0] != '/'): work_file_name = gdrive.getcwd() + '/' + clean_directory_path(work_file_name)
+    #if(work_file_name[0] != '/'): work_file_name = gdrive.getcwd() + '/' + clean_directory_path(work_file_name)
+    if(work_file_name[0] != '/'): work_file_name = os.path.join(gdrive.getcwd(),os.normpath(work_file_name))
   return work_file_name
   
 def simplify_path(path_array):
@@ -82,7 +83,8 @@ def build_path_structure(inStr = ''):
     These are called full_path and path_array
   
   '''
-  wStr = clean_directory_path(inStr)
+#   wStr = clean_directory_path(inStr)
+  wStr = os.path.normpath(inStr)
   wStruct = wStr.split('/')
   inStruct = simplify_path(wStruct)
   #house cleaning for edge cases

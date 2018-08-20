@@ -67,6 +67,7 @@ class ColabGDrive:
     TODO:  
     (1)  Determine if I want to pass in an option for the cwd.  Unclear since a single cwd call can set this directory
     (2)  Do a better logging error message
+    (3)  Convert to using os.path.join and other os.path functions for path work
     '''
 
     #
@@ -191,8 +192,8 @@ class ColabGDrive:
     '''
     
     work_name = build_full_path(self, name.strip())
-#     if(self.Logger.isEnabledFor(logging.INFO)):
-#       self.Logger.info(pprint(work_name).split('\n'))
+    if(self.Logger.isEnabledFor(logging.INFO)):
+      self.Logger.info(pprint(work_name).split('\n'))
       
     if(len(work_name) == 0):
       self.Logger.info("This is a test")
