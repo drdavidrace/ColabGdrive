@@ -208,7 +208,10 @@ class ColabGDrive:
       return None
     else:
       pprint('+++++' + work_name)
-      ls_file_dict = self._list_file_dict_(work_name)
+      try:
+        ls_file_dict = self._list_file_dict_(work_name)
+      except:
+        pprint("Weird")
       pprint('------')
       if(self.Logger.isEnabledFor(logging.INFO)):
         self.Logger.info(pprint("******Start******{:s}***********".format(ls_file_dict['full_name'])))
