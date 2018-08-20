@@ -74,7 +74,6 @@ class ColabGDrive:
       #DEBUG, INFO, WARNING, ERROR, CRITICAL
       self.Logger.setLevel(logging.INFO)
      
-      
       self.cur_dir = 'root'
       self.myGDrive = self._connect_gdrive_()
       self.initialized = True
@@ -193,12 +192,11 @@ class ColabGDrive:
     (1)  Raise basic errors
     
     '''
-    pprint(os.sep)
     
     work_name = self._build_full_path_(name.strip())
     if(self.Logger.isEnabledFor(logging.INFO)):
       self.Logger.info(pprint("WORK NAME: {:s}".format(work_name)))
-      self.Logger.info(pprint(work_name.split("{}".format(os.sep))))
+      self.Logger.info(pprint(work_name.split("{:s}".format(os.sep))))
     
     if(len(work_name) == 0):
     #Info Information
