@@ -125,7 +125,6 @@ class ColabGDrive:
     else:
       ret_val = None
       
-    pprint(ret_val)
     if self.Logger.isEnabledFor(logging.INFO):
       self.Logger.info("Leaving")
       self.Logger.info(pprint(inspect.currentframe().f_code.co_name))
@@ -223,7 +222,6 @@ class ColabGDrive:
       self.Logger.info("Entering")
       self.Logger.info(pprint(inspect.currentframe().f_code.co_name))
     work_name = self._build_full_path_(name.strip())
-    print(work_name)
     
     ret_val = None
     if(len(work_name) == 0):
@@ -370,6 +368,5 @@ class ColabGDrive:
               file_result.append({"title" : fileName, "id":  file_id,'mimeType':fileType})
       return({'full_name': file_path['full_name'],'file_result':file_result})
     except:
-      pprint("FAILURE")
       return(None)
   
