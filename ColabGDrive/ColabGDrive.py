@@ -107,7 +107,7 @@ class ColabGDrive:
     #  make sure cur_dir is good
     #
     #if self.Logger.isEnabledFor(logger.INFO):
-    retVal = None
+    ret_val = None
     if(t_gdrive is not None):
       self.myGDrive = t_gdrive
       directory_dictionary = None
@@ -118,27 +118,27 @@ class ColabGDrive:
       if(directory_dictionary is None):
           self.cur_dir = None
           self.initialized = False
-          retVal = None
+          ret_val = None
       else:
         self.cur_dir = 'root'
-        retVal = t_gdrive
+        ret_val = t_gdrive
     else:
-      retVal = None
+      ret_val = None
       
-    pprint(retVal)
+    pprint(ret_val)
     if self.Logger.isEnabledFor(logging.INFO):
       self.Logger.info("Leaving")
       self.Logger.info(pprint(inspect.currentframe().f_code.co_name))
-    return retVal
+    return ret_val
   #
   #  Basic Overrides
   #
   def __str__(self):
-    outStr = pformat(self.myGDrive) + " : " + pformat(self.cur_dir) + " : " + pformat(self.initialized)
-    return outStr
+    out_str = pformat(self.myGDrive) + " : " + pformat(self.cur_dir) + " : " + pformat(self.initialized)
+    return out_str
   def __repr__(self):
-    outStr = pformat(self.myGDrive) + " : " + pformat(self.cur_dir) + " : " + pformat(self.initialized)
-    return outStr
+    out_str = pformat(self.myGDrive) + " : " + pformat(self.cur_dir) + " : " + pformat(self.initialized)
+    return out_str
   #  Check drive/file/directory information
   def  is_connected(self):
     '''
@@ -184,6 +184,9 @@ class ColabGDrive:
     The current working directory
     '''
     return self.cur_dir
+  #
+  #
+  #
   def ls(self,name = ''):
     '''
     ls provides a GoogleDrive listing of the information for a name.  Informational logging is provided to stdout if the logging level is set to INFO
@@ -217,22 +220,22 @@ class ColabGDrive:
     
     '''
     if(self.Logger.isEnabledFor(logging.INFO)):
-      self.logger.info("Entering")
+      self.Logger.info("Entering")
       self.Logger.info(pprint(inspect.currentframe().f_code.co_name))
     work_name = self._build_full_path_(name.strip())
     print(work_name)
     
-    retVal = None
+    ret_val = None
     if(len(work_name) == 0):
-      retVal = None
+      ret_val = None
     else:
       ls_file_dict = self._list_file_dict_(work_name)
-      retVal = ls_file_dict
+      ret_val = ls_file_dict
     if(self.Logger.isEnabledFor(logging.INFO)):
       self.Logger.info("Leaving")
       
       self.Logger.info(pprint(inspect.currentframe().f_code.co_name))
-    return(retVal)
+    return(ret_val)
     
   #Directory Management, uses a quasi cd methodology
   def chdir(self, name=''):
@@ -249,7 +252,7 @@ class ColabGDrive:
     The current working directory
     '''
     if(self.Logger.isEnabledFor(logging.INFO)):
-      self.logger.info("Entering")
+      self.Logger.info("Entering")
       self.Logger.info(pprint(inspect.currentframe().f_code.co_name))
     if(len(name) == 0): name = 'root'
       
@@ -261,80 +264,80 @@ class ColabGDrive:
     elif(work_file_info['full_name'] == 'root'):
       self.cur_dir = work_file_info['full_name']
     if(self.Logger.isEnabledFor(logging.INFO)):
-      self.logger.info("Leaving")
+      self.Logger.info("Leaving")
       self.Logger.info(pprint(inspect.currentframe().f_code.co_name))
     return(self.getcwd())
   #
   #  Helper functions
   #
-  def _build_full_path_(self, inStr=''):
+  def _build_full_path_(self, in_str=''):
     '''
     This decides on an absolute path or relative path
 
     Parameters:
     ----------
 
-    inStr:  The proposed directory string
+    in_str:  The proposed directory string
 
     Result:
     ------
     An absolute path starting at 'root'
     '''
     if(self.Logger.isEnabledFor(logging.INFO)):
-      self.logger.info("Entering")
+      self.Logger.info("Entering")
       self.Logger.info(pprint(inspect.currentframe().f_code.co_name))
-    retVal = None
+    ret_val = None
     if(self.myGDrive is None):
-      retVal = None
-    work_file_name = inStr.strip()
-    if(len(work_file_name) == 0):  retVal = self.getcwd() + '/*'
+      ret_val = None
+    work_file_name = in_str.strip()
+    if(len(work_file_name) == 0):  ret_val = self.getcwd() + '/*'
     else:
-      if(work_file_name[0] != '/'): retVal = os.path.join(self.getcwd(),os.path.normpath(work_file_name))
+      if(work_file_name[0] != '/'): ret_val = os.path.join(self.getcwd(),os.path.normpath(work_file_name))
     if(self.Logger.isEnabledFor(logging.INFO)):
-      self.logger.info("Leaving")
+      self.Logger.info("Leaving")
       self.Logger.info(pprint(inspect.currentframe().f_code.co_name))
-    return retVal
+    return ret_val
   #
   #
   #
-  def _build_path_structure_(self, inStr = ''):
+  def _build_path_structure_(self, in_str = ''):
     '''
     This provides a consistent path build for ColabGDrive
 
     Parameters:
     ----------
 
-    inStr:  This is assumed to be an absolute path
+    in_str:  This is assumed to be an absolute path
 
     Result: a dictionary with the full name and the path array
       These are called full_path and path_array
 
     '''
-  #   wStr = clean_directory_path(inStr)
-    wStr = os.path.normpath(inStr)
-    inStruct = wStr.split('/')
-  #   wStruct = wStr.split('/')
-  #   inStruct = simplify_path(wStruct)
+  #   work_str = clean_directory_path(in_str)
+    work_str = os.path.normpath(in_str)
+    in_struct = work_str.split('/')
+  #   work_struct = work_str.split('/')
+  #   in_struct = simplify_path(work_struct)
     #house cleaning for edge cases
-    if(len(inStruct) == 0): inStruct.append('*')
-    if(len(inStruct) == 1 and inStruct[0] == 'root'): inStruct.append('*')
-    if( not (inStruct[0] == 'root')): inStruct = ['root'] + inStruct
-    tStruct = None
-    if(inStruct[-1] == '*'):
-      tStruct = inStruct[:-1]
+    if(len(in_struct) == 0): in_struct.append('*')
+    if(len(in_struct) == 1 and in_struct[0] == 'root'): in_struct.append('*')
+    if( not (in_struct[0] == 'root')): in_struct = ['root'] + in_struct
+    t_struct = None
+    if(in_struct[-1] == '*'):
+      t_struct = in_struct[:-1]
     else:
-      tStruct = inStruct
-    full_name = "/".join(tStruct)
-    return({'full_name':full_name,'path_array':inStruct})
+      t_struct = in_struct
+    full_name = "/".join(t_struct)
+    return({'full_name':full_name,'path_array':in_struct})
 #
-  def _list_file_dict_(self, inStr = ''):
+  def _list_file_dict_(self, in_str = ''):
     '''
     Returns a dictionary with the file name and file ID (if exists) - None otherwise
 
     Parameters:
     ----------
 
-    inStr:  This is assumed to be an absolute path
+    in_str:  This is assumed to be an absolute path
 
     Result:  A dictionary with the file path and file results from the FileList
       The results are called full_name and file_result
@@ -345,27 +348,27 @@ class ColabGDrive:
         return None
       if self.Logger.isEnabledFor(logging.INFO):
         self.Logger.info("_list_file_dict")
-        self.Logger.info(inStr)
-      file_path = self._build_path_structure_(inStr)
-      inStruct = file_path['path_array']
-      fileID = 'root'
-      fileResult = []
-      for i in range(1,len(inStruct)):
-        fileResult = []
-        file_list = self.myGDrive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(inStruct[i],fileID)}).GetList()
+        self.Logger.info(in_str)
+      file_path = self._build_path_structure_(in_str)
+      in_struct = file_path['path_array']
+      file_id = 'root'
+      file_result = []
+      for i in range(1,len(in_struct)):
+        file_result = []
+        file_list = self.myGDrive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(in_struct[i],file_id)}).GetList()
         if len(file_list) == 0:
-          fileID = None
+          file_id = None
           break
         else:
-          if(i < len(inStruct) - 1):
-            fileID = file_list[0]['id']
+          if(i < len(in_struct) - 1):
+            file_id = file_list[0]['id']
           else:
             for j in range(len(file_list)):
               fileName = file_list[j]['title']
-              fileID = file_list[j]['id']
+              file_id = file_list[j]['id']
               fileType = file_list[j]['mimeType']
-              fileResult.append({"title" : fileName, "id":  fileID,'mimeType':fileType})
-      return({'full_name': file_path['full_name'],'file_result':fileResult})
+              file_result.append({"title" : fileName, "id":  file_id,'mimeType':fileType})
+      return({'full_name': file_path['full_name'],'file_result':file_result})
     except:
       pprint("FAILURE")
       return(None)
