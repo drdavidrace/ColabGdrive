@@ -10,7 +10,7 @@ from oauth2client.client import GoogleCredentials
 #
 #  import the helper files
 #
-from ColabGDrive.helper import clean_directory_path, list_file_dict, build_full_path
+from ColabGDrive.helper import list_file_dict, build_full_path
 #
 #  Set logging level
 #
