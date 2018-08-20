@@ -55,7 +55,7 @@ class ColabGDrive:
     
     Parameters
     ----------
-    None:  It sets the current working directory to root
+    loggine_level : This sets the logging level for this object.  Default is ERROR
     
     Returns
     -------
@@ -70,24 +70,27 @@ class ColabGDrive:
 
     #
     try:
-      self.Logger = logging.getLogger(__name__)
+      self.Logger = logging.getLogger(__name__, logging_level = logging.ERROR)
       ch = logging.StreamHandler(sys.stdout)
       self.Logger.addHandler(ch)
       #DEBUG, INFO, WARNING, ERROR, CRITICAL
-      self.Logger.setLevel(logging.ERROR)
-     
+      self.Logger.setLevel(logging_level)
+      if self.Logger.isEnabledFor(logging.INFO):
+        self.Logger.info("Entering")
+        self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
       self.cur_dir = 'root'
       self.myGDrive = self._connect_gdrive_()
       self.initialized = True
       if self.Logger.isEnabledFor(logging.INFO):
+        self.Logger.info("Leaving")
         self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
       
-      return None
+      return True
     except:
       self.myGDrive = None
       self.cur_dir = None
       self.initialized = False
-      return None
+      return False
   #
   #  Connect the drive
   #
@@ -96,6 +99,7 @@ class ColabGDrive:
     #return none if failure
     #
     if self.Logger.isEnabledFor(logging.INFO):
+      self.Logger.info("Entering")
       self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
     auth.authenticate_user()
     gauth = GoogleAuth()
@@ -104,17 +108,22 @@ class ColabGDrive:
     #  make sure cur_dir is good
     #
     #if self.Logger.isEnabledFor(logger.INFO):
+    retVal = None
     if(t_gdrive is not None):
       self.myGDrive = t_gdrive
       directory_dictionary = self.ls('*')
       if(directory_dictionary is None):
           self.cur_dir = None
           self.initialized = False
-          return None
+          retVal = None
       self.cur_dir = 'root'
-      return t_gdrive
+      retVal t_gdrive
     else:
-      return None
+      retVal = None
+    if self.Logger.isEnabledFor(logging.INFO):
+      self.Logger.info("Leaving")
+      self.Logger.info(pprint(inspect.currentframe().fcode.co_name))
+    return retVal
   #
   #  Basic Overrides
   #
