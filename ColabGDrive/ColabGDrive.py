@@ -196,7 +196,7 @@ class ColabGDrive:
     work_name = self._build_full_path_(name.strip())
     if(self.Logger.isEnabledFor(logging.INFO)):
       self.Logger.info(pprint("WORK NAME: {:s}".format(work_name)))
-      self.Logger.info(pprint(work_name.split("/")))
+      #self.Logger.info(pprint(work_name.split("/")))
     
     if(len(work_name) == 0):
     #Info Information
@@ -259,7 +259,7 @@ class ColabGDrive:
     if(self.myGDrive is None):
       return(None)
     work_file_name = inStr.strip()
-    if(len(work_file_name) == 0):  work_file_name = myGDrive.getcwd() + '/*'
+    if(len(work_file_name) == 0):  work_file_name = self.getcwd() + '/*'
     else:
       if self.Logger.isEnabledFor(logging.INFO):
         try:
@@ -271,6 +271,7 @@ class ColabGDrive:
           self.Logger.info("_build_full_path_" + "except")
         
       if(work_file_name[0] != '/'): work_file_name = os.path.join(self.getcwd(),os.path.normpath(work_file_name))
+      self.Logger.info(work_file_name)
     return work_file_name
   #
   #
@@ -290,7 +291,7 @@ class ColabGDrive:
     '''
   #   wStr = clean_directory_path(inStr)
     wStr = os.path.normpath(inStr)
-    inStruct = wStr.split(os.sep)
+    inStruct = wStr.split('/')
   #   wStruct = wStr.split('/')
   #   inStruct = simplify_path(wStruct)
     #house cleaning for edge cases
