@@ -90,8 +90,9 @@ def build_path_structure(inStr = ''):
   '''
 #   wStr = clean_directory_path(inStr)
   wStr = os.path.normpath(inStr)
+  pprint(wStr)
   inStruct = wStr.split(os.sep)
-  pprint(inStruc)
+  pprint(inStruct)
 #   wStruct = wStr.split('/')
 #   inStruct = simplify_path(wStruct)
   #house cleaning for edge cases
