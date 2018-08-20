@@ -72,7 +72,7 @@ class ColabGDrive:
       ch = logging.StreamHandler(sys.stdout)
       self.Logger.addHandler(ch)
       #DEBUG, INFO, WARNING, ERROR, CRITICAL
-      self.Logger.setLevel(logging.ERROR)
+      self.Logger.setLevel(logging.INFO)
       
       self.cur_dir = 'root'
       self.myGDrive = self._connect_gdrive_()
