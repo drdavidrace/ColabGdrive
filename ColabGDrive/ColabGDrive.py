@@ -208,7 +208,7 @@ class ColabGDrive:
         self.logger.info(pprint(pformat("******End******{:s}***********".format(work_name))))
       return None
     else:
-      ls_file_dict = self._list_file_dict_(self.myGDrive, work_name)
+      ls_file_dict = self._list_file_dict_(work_name)
       if(self.Logger.isEnabledFor(logging.INFO)):
         self.Logger.info(pprint("******Start******{:s}***********".format(ls_file_dict['full_name'])))
         for lf in ls_file_dict['file_result']: self.Logger.info(pprint(lf))
@@ -250,7 +250,6 @@ class ColabGDrive:
 
     Parameters:
     ----------
-    gdrive:  The ColabGDrive being used (so we know the current working directory)
 
     inStr:  The proposed directory string
 
@@ -258,17 +257,16 @@ class ColabGDrive:
     ------
     An absolute path starting at 'root'
     '''
-    if(gdrive is None):
+    if(self.myGDrive is None):
       return(None)
     work_file_name = inStr.strip()
-    if(len(work_file_name) == 0):  work_file_name = gdrive.getcwd() + '/*'
+    if(len(work_file_name) == 0):  work_file_name = myGDrive.getcwd() + '/*'
     else:
-      #if(work_file_name[0] != '/'): work_file_name = gdrive.getcwd() + '/' + clean_directory_path(work_file_name)
       if self.Logger.isEnabledFor(logging.INFO):
-        self.Logger.info("_build_full_path")
+        self.Logger.info("_build_full_path_")
         self.Logger.info(work_file_name)
         self.logger.info(os.path.normpath(work_file_name))
-      if(work_file_name[0] != '/'): work_file_name = os.path.join(gdrive.getcwd(),os.path.normpath(work_file_name))
+      if(work_file_name[0] != '/'): work_file_name = os.path.join(self.myGDrive.getcwd(),os.path.normpath(work_file_name))
     return work_file_name
   #
   #
@@ -310,7 +308,6 @@ def _list_file_dict_(self, inStr = ''):
   
   Parameters:
   ----------
-  drive:  The object pointing to the Google Drive
   
   inStr:  This is assumed to be an absolute path
   
@@ -318,7 +315,7 @@ def _list_file_dict_(self, inStr = ''):
     The results are called full_name and file_result
   
   '''
-  if (drive is None):
+  if (self.myGDrive is None):
     return None
   if self.Logger.isEnabledFor(logging.INFO):
     self.Logger.info("_list_file_dict")
@@ -331,7 +328,7 @@ def _list_file_dict_(self, inStr = ''):
   fileResult = []
   for i in range(1,len(inStruct)):
     fileResult = []
-    file_list = drive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(inStruct[i],fileID)}).GetList()
+    file_list = self.myGDrive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(inStruct[i],fileID)}).GetList()
     if len(file_list) == 0:
       fileID = None
       break
