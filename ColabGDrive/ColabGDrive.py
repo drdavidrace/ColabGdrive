@@ -98,7 +98,7 @@ class ColabGDrive:
     #return none if failure
     #
     if self.Logger.isEnabledFor(logging.INFO):
-      self.Logger.info("Entering")
+      self.Logger.info("Entering __connect_gdrive_")
       self.Logger.info(pprint(inspect.currentframe().f_code.co_name))
     auth.authenticate_user()
     gauth = GoogleAuth()
