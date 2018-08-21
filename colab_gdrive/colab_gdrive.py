@@ -353,7 +353,7 @@ class ColabGDrive:
           file_type = file_info['mimeType']
           file_result.append({"title" : file_name, "id":  file_id, 'mimeType':file_type})
         if len(file_list) == 1:
-          file_path.append(file_name)
+          file_path.append(file_id)
     #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
