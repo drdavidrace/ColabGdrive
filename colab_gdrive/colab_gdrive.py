@@ -349,7 +349,7 @@ class ColabGDrive:
       file_result = []
       for i in range(1, len(in_struct)):
         file_result = []
-        file_list = self.colab_gdrive_logger.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(in_struct[i], file_id)}).GetList()
+        file_list = self.my_gdrive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(in_struct[i], file_id)}).GetList()
         if not file_list:
           file_id = None
           break
