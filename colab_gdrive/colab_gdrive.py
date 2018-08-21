@@ -369,6 +369,9 @@ class ColabGDrive:
       file_path = self._build_path_structure_(in_str)
       return {'full_name': file_path['full_name'], 'file_result':file_result}
     except Exception:
+      if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
+        self.colab_gdrive_logger.info(pformat(Exception))
+        
       return None
   #
   #
