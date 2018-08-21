@@ -334,11 +334,17 @@ class ColabGDrive:
     try:
       if self.my_gdrive is None:
         return None
+      if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
+        self.colab_gdrive_logger.info("******")
+        self.colab_gdrive_logger.info(pformat(in_str))
 
       file_path = self._build_path_structure_(in_str)
-      self.colab_gdrive_logger.info(pformat(file_path))
+      if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
+        self.colab_gdrive_logger.info(pformat(in_str))
+        self.colab_gdrive_logger.info(pformat(file_path))
       in_struct = file_path['path_array']
-      self.colab_gdrive_logger.info(pformat(in_struct))
+      if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
+        self.colab_gdrive_logger.info(pformat(in_struct))
       file_id = 'root'
       file_result = []
       for i in range(1, len(in_struct)):
@@ -388,7 +394,6 @@ class ColabGDrive:
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger("Entering")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
-      self.colab_gdrive_logger.info(pformat(self.my_gdrive))
       self.colab_gdrive_logger.info(in_str)
     work_str = os.path.normpath(in_str)
     in_struct = []
