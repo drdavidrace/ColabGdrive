@@ -79,13 +79,13 @@ class ColabGDrive:
       self.colab_gdrive_logger.setLevel(logging_level)
       if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
         self.colab_gdrive_logger.info("Entering")
-        self.colab_gdrive_logger.info(pprint(inspect.currentframe().f_code.co_name))
+        self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       self.cur_dir = 'root'
       self.my_gdrive = self._connect_gdrive_()
       self.initialized = True
       if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
         self.colab_gdrive_logger.info("Leaving __init__")
-        self.colab_gdrive_logger.info(pprint(inspect.currentframe().f_code.co_name))
+        self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       return None
     except Exception:
       self.my_gdrive = None
