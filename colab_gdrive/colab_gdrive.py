@@ -38,7 +38,7 @@ class ColabGDrive:
   #
   WARNING:
   -------
-  This could be more efficient if it kept the fileID information, but it doesn't right now.  The Use Case is generally assumed to be fairly
+  This could be more efficient if it kept the file_id information, but it doesn't right now.  The Use Case is generally assumed to be fairly
   low performance requirements
   #
   Main Methods:
@@ -69,7 +69,7 @@ class ColabGDrive:
     logger_ch = logging.StreamHandler(sys.stdout)
     self.colab_gdrive_logger.addHandler(logger_ch)
     #DEBUG, INFO, WARNING, ERROR, CRITICAL
-    self.colab_gdrive_logger.setLevel(logging_level)
+    self.set_log_level(logging_level)
     #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Entering")
@@ -167,6 +167,19 @@ class ColabGDrive:
     The current working directory
     '''
     return self.cur_dir
+  # State Management
+  def set_log_level(self, logging_level=logging.ERROR):
+    '''
+    Sets the log level
+    Parameters:
+    ===========
+    logging_level:  The logging level to set
+    Results:
+    ========
+    Silent return assumes this is set
+    '''
+    self.colab_gdrive_logger.setLevel(logging_level)
+    return None
   #
   #
   #
@@ -223,8 +236,9 @@ class ColabGDrive:
       self.colab_gdrive_logger.info(pformat(ls_file_dict))
       self.colab_gdrive_logger.info(pformat(ret_val))
     return ret_val
-
-  #Directory Management, uses a quasi cd methodology
+  #
+  #Directory Management, uses a quasi linux methodology
+  #
   def chdir(self, name=''):
     '''
     This sets the current working directory (if valid directory) and returns the current working directory at the end of the method.
@@ -260,7 +274,7 @@ class ColabGDrive:
   #
   def _build_full_path_(self, in_str=''):
     '''
-    This decides on an absolute path or relative path
+    This builds a theoretical absolute GoogleDrive path
 
     Parameters:
     ----------
@@ -292,6 +306,32 @@ class ColabGDrive:
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       self.colab_gdrive_logger.info(pformat(ret_val))
     return ret_val
+  #
+  #  Data movement functions
+  #    These function move data to/from a Google drive to a local file system.  The process is a little different because
+  #    the file has to be found and then transferred.
+  #
+  def copy_from(self, google_path=None):
+    '''
+    Copy from a GoogleDrive file to the current working directory
+    '''
+    if not google_path:
+      raise FileNotFoundError('copy_from requires a file name to download')
+    download_file_info = self._find_file_id_(google_path)
+    if not download_file_info:
+      raise FileNotFoundError('copy_from could not find the google file' + pformat(google_path))
+    file_name = download_file_info['full_name']
+    file_id = download_file_info['id']
+    _, file_short_name = os.path.split(file_name)
+    #  Now build the tranfer operations
+    to_download = self.my_gdrive.CreateFile({'id': '{:s}'.format(file_id)})
+    to_download.GetContentFile(file_short_name)
+    ret_val = False
+    if os.path.isfile(file_short_name):
+      ret_val = True
+    return ret_val
+  #
+  #  Helper Functions
   #
   def _list_file_dict_(self, in_str=''):
     '''
@@ -327,12 +367,68 @@ class ColabGDrive:
       raise FileNotFoundError('_list_file_dict_ expects a path array starting at root')
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info(pformat(in_struct))
+    ret_val = self._traverse_structure_list_(in_struct)
+#     file_id = 'root'
+#     file_result = []
+#     file_path = []
+#     file_path.append(file_id)
+#     for i, cur_name in enumerate(in_struct[1:-1]):
+#       file_result = []
+#       file_list = self.my_gdrive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(cur_name, file_id)}).GetList()
+#       if not file_list:
+#         break
+#       else:
+#         if len(file_list) > 1:
+#           raise FileExistsError('_list_file_dict_ only supports a single parent of the same name, GoogleDrive allows this but this does not')
+#         file_name = file_list[0]['title']
+#         file_id = file_list[0]['id']
+#         file_path.append(file_name)
+#     else:
+#       file_result = []
+#       c_name = in_struct[-1]
+#       file_list = self.my_gdrive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(c_name, file_id)}).GetList()
+#       if file_list:
+#         for file_info in file_list:
+#           file_name = file_info['title']
+#           file_id = file_info['id']
+#           file_type = file_info['mimeType']
+#           file_result.append({"title" : file_name, "id":  file_id, 'mimeType':file_type})
+#         if len(file_list) == 1:
+#           file_path.append(file_name)
+#     #Logging
+    if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
+      self.colab_gdrive_logger.info("Leaving")
+      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
+      self.colab_gdrive_logger.info(pformat(file_path))
+    return ret_val
+  #
+  #  Traverse a file structure list
+  #
+  def _traverse_structure_list_(self, in_struct=None):
+    '''
+    Traverses a structure of directories to the last one and returns the information on the last element of the lsit
+
+    Parameters:
+    ===========
+    in_struct:  The array with the list of directories that ends in a directory or file (as appropriate)
+
+    Result:
+    =======
+    A dictionary with the full name and the information from the search
+
+    '''
+    #Logging
+    if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
+      self.colab_gdrive_logger.info("Entering")
+      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
+      self.colab_gdrive_logger.info(in_struct)
+
+    if not in_struct or in_struct[0] != 'root':
+      raise FileNotFoundError('_traverse_struct_list_ expects a path array starting at root' + pformat(in_struct))
     file_id = 'root'
-    file_result = []
     file_path = []
     file_path.append(file_id)
-    #for i in range(1, len(in_struct)):
-    for i, cur_name in enumerate(in_struct[1:-1]):
+    for cur_name in in_struct[1:-1]:
       file_result = []
       file_list = self.my_gdrive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(cur_name, file_id)}).GetList()
       if not file_list:
@@ -355,15 +451,13 @@ class ColabGDrive:
           file_result.append({"title" : file_name, "id":  file_id, 'mimeType':file_type})
         if len(file_list) == 1:
           file_path.append(file_name)
-    #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       self.colab_gdrive_logger.info(pformat(file_path))
     return {'full_name': os.path.join(*file_path), 'file_result':file_result}
-
   #
-  #
+  #  Get the full name and path array
   #
   def _build_path_structure_(self, in_str=''):
     '''
@@ -391,7 +485,6 @@ class ColabGDrive:
       work_str, last = os.path.split(work_str)
       in_struct.append(last)
     in_struct.reverse()
-
     #house cleaning for edge cases
     if not in_struct:
       in_struct.append('*')
@@ -405,4 +498,42 @@ class ColabGDrive:
     else:
       t_struct = in_struct
     full_name = os.path.join(*t_struct)
+    #Logging
+    if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
+      self.colab_gdrive_logger.info("Leaving")
+      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
+
     return {'full_name':full_name, 'path_array':in_struct}
+  #
+  #  Find the file id for a file on GoogleDrive
+  #
+  def _find_file_id_(self, in_str):
+    '''
+    This finds a file id for a file sent in by in_str
+    Parameters
+    ==========
+    in_str:  The assumed path to a file or directory
+    Results
+    =======
+    A file id for a path or None
+    '''
+    #Logging
+    if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
+      self.colab_gdrive_logger.info("Entering")
+      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
+      self.colab_gdrive_logger.info(in_str)
+    w_str = self._build_full_path_(in_str)
+    file_struct = self._build_path_structure_(w_str)
+    r_val = self._traverse_structure_list_(file_struct)
+    p_val = r_val['file_result']
+    ret_val = None
+    if p_val:
+      if len(p_val) > 1:
+        raise FileNotFoundError('_find_file_id found too many files' + pformat(p_val))
+      ret_val = {'full_name':r_val['full_name'], 'id': p_val[0]['id']}
+    #Logging
+    if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
+      self.colab_gdrive_logger.info("Leaving")
+      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
+      self.colab_gdrive_logger.info(pformat(p_val))
+    return ret_val
