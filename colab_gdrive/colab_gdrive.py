@@ -6,7 +6,7 @@ import sys
 import logging
 from pprint import pformat
 import inspect
-import traceback
+#import traceback
 #PyDrive
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
@@ -62,78 +62,57 @@ class ColabGDrive:
 
     Returns
     -------
-    False if no success
-    True if successful
-
-    TODO:
-    (1)  Determine if I want to pass in an option for the cwd.  Unclear since a single cwd call can set this directory
-    (2)  Do a better logging error message
-    (3)  Convert to using os.path.join and other os.path functions for path work
+    None
     '''
-    #
-    try:
-      self.colab_gdrive_logger = logging.getLogger(__name__)
-      logger_ch = logging.StreamHandler(sys.stdout)
-      self.colab_gdrive_logger.addHandler(logger_ch)
-      #DEBUG, INFO, WARNING, ERROR, CRITICAL
-      self.colab_gdrive_logger.setLevel(logging_level)
-      #Logging
-      if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-        self.colab_gdrive_logger.info("Entering")
-        self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
-      self.cur_dir = 'root'
-      self.my_gdrive = self._connect_gdrive_()
-      self.initialized = True
-      #Logging
-      if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-        self.colab_gdrive_logger.info("Leaving __init__")
-        self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
-      return None
-    except Exception:
-      self.my_gdrive = None
-      self.cur_dir = None
-      self.initialized = False
-      return None
-  #
-  #  Connect the drive
-  #
-  def _connect_gdrive_(self):
-    #
-    #return none if failure
-    #
+    #  Set up logger
+    self.colab_gdrive_logger = logging.getLogger(__name__)
+    logger_ch = logging.StreamHandler(sys.stdout)
+    self.colab_gdrive_logger.addHandler(logger_ch)
+    #DEBUG, INFO, WARNING, ERROR, CRITICAL
+    self.colab_gdrive_logger.setLevel(logging_level)
     #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Entering")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
+    #
+    self.my_gdrive = self._connect_gdrive_()
+    self.cur_dir = 'root'
+    self.initialized = True
+    return None
+  #
+  #  Connect the drive
+  #
+  def _connect_gdrive_(self):
+    '''
+    Internal routine:
+    Attempts to connect to a GoogleDrive
+    Performs two checks:
+      (1)  Checks to see if the drive can be connected
+      (2)  Checks to see if the root directory exits
+
+    Both of these are considered fatal.  These raise exceptions, prints the stack and exits
+
+    Paramters
+    =========
+    None
+
+    '''
+    #
+    #
+    #
     auth.authenticate_user()
     gauth = GoogleAuth()
     gauth.credentials = GoogleCredentials.get_application_default()
     t_gdrive = GoogleDrive(gauth)
-    #if self.colab_gdrive_logger.isEnabledFor(logger.INFO):
-    ret_val = None
     if t_gdrive is not None:
-      if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-        self.colab_gdrive_logger.info("Good GoogleDrive")
-        self.colab_gdrive_logger.info(pformat(t_gdrive))
       self.my_gdrive = t_gdrive
       directory_dictionary = None
-      try:
-        directory_dictionary = self.ls('*')
-      except Exception:
-        traceback.print_exc()
+      directory_dictionary = self.ls('*')
       if directory_dictionary is None:
-        self.cur_dir = None
-        self.initialized = False
-        ret_val = None
-      else:
-        self.cur_dir = 'root'
-        ret_val = t_gdrive
+        raise FileNotFoundError("Root directory of the GoogleDrive was not found")
     else:
-      ret_val = None
-    if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-      self.colab_gdrive_logger.info("Leaving")
-      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
-    return ret_val
+      raise ConnectionError("No GoogleDrive is connected")
+    return t_gdrive
   #
   #  Basic Overrides
   #
@@ -259,18 +238,19 @@ class ColabGDrive:
     --------
     The current working directory
     '''
+    #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Entering")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
+    #
     if name == '':
       name = 'root'
     work_file_info = self.ls(name)
-    if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-      self.colab_gdrive_logger.info(pformat(work_file_info['full_name']))
     if(len(work_file_info['file_result']) == 1 and 'folder' in work_file_info['file_result'][0]['mimeType']):
       self.cur_dir = work_file_info['full_name']
     elif work_file_info['full_name'] == 'root':
       self.cur_dir = work_file_info['full_name']
+    #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
@@ -291,13 +271,13 @@ class ColabGDrive:
     ------
     An absolute path starting at 'root'
     '''
+    #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Entering")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       self.colab_gdrive_logger.info(pformat(in_str))
+    #
     ret_val = None
-    if self.my_gdrive is None:
-      ret_val = None
     work_file_name = os.path.normpath(in_str.strip())
     if work_file_name == '':
       ret_val = self.getcwd() + '/*'
@@ -306,6 +286,7 @@ class ColabGDrive:
         ret_val = os.path.join(self.getcwd(), os.path.normpath(work_file_name))
       else:
         ret_val = os.path.normpath(work_file_name)
+    #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
@@ -319,7 +300,11 @@ class ColabGDrive:
     Parameters:
     ----------
 
-    in_str:  This is assumed to be an absolute path
+    in_str:  Is a path string, must be a GoogleDrive full path starting at root
+
+    Exception
+    =========
+    Raises a connection error if a GoogleDrive is not connected, from here is probably means something timed out.
 
     Result:  A dictionary with the file path and file results from the FileList
       The results are called full_name and file_result
@@ -331,46 +316,47 @@ class ColabGDrive:
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       self.colab_gdrive_logger.info(pformat(self.my_gdrive))
       self.colab_gdrive_logger.info(in_str)
-    try:
-      if self.my_gdrive is None:
-        return None
-      if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-        self.colab_gdrive_logger.info("******")
-        self.colab_gdrive_logger.info(pformat(in_str))
-
-      file_path = self._build_path_structure_(in_str)
-      if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-        self.colab_gdrive_logger.info(pformat(in_str))
-        self.colab_gdrive_logger.info(pformat(file_path))
-      in_struct = file_path['path_array']
-      if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-        self.colab_gdrive_logger.info(pformat(in_struct))
-      file_id = 'root'
+    #
+    if self.my_gdrive is None:
+      raise ConnectionError("No GoogleDrive is connected, check for a timeout since it was connected at one time")
+    file_path = self._build_path_structure_(in_str)
+    if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
+      self.colab_gdrive_logger.info(pformat(file_path))
+    in_struct = file_path['path_array']
+    if in_struct[0] != 'root':
+      raise FileNotFoundError('_list_file_dict_ expects a path array starting at root')
+    if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
+      self.colab_gdrive_logger.info(pformat(in_struct))
+    file_id = 'root'
+    file_result = []
+    #for i in range(1, len(in_struct)):
+    for i, cur_name in enumerate(in_struct[1:-1]):
       file_result = []
-      for i in range(1, len(in_struct)):
-        file_result = []
-        file_list = self.my_gdrive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(in_struct[i], file_id)}).GetList()
-        if not file_list:
-          file_id = None
-          break
-        else:
-          if i < len(in_struct) - 1:
-            file_id = file_list[0]['id']
-          else:
-            for j in range(len(file_list)):
-              file_name = file_list[j]['title']
-              file_id = file_list[j]['id']
-              file_type = file_list[j]['mimeType']
-              file_result.append({"title" : file_name, "id":  file_id, 'mimeType':file_type})
-      #Logging
-      if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-        self.colab_gdrive_logger.info("Leaving")
-        self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
-      file_path = self._build_path_structure_(in_str)
-      return {'full_name': file_path['full_name'], 'file_result':file_result}
-    except Exception as e:
-      self.colab_gdrive_logger.exception(str(e))
-      return None
+      file_list = self.my_gdrive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(cur_name, file_id)}).GetList()
+      if not file_list:
+        break
+      else:
+        if len(file_list) > 1:
+          raise FileExistsError('_list_file_dict_ only supports a single parent of the same name, GoogleDrive allows this but this does not')
+        file_id = file_list[0]['id']
+    else:
+      file_result = []
+      c_name = in_struct[-1]
+      file_list = self.my_gdrive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(c_name, file_id)}).GetList()
+      if not file_list:
+        break
+      for file_info in file_list:
+        file_name = file_info['title']
+        file_id = file_info['id']
+        file_type = file_info['mimeType']
+        file_result.append({"title" : file_name, "id":  file_id, 'mimeType':file_type})
+    #Logging
+    if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
+      self.colab_gdrive_logger.info("Leaving")
+      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
+      self.colab_gdrive_logger.info(pformat(file_path))
+    return {'full_name': file_path['full_name'], 'file_result':file_result}
+
   #
   #
   #
