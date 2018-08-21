@@ -307,7 +307,7 @@ class ColabGDrive:
       else:
         ret_val = os.path.normpath(work_file_name)
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-      self.colab_gdrive_logger.info("Leaving")
+      #self.colab_gdrive_logger.info("Leaving")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       self.colab_gdrive_logger.info(pformat(ret_val))
     return ret_val
