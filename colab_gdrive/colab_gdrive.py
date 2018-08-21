@@ -128,7 +128,7 @@ class ColabGDrive:
       ret_val = None
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
-      self.colab_gdrive_logger.info(pprint(inspect.currentframe().f_code.co_name))
+      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
     return ret_val
   #
   #  Basic Overrides
@@ -221,7 +221,7 @@ class ColabGDrive:
     '''
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Entering")
-      self.colab_gdrive_logger.info(pprint(inspect.currentframe().f_code.co_name))
+      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
     work_name = self._build_full_path_(name.strip())
 
     ret_val = None
@@ -232,7 +232,7 @@ class ColabGDrive:
       ret_val = ls_file_dict
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
-      self.colab_gdrive_logger.info(pprint(inspect.currentframe().f_code.co_name))
+      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
     return ret_val
 
   #Directory Management, uses a quasi cd methodology
@@ -251,7 +251,7 @@ class ColabGDrive:
     '''
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Entering")
-      self.colab_gdrive_logger.info(pprint(inspect.currentframe().f_code.co_name))
+      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
     if name == '':
       name = 'root'
     work_file_info = self.ls(name)
@@ -263,7 +263,7 @@ class ColabGDrive:
       self.cur_dir = work_file_info['full_name']
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
-      self.colab_gdrive_logger.info(pprint(inspect.currentframe().f_code.co_name))
+      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
     return self.getcwd()
   #
   #  Helper functions
@@ -283,7 +283,7 @@ class ColabGDrive:
     '''
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Entering")
-      self.colab_gdrive_logger.info(pprint(inspect.currentframe().f_code.co_name))
+      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
     ret_val = None
     if self.my_gdrive is None:
       ret_val = None
@@ -295,7 +295,7 @@ class ColabGDrive:
         ret_val = os.path.join(self.getcwd(), os.path.normpath(work_file_name))
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
-      self.colab_gdrive_logger.info(pprint(inspect.currentframe().f_code.co_name))
+      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
     return ret_val
 #
   def _list_file_dict_(self, in_str=''):
@@ -314,8 +314,10 @@ class ColabGDrive:
     try:
       if self.my_gdrive is None:
         return None
+      #Logging
       if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-        self.colab_gdrive_logger.info("_list_file_dict")
+        self.colab_gdrive_logger("Entering")
+        self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
         self.colab_gdrive_logger.info(in_str)
       file_path = _build_path_structure_(in_str)
       in_struct = file_path['path_array']
@@ -336,6 +338,11 @@ class ColabGDrive:
               file_id = file_list[j]['id']
               file_type = file_list[j]['mimeType']
               file_result.append({"title" : file_name, "id":  file_id, 'mimeType':file_type})
+      #Logging
+      if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
+        self.colab_gdrive_logger("Leaving")
+        self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
+      file_path = _build_path_structure_(in_str)
       return {'full_name': file_path['full_name'], 'file_result':file_result}
     except Exception:
       return None
