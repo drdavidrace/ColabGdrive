@@ -292,7 +292,7 @@ class ColabGDrive:
     An absolute path starting at 'root'
     '''
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-      #self.colab_gdrive_logger.info("Entering")
+      self.colab_gdrive_logger.info("Entering")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       self.colab_gdrive_logger.info(pformat(in_str))
     ret_val = None
@@ -307,7 +307,7 @@ class ColabGDrive:
       else:
         ret_val = os.path.normpath(work_file_name)
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-      #self.colab_gdrive_logger.info("Leaving")
+      self.colab_gdrive_logger.info("Leaving")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       self.colab_gdrive_logger.info(pformat(ret_val))
     return ret_val
@@ -327,7 +327,7 @@ class ColabGDrive:
     '''
     #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-      self.colab_gdrive_logger("Entering")
+      self.colab_gdrive_logger.info("Entering")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       self.colab_gdrive_logger.info(pformat(self.my_gdrive))
       self.colab_gdrive_logger.info(in_str)
@@ -356,7 +356,7 @@ class ColabGDrive:
               file_result.append({"title" : file_name, "id":  file_id, 'mimeType':file_type})
       #Logging
       if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-        self.colab_gdrive_logger("Leaving")
+        self.colab_gdrive_logger.info("Leaving")
         self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       file_path = self._build_path_structure_(in_str)
       return {'full_name': file_path['full_name'], 'file_result':file_result}
