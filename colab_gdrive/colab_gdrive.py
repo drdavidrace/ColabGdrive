@@ -101,7 +101,7 @@ class ColabGDrive:
     #
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Entering")
-      self.colab_gdrive_logger.info(pprint(inspect.currentframe().f_code.co_name))
+      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
     auth.authenticate_user()
     gauth = GoogleAuth()
     gauth.credentials = GoogleCredentials.get_application_default()
