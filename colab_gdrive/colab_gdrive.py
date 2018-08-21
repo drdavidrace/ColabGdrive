@@ -323,14 +323,16 @@ class ColabGDrive:
       The results are called full_name and file_result
 
     '''
+    #Logging
+    if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
+      self.colab_gdrive_logger("Entering")
+      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
+      self.colab_gdrive_logger.info(pformat(self.my_gdrive))
+      self.colab_gdrive_logger.info(in_str)
     try:
       if self.my_gdrive is None:
         return None
-      #Logging
-      if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-        self.colab_gdrive_logger("Entering")
-        self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
-        self.colab_gdrive_logger.info(in_str)
+
       file_path = _build_path_structure_(in_str)
       in_struct = file_path['path_array']
       file_id = 'root'
