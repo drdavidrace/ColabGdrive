@@ -336,7 +336,9 @@ class ColabGDrive:
         return None
 
       file_path = self._build_path_structure_(in_str)
+      self.colab_gdrive_logger.info(pformat(file_path))
       in_struct = file_path['path_array']
+      self.colab_gdrive_logger.info(pformat(in_struct))
       file_id = 'root'
       file_result = []
       for i in range(1, len(in_struct)):
