@@ -340,8 +340,9 @@ class ColabGDrive:
       else:
         if len(file_list) > 1:
           raise FileExistsError('_list_file_dict_ only supports a single parent of the same name, GoogleDrive allows this but this does not')
+        file_name = file_list[0]['title']
         file_id = file_list[0]['id']
-        file_path.append(file_id)
+        file_path.append(file_name)
     else:
       file_result = []
       c_name = in_struct[-1]
@@ -353,7 +354,7 @@ class ColabGDrive:
           file_type = file_info['mimeType']
           file_result.append({"title" : file_name, "id":  file_id, 'mimeType':file_type})
         if len(file_list) == 1:
-          file_path.append(file_id)
+          file_path.append(file_name)
     #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
