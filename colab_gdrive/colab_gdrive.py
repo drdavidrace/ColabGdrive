@@ -393,7 +393,7 @@ class ColabGDrive:
     '''
     #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-      self.colab_gdrive_logger("Entering")
+      self.colab_gdrive_logger.info("Entering")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       self.colab_gdrive_logger.info(in_str)
     work_str = os.path.normpath(in_str)
