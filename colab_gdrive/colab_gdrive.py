@@ -329,6 +329,8 @@ class ColabGDrive:
       self.colab_gdrive_logger.info(pformat(in_struct))
     file_id = 'root'
     file_result = []
+    file_path = []
+    file_path.append(file_id)
     #for i in range(1, len(in_struct)):
     for i, cur_name in enumerate(in_struct[1:-1]):
       file_result = []
@@ -339,6 +341,7 @@ class ColabGDrive:
         if len(file_list) > 1:
           raise FileExistsError('_list_file_dict_ only supports a single parent of the same name, GoogleDrive allows this but this does not')
         file_id = file_list[0]['id']
+        file_path.append(file_id)
     else:
       file_result = []
       c_name = in_struct[-1]
@@ -349,12 +352,14 @@ class ColabGDrive:
           file_id = file_info['id']
           file_type = file_info['mimeType']
           file_result.append({"title" : file_name, "id":  file_id, 'mimeType':file_type})
+        if len(file_list) == 1:
+          file_path.append(file_name)
     #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       self.colab_gdrive_logger.info(pformat(file_path))
-    return {'full_name': file_path['full_name'], 'file_result':file_result}
+    return {'full_name': os.path.join(*file_path), 'file_result':file_result}
 
   #
   #
@@ -371,9 +376,7 @@ class ColabGDrive:
     Result: a dictionary with the full name and the path array
       These are called full_path and path_array
 
-    TODO:
-    _____
-    (1)  Change to use of os.path splitting functions.  This will require an iterative process, but not bad
+    WARNING:  The full name does not contain the following ending * if that is the last entry
 
     '''
     #Logging
@@ -400,5 +403,5 @@ class ColabGDrive:
       t_struct = in_struct[:-1]
     else:
       t_struct = in_struct
-    full_name = os.path.join(*in_struct)
+    full_name = os.path.join(*t_struct)
     return {'full_name':full_name, 'path_array':in_struct}
