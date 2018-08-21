@@ -75,8 +75,8 @@ class ColabGDrive:
       self.colab_gdrive_logger.info("Entering")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
     #
-    self.my_gdrive = self._connect_gdrive_()
     self.cur_dir = 'root'
+    self.my_gdrive = self._connect_gdrive_()
     self.initialized = True
     return None
   #
