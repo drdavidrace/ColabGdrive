@@ -292,7 +292,7 @@ class ColabGDrive:
     An absolute path starting at 'root'
     '''
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-      self.colab_gdrive_logger.info("Entering")
+      #self.colab_gdrive_logger.info("Entering")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       self.colab_gdrive_logger.info(pformat(in_str))
     ret_val = None
