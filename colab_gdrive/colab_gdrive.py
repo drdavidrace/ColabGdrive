@@ -393,12 +393,12 @@ class ColabGDrive:
       in_struct.append('*')
     if len(in_struct) == 1 and in_struct[0] == 'root':
       in_struct.append('*')
-    if not (in_struct[0] == 'root'):
+    if in_struct[0] != 'root':
       in_struct = ['root'] + in_struct
     t_struct = None
     if in_struct[-1] == '*':
       t_struct = in_struct[:-1]
     else:
       t_struct = in_struct
-    full_name = os.path.join(*t_struct)
+    full_name = os.path.join(*in_struct)
     return {'full_name':full_name, 'path_array':in_struct}
