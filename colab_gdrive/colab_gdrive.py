@@ -292,18 +292,22 @@ class ColabGDrive:
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Entering")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
+      self.colab_gdrive_logger.info(pformat(in_str))
     ret_val = None
     if self.my_gdrive is None:
       ret_val = None
-    work_file_name = in_str.strip()
+    work_file_name = os.path.normpath(in_str.strip())
     if work_file_name == '':
       ret_val = self.getcwd() + '/*'
     else:
       if work_file_name[0] != '/':
         ret_val = os.path.join(self.getcwd(), os.path.normpath(work_file_name))
+      else:
+        ret_val = os.path.normpath(work_file_name))
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
+      self.colab_gdrive_logger.info(pformat(ret_val))
     return ret_val
 #
   def _list_file_dict_(self, in_str=''):
