@@ -343,13 +343,12 @@ class ColabGDrive:
       file_result = []
       c_name = in_struct[-1]
       file_list = self.my_gdrive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(c_name, file_id)}).GetList()
-      if not file_list:
-        break
-      for file_info in file_list:
-        file_name = file_info['title']
-        file_id = file_info['id']
-        file_type = file_info['mimeType']
-        file_result.append({"title" : file_name, "id":  file_id, 'mimeType':file_type})
+      if file_list:
+        for file_info in file_list:
+          file_name = file_info['title']
+          file_id = file_info['id']
+          file_type = file_info['mimeType']
+          file_result.append({"title" : file_name, "id":  file_id, 'mimeType':file_type})
     #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
