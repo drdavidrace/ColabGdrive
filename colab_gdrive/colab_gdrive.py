@@ -415,5 +415,5 @@ class ColabGDrive:
       t_struct = in_struct[:-1]
     else:
       t_struct = in_struct
-    full_name = os.path.join(t_struct[0], t_struct[1:])
+    full_name = os.path.join(*t_struct)
     return {'full_name':full_name, 'path_array':in_struct}
