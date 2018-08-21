@@ -78,7 +78,7 @@ class ColabGDrive:
       #DEBUG, INFO, WARNING, ERROR, CRITICAL
       self.colab_gdrive_logger.setLevel(logging_level)
       if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-        self.colab_gdrive_logger.info("Entering __init__")
+        self.colab_gdrive_logger.info("Entering")
         self.colab_gdrive_logger.info(pprint(inspect.currentframe().f_code.co_name))
       self.cur_dir = 'root'
       self.my_gdrive = self._connect_gdrive_()
@@ -100,7 +100,7 @@ class ColabGDrive:
     #return none if failure
     #
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-      self.colab_gdrive_logger.info("Entering __connect_gdrive_")
+      self.colab_gdrive_logger.info("Entering")
       self.colab_gdrive_logger.info(pprint(inspect.currentframe().f_code.co_name))
     auth.authenticate_user()
     gauth = GoogleAuth()
