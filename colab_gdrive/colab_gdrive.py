@@ -4,7 +4,7 @@ Module definition for colab_gdrive
 import os
 import sys
 import logging
-from pprint import pprint, pformat
+from pprint import pformat
 import inspect
 import traceback
 #PyDrive
@@ -224,18 +224,20 @@ class ColabGDrive:
 
     '''
     work_name = self._build_full_path_(name.strip())
+    #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Entering")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       self.colab_gdrive_logger.info(pformat(name))
       self.colab_gdrive_logger.info(pformat(work_name))
-    
+    #
     ret_val = None
     if work_name == '':
       ret_val = None
     else:
       ls_file_dict = self._list_file_dict_(work_name)
       ret_val = ls_file_dict
+    #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
@@ -309,7 +311,7 @@ class ColabGDrive:
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       self.colab_gdrive_logger.info(pformat(ret_val))
     return ret_val
-#
+  #
   def _list_file_dict_(self, in_str=''):
     '''
     Returns a dictionary with the file name and file ID (if exists) - None otherwise
@@ -333,7 +335,7 @@ class ColabGDrive:
       if self.my_gdrive is None:
         return None
 
-      file_path = _build_path_structure_(in_str)
+      file_path = self._build_path_structure_(in_str)
       in_struct = file_path['path_array']
       file_id = 'root'
       file_result = []
@@ -356,49 +358,54 @@ class ColabGDrive:
       if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
         self.colab_gdrive_logger("Leaving")
         self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
-      file_path = _build_path_structure_(in_str)
+      file_path = self._build_path_structure_(in_str)
       return {'full_name': file_path['full_name'], 'file_result':file_result}
     except Exception:
       return None
-#
-#
-#
-def _build_path_structure_(in_str=''):
-  '''
-  This provides a consistent path build for ColabGDrive
+  #
+  #
+  #
+  def _build_path_structure_(self, in_str=''):
+    '''
+    This provides a consistent path build for ColabGDrive
 
-  Parameters:
-  ----------
+    Parameters:
+    ----------
 
-  in_str:  This is assumed to be an absolute path
+    in_str:  This is assumed to be an absolute path
 
-  Result: a dictionary with the full name and the path array
-    These are called full_path and path_array
+    Result: a dictionary with the full name and the path array
+      These are called full_path and path_array
 
-  TODO:
-  _____
-  (1)  Change to use of os.path splitting functions.  This will require an iterative process, but not bad
+    TODO:
+    _____
+    (1)  Change to use of os.path splitting functions.  This will require an iterative process, but not bad
 
-  '''
-#   work_str = clean_directory_path(in_str)
-  work_str = os.path.normpath(in_str)
-  in_struct = []
-  while work_str != '':
-    work_str, last = os.path.split(work_str)
-    in_struct.append(last)
-  in_struct.reverse()
+    '''
+    #Logging
+    if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
+      self.colab_gdrive_logger("Entering")
+      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
+      self.colab_gdrive_logger.info(pformat(self.my_gdrive))
+      self.colab_gdrive_logger.info(in_str)
+    work_str = os.path.normpath(in_str)
+    in_struct = []
+    while work_str != '':
+      work_str, last = os.path.split(work_str)
+      in_struct.append(last)
+    in_struct.reverse()
 
-  #house cleaning for edge cases
-  if not in_struct:
-    in_struct.append('*')
-  if len(in_struct) == 1 and in_struct[0] == 'root':
-    in_struct.append('*')
-  if not (in_struct[0] == 'root'):
-    in_struct = ['root'] + in_struct
-  t_struct = None
-  if in_struct[-1] == '*':
-    t_struct = in_struct[:-1]
-  else:
-    t_struct = in_struct
-  full_name = os.path.join(t_struct[0], t_struct[1:])
-  return {'full_name':full_name, 'path_array':in_struct}
+    #house cleaning for edge cases
+    if not in_struct:
+      in_struct.append('*')
+    if len(in_struct) == 1 and in_struct[0] == 'root':
+      in_struct.append('*')
+    if not (in_struct[0] == 'root'):
+      in_struct = ['root'] + in_struct
+    t_struct = None
+    if in_struct[-1] == '*':
+      t_struct = in_struct[:-1]
+    else:
+      t_struct = in_struct
+    full_name = os.path.join(t_struct[0], t_struct[1:])
+    return {'full_name':full_name, 'path_array':in_struct}
