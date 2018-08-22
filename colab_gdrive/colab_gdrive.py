@@ -217,7 +217,7 @@ class ColabGDrive:
     ret_val = False
     if in_str:
       f_info = self.get_file_metadata(in_str)
-      if not 'folder' in pformat(f_info['mimeType']):
+      if f_info and ( 'folder' not in pformat(f_info['mimeType'])):
         ret_val = True
     return ret_val
   #
