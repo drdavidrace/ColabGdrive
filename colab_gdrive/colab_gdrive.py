@@ -190,7 +190,7 @@ class ColabGDrive:
       self.colab_gdrive_logger.info(pformat(in_str))
     #
     ret_val = None
-    if not in_str:
+    if in_str:
       file_info = self._find_file_id_(in_str)
       print(pformat(file_info)) 
       drive_file = self.my_gdrive.CreateFile({'id': file_info['id']})
