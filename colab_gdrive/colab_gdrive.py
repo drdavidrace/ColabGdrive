@@ -336,6 +336,7 @@ class ColabGDrive:
     else:
       if work_file_name[0] != '/':
         work_file_struct = self._build_path_structure_(work_file_name)
+        print(pformat(work_file_struct))
         if work_file_struct[0] != 'root':
           ret_val = os.path.join(self.getcwd(), os.path.normpath(work_file_name))
         else:
