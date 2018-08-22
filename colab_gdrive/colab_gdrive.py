@@ -183,7 +183,12 @@ class ColabGDrive:
     None if there is an issue with the touching the file
     The entire metadata if the file is found
     '''
-    print(in_str)
+        #Logging
+    if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
+      self.colab_gdrive_logger.info("Entering")
+      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
+      self.colab_gdrive_logger.info(pformat(in_str))
+    #
     ret_val = None
     if not in_str:
       file_info = self._find_file_id_(in_str)
