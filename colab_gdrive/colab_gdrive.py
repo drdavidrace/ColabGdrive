@@ -191,7 +191,8 @@ class ColabGDrive:
     #
     ret_val = None
     if in_str:
-      file_info = self._find_file_id_(in_str)
+      full_path = self._build_full_path_(in_str)
+      file_info = self._find_file_id_(full_path)
       print(pformat(file_info)) 
       drive_file = self.my_gdrive.CreateFile({'id': file_info['id']})
       print(pformat(drive_file))
