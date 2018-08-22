@@ -202,7 +202,7 @@ class ColabGDrive:
     return ret_val
   #
   #
-  
+  #
   def isfile(self, in_str=None):
     '''
     Test if a string is a file name
@@ -377,8 +377,8 @@ class ColabGDrive:
     download_file_info = self._find_file_id_(google_path)
     if not download_file_info:
       raise FileNotFoundError('copy_from could not find the google file' + pformat(google_path))
-    file_name = download_file_info['full_name']
     file_id = download_file_info['id']
+    file_name = download_file_info['full_name']
     _, file_short_name = os.path.split(file_name)
     #  Now build the tranfer operations
     to_download = self.my_gdrive.CreateFile({'id': '{:s}'.format(file_id)})
