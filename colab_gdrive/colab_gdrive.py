@@ -568,6 +568,7 @@ class ColabGDrive:
     file_id = 'root'
     file_path = []
     file_path.append(file_id)
+    pprint(in_struct)
     for cur_name in in_struct[1:-1]:
       file_result = []
       file_list = self.my_gdrive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(cur_name, file_id)}).GetList()
@@ -582,7 +583,7 @@ class ColabGDrive:
     else:
       file_result = []
       c_name = in_struct[-1]
-      if (c_name != 'root') and (file_id != 'root'):
+      if len(in_struct) > 1:
         file_list = self.my_gdrive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(c_name, file_id)}).GetList()
         if file_list:
           for file_info in file_list:
