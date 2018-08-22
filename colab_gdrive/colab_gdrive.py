@@ -190,10 +190,9 @@ class ColabGDrive:
       self.colab_gdrive_logger.info(pformat(in_str))
     #
     ret_val = None
-    if in_str:
-      file_info = self._find_file_id_(in_str)
-      drive_file = self.my_gdrive.CreateFile({'id': '{:s}'.format(file_info['id'])})
-      ret_val = drive_file
+    file_info = self._find_file_id_(in_str)
+    drive_file = self.my_gdrive.CreateFile({'id': '{:s}'.format(file_info['id'])})
+    ret_val = drive_file
     #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
@@ -236,6 +235,8 @@ class ColabGDrive:
     '''
     ret_val = False
     f_info = self.get_file_metadata(in_str)
+    pprint(f_info['kind'])
+    pprint(f_info['mimeType'])
     if in_str:
       pprint(f_info['kind'])
       pprint(f_info['mimeType'])
