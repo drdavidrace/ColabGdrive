@@ -469,7 +469,7 @@ class ColabGDrive:
     if not os.path.isfile(local_file):
       raise FileNotFoundError('copy_to requires a local file to exist to upload')
     local_dir, short_file_name = os.path.split(local_file)
-    if not local_dir:
+    if local_dir:
       raise FileNotFoundError('copy_to only supports copying file from the cwd.  Intermediate directory structures are not supported ' + pformat(local_dir))
     if not self.isdir(google_dir):
       raise FileNotFoundError('copy_to requires a valid Google Drive Folder ' + pformat(google_dir))
