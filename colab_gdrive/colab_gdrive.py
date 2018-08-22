@@ -192,7 +192,6 @@ class ColabGDrive:
     ret_val = None
     if in_str:
       file_info = self._find_file_id_(in_str)
-      print(pformat(file_info)) 
       drive_file = self.my_gdrive.CreateFile({'id': '{:s}'.format(file_info['id'])})
       print(pformat(drive_file))
       ret_val = drive_file
@@ -337,7 +336,6 @@ class ColabGDrive:
       if work_file_name[0] == '/':
         work_file_name = work_file_name[1:]
       work_file_struct = self._build_path_structure_(work_file_name)
-      print(pformat(work_file_struct))
       if work_file_struct['path_array'][0] != 'root':
         ret_val = os.path.join(self.getcwd(), os.path.normpath(work_file_name))
       else:
@@ -539,7 +537,7 @@ class ColabGDrive:
       self.colab_gdrive_logger.info(in_str)
     w_str = self._build_full_path_(in_str)
     file_struct = self._build_path_structure_(w_str)
-    r_val = self._traverse_structure_list_(file_struct)
+    r_val = self._traverse_structure_list_(file_struct['path_array'])
     p_val = r_val['file_result']
     ret_val = None
     if p_val:
