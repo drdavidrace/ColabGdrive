@@ -582,15 +582,19 @@ class ColabGDrive:
     else:
       file_result = []
       c_name = in_struct[-1]
-      file_list = self.my_gdrive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(c_name, file_id)}).GetList()
-      if file_list:
-        for file_info in file_list:
-          file_name = file_info['title']
-          file_id = file_info['id']
-          file_type = file_info['mimeType']
-          file_result.append({"title" : file_name, "id":  file_id, 'mimeType':file_type})
-        if len(file_list) == 1:
-          file_path.append(file_name)
+      if (c_name != 'root') and (file_id != 'root'):
+        file_list = self.my_gdrive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(c_name, file_id)}).GetList()
+        if file_list:
+          for file_info in file_list:
+            file_name = file_info['title']
+            file_id = file_info['id']
+            file_type = file_info['mimeType']
+            file_result.append({"title" : file_name, "id":  file_id, 'mimeType':file_type})
+          if len(file_list) == 1:
+            file_path.append(file_name)
+      else:
+        drive_file = self.my_gdrive.CreateFile({'id': '{:s}'.format('root')})
+        file_result.append({'title': drive_file['title'], 'id': drive_file['id'], 'mimeType': drive_file['mimeType']})
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
