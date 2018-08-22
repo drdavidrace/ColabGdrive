@@ -235,9 +235,7 @@ class ColabGDrive:
     '''
     ret_val = False
     f_info = self.get_file_metadata(in_str)
-    pprint(f_info['kind'])
-    pprint(f_info['mimeType'])
-    if in_str:
+    if f_info['mimeType']:
       pprint(f_info['kind'])
       pprint(f_info['mimeType'])
       pprint(type(f_info['mimeType']))
