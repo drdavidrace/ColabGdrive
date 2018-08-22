@@ -334,20 +334,14 @@ class ColabGDrive:
     if work_file_name == '':
       ret_val = self.getcwd() + '/*'
     else:
-      if work_file_name[0] != '/':
-        work_file_struct = self._build_path_structure_(work_file_name)
-        print(pformat(work_file_struct))
-        if work_file_struct[0] != 'root':
-          ret_val = os.path.join(self.getcwd(), os.path.normpath(work_file_name))
-        else:
-          ret_val = os.path.normpath(work_file_name)
-      else:
+      if work_file_name[0] == '/':
         work_file_name = work_file_name[1:]
-        work_file_struct = self._build_path_structure_(work_file_name)
-        if work_file_struct[0] != 'root':
-          ret_val = os.path.join(self.getcwd(), os.path.normpath(work_file_name))
-        else:
-          ret_val = os.path.normpath(work_file_name)
+      work_file_struct = self._build_path_structure_(work_file_name)
+      print(pformat(work_file_struct))
+      if work_file_struct['path_array'][0] != 'root':
+        ret_val = os.path.join(self.getcwd(), os.path.normpath(work_file_name))
+      else:
+        ret_val = os.path.normpath(work_file_name)
     #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
