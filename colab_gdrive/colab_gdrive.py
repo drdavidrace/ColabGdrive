@@ -191,10 +191,9 @@ class ColabGDrive:
     #
     ret_val = None
     if in_str:
-      full_path = self._build_full_path_(in_str)
-      file_info = self._find_file_id_(full_path)
+      file_info = self._find_file_id_(in_str)
       print(pformat(file_info)) 
-      drive_file = self.my_gdrive.CreateFile({'id': file_info['id']})
+      drive_file = self.my_gdrive.CreateFile({'id': '{:s}'.format(file_info['id'])})
       print(pformat(drive_file))
       ret_val = drive_file
     return ret_val
@@ -336,9 +335,18 @@ class ColabGDrive:
       ret_val = self.getcwd() + '/*'
     else:
       if work_file_name[0] != '/':
-        ret_val = os.path.join(self.getcwd(), os.path.normpath(work_file_name))
+        work_file_struct = self._build_path_structure_(work_file_name)
+        if work_file_struct[0] != 'root':
+          ret_val = os.path.join(self.getcwd(), os.path.normpath(work_file_name))
+        else:
+          ret_val = os.path.normpath(work_file_name)
       else:
-        ret_val = os.path.normpath(work_file_name)
+        work_file_name = work_file_name[1:]
+        work_file_struct = self._build_path_structure_(work_file_name)
+        if work_file_struct[0] != 'root':
+          ret_val = os.path.join(self.getcwd(), os.path.normpath(work_file_name))
+        else:
+          ret_val = os.path.normpath(work_file_name)
     #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
