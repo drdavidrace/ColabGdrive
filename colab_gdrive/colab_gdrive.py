@@ -183,7 +183,7 @@ class ColabGDrive:
     None if there is an issue with the touching the file
     The entire metadata if the file is found
     '''
-        #Logging
+    #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Entering")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
@@ -193,16 +193,33 @@ class ColabGDrive:
     if in_str:
       file_info = self._find_file_id_(in_str)
       drive_file = self.my_gdrive.CreateFile({'id': '{:s}'.format(file_info['id'])})
-      print(pformat(drive_file))
       ret_val = drive_file
+    #Logging
+    if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
+      self.colab_gdrive_logger.info("Leaving")
+      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
+      self.colab_gdrive_logger.info(pformat(ret_val))
     return ret_val
   #
   #
-  #
-#   def isfile(self, in_str=None):
-#     ret_val = False
-#     if not in_str:
-#       f_info = self._list_file_dict_(in_str)
+  
+  def isfile(self, in_str=None):
+    '''
+    Test if a string is a file name
+    Parameters:
+    ===========
+    in_str:  The path name for the file of interest
+    Results:
+    ========
+    True is a file
+    False otherwise
+    '''
+    ret_val = False
+    if in_str:
+      f_info = self.get_file_metadata(in_str)
+      if f_info['kind'] == 'drive#file':
+        ret_val = True
+    return ret_val
   #
   # State Management
   def set_log_level(self, logging_level=logging.ERROR):
