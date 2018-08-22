@@ -191,8 +191,9 @@ class ColabGDrive:
     #
     ret_val = None
     file_info = self._find_file_id_(in_str)
-    drive_file = self.my_gdrive.CreateFile({'id': '{:s}'.format(file_info['id'])})
-    ret_val = drive_file
+    if file_info:
+      drive_file = self.my_gdrive.CreateFile({'id': '{:s}'.format(file_info['id'])})
+      ret_val = drive_file
     #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
