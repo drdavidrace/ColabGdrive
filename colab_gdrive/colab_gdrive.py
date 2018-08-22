@@ -450,7 +450,7 @@ class ColabGDrive:
   #
   #
   #
-  def copy_to(self, local_file=None, google_dir='root', over_write=True):
+  def copy_to(self, local_file=None, google_dir='', over_write=True):
     '''
     Copy to a GoogleDrive file from the current working directory. 
     Parameters:
