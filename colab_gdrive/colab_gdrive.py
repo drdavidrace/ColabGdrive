@@ -237,6 +237,8 @@ class ColabGDrive:
     ret_val = False
     if in_str:
       f_info = self.get_file_metadata(in_str)
+      print(f_info['kind'])
+      print(f_info['mimeType'])
       if (f_info['kind'] == 'drive#file') and ('folder' in f_info['mimeType']):
         ret_val = True
     return ret_val
