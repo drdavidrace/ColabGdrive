@@ -633,8 +633,8 @@ class ColabGDrive:
     #house cleaning for edge cases
     if not in_struct:
       in_struct.append('*')
-    if len(in_struct) == 1 and in_struct[0] == 'root':
-      in_struct.append('*')
+#     if len(in_struct) == 1 and in_struct[0] == 'root':
+#       in_struct.append('*')
     if in_struct[0] != 'root':
       in_struct = ['root'] + in_struct
     t_struct = None
