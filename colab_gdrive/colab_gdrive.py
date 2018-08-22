@@ -238,8 +238,8 @@ class ColabGDrive:
     ret_val = -1
     if in_str:
       f_info = self.get_file_metadata(in_str)
-      if f_info['fileSize'] >= 0:
-        ret_val = f_info['fileSize']
+      if int(f_info['fileSize']) >= 0:
+        ret_val = int(f_info['fileSize'])
    
     return ret_val
   #
