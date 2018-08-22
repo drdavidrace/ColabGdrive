@@ -390,6 +390,8 @@ class ColabGDrive:
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       self.colab_gdrive_logger.info(pformat(in_str))
     #
+    pprint('sdfg')
+    pprint(in_str)
     ret_val = None
     work_file_name = os.path.normpath(in_str.strip())
     if work_file_name == '':
