@@ -434,7 +434,7 @@ class ColabGDrive:
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       self.colab_gdrive_logger.info(in_struct)
 
-    if not in_struct or in_struct[0] != 'root':
+    if (not in_struct) or (in_struct[0] != 'root'):
       raise FileNotFoundError('_traverse_struct_list_ expects a path array starting at root' + pformat(in_struct))
     file_id = 'root'
     file_path = []
