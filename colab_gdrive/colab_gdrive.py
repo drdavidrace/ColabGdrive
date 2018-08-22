@@ -217,7 +217,27 @@ class ColabGDrive:
     ret_val = False
     if in_str:
       f_info = self.get_file_metadata(in_str)
-      if f_info['kind'] == 'drive#file':
+      if (f_info['kind'] == 'drive#file') and ('folder' not in f_info['mimeType']):
+        ret_val = True
+    return ret_val
+  #
+  #
+  #
+  def isdir(self, in_str=None):
+    '''
+    Test if a string is a file name
+    Parameters:
+    ===========
+    in_str:  The path name for a directory of interest
+    Results:
+    ========
+    True is a file
+    False otherwise
+    '''
+    ret_val = False
+    if in_str:
+      f_info = self.get_file_metadata(in_str)
+      if (f_info['kind'] == 'drive#file') and ('folder' in f_info['mimeType']):
         ret_val = True
     return ret_val
   #
@@ -426,6 +446,52 @@ class ColabGDrive:
         if os.path.isfile(file_short_name):
           ret_val = True
     
+    return ret_val
+  #
+  #
+  #
+  def copy_to(self, local_file=None, google_dir='root', over_write=True):
+    '''
+    Copy to a GoogleDrive file from the current working directory. 
+    Parameters:
+    ===========
+    local_file:  The name of the local file in the current working directory
+    google_dir:  The path of folder to upload to
+    over_write:  Logical variable to allow overwrite of file
+    
+    Results:
+    ========
+    True if the file was uploaded
+    False otherwise
+    '''
+    if not local_file:
+      raise FileNotFoundError('copy_to requires a local file name to upload')
+    if not os.path.isfile(local_file):
+      raise FileNotFoundError('copy_to requires a local file to exist to upload')
+    local_dir, short_file_name = os.path.split(local_file)
+    if not local_dir:
+      raise FileNotFoundError('copy_to only supports copying file from the cwd.  Intermediate directory structures are not supported ' + pformat(local_file))
+    if not self.isdir(google_dir):
+      raise FileNotFoundError('copy_to requires a valid Google Drive Folder ' + pformat(google_dir))
+    upload_dir_info = self._find_file_id_(google_dir)
+    if not download_file_info:
+      raise FileNotFoundError('copy_to could not find the google directory for ' + pformat(google_dir))
+    dir_id = upload_file_info['id']
+    dir_name = self._find_file_id_(google_dir)['full_name']
+    full_name = os.path.join(dir_name,local_file)
+    if over_write:
+      if self.isfile(full_name):
+        full_id = self.get_file_metadata(full_name)['id']
+        to_delete = self.my_gdrive.CreateFile({'id':'{:s}'.format(full_id)})
+        to_delete.Trash()
+        to_delete.Delete()
+    #  Now build the tranfer operations
+    to_upload = self.my_gdrive.CreateFile({'parents':[{'id':"{:s}".format(dir_id)}],'title': local_file})
+    to_upload.SetContentFile(local_file)
+    to_upload.Upload()
+    ret_val = False
+    if self.isfile(full_name) and (os.path.getsize(local_file) == self.getsize(fullName)):
+      ret_val = True
     return ret_val
   #
   #  Helper Functions
