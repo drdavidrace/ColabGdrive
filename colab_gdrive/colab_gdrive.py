@@ -499,7 +499,7 @@ class ColabGDrive:
     to_upload.SetContentFile(local_file)
     to_upload.Upload()
     ret_val = False
-    if self.isfile(full_name) and (os.path.getsize(local_file) == self.getsize(fullName)):
+    if self.isfile(full_name) and (os.path.getsize(local_file) == self.getsize(full_name)):
       ret_val = True
     return ret_val
   #
