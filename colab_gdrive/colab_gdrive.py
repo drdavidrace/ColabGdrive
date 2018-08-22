@@ -482,10 +482,9 @@ class ColabGDrive:
     if not self.isdir(google_dir):
       raise FileNotFoundError('copy_to requires a valid Google Drive Folder ' + pformat(google_dir))
     download_dir_info = self._find_file_id_(google_dir)
-    if not download_file_info:
-      
+    if not download_dir_info:
       raise FileNotFoundError('copy_to could not find the google directory for ' + pformat(google_dir))
-    dir_id = download_file_info['id']
+    dir_id = download_dir_info['id']
     dir_name = self._find_file_id_(google_dir)['full_name']
     full_name = os.path.join(dir_name,local_file)
     if over_write:
