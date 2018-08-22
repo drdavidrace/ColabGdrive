@@ -221,6 +221,28 @@ class ColabGDrive:
         ret_val = True
     return ret_val
   #
+  #
+  #
+  def getsize(self, in_str=None):
+    '''
+    Test if a string is a file name
+    Parameters:
+    ===========
+    in_str:  The path name for the file of interest
+    Results:
+    ========
+    file size if >= 0
+    -1 otherwise
+    False otherwise
+    '''
+    ret_val = -1
+    if in_str:
+      f_info = self.get_file_metadata(in_str)
+      if f_info['fileSize'] >= 0:
+        ret_val = f_info['fileSize']
+   
+    return ret_val
+  #
   # State Management
   def set_log_level(self, logging_level=logging.ERROR):
     '''
@@ -368,9 +390,18 @@ class ColabGDrive:
   #    These function move data to/from a Google drive to a local file system.  The process is a little different because
   #    the file has to be found and then transferred.
   #
-  def copy_from(self, google_path=None):
+  def copy_from(self, google_path=None, over_write=True):
     '''
     Copy from a GoogleDrive file to the current working directory
+    Parameters:
+    ===========
+    google_path:  The path of file to download
+    over_write:  Logical variable to allow overwrite of file
+    
+    Results:
+    ========
+    True if the file was downloaded
+    False otherwise
     '''
     if not google_path:
       raise FileNotFoundError('copy_from requires a file name to download')
@@ -382,10 +413,19 @@ class ColabGDrive:
     _, file_short_name = os.path.split(file_name)
     #  Now build the tranfer operations
     to_download = self.my_gdrive.CreateFile({'id': '{:s}'.format(file_id)})
-    to_download.GetContentFile(file_short_name)
     ret_val = False
-    if os.path.isfile(file_short_name):
-      ret_val = True
+    if over_write:
+      if os.path.isfile(file_short_name):
+        os.remove(file_short_name)
+      to_download.GetContentFile(file_short_name)
+      if os.path.isfile(file_short_name):
+        ret_val = True
+    else:
+      if not os.path.isfile(file_short_name):
+        to_download.GetContentFile(file_short_name)
+        if os.path.isfile(file_short_name):
+          ret_val = True
+    
     return ret_val
   #
   #  Helper Functions
