@@ -153,7 +153,9 @@ class ColabGDrive:
     WARNING:  I am not sure what this entails at this point, so it is just information.WARNING
     '''
     return self.my_gdrive
-
+  #
+  #
+  #
   def getcwd(self):
     '''
     Just returns the current working directory
@@ -167,6 +169,35 @@ class ColabGDrive:
     The current working directory
     '''
     return self.cur_dir
+  #
+  #
+  #
+  def get_file_metadata(self, in_str=None):
+    '''
+    Obtains the file meta data for a string.
+    Parameters:
+    ===========
+    in_str:  The path name for the file of interest
+    Results:
+    ========
+    None if there is an issue with the touching the file
+    The entire metadata if the file is found
+    '''
+    ret_val = None
+    if not in_str:
+      file_info = self._find_file_id_(in_str)
+      drive_file = self.my_gdrive.CreateFile({'id': file_info['id']})
+      print(pformat(drive_file))
+      ret_val = drive_file
+    return ret_val
+  #
+  #
+  #
+#   def isfile(self, in_str=None):
+#     ret_val = False
+#     if not in_str:
+#       f_info = self._list_file_dict_(in_str)
+  #
   # State Management
   def set_log_level(self, logging_level=logging.ERROR):
     '''
@@ -181,7 +212,7 @@ class ColabGDrive:
     self.colab_gdrive_logger.setLevel(logging_level)
     return None
   #
-  #
+  #Main Functions
   #
   def ls(self, name=''):
     '''
@@ -368,34 +399,7 @@ class ColabGDrive:
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info(pformat(in_struct))
     ret_val = self._traverse_structure_list_(in_struct)
-#     file_id = 'root'
-#     file_result = []
-#     file_path = []
-#     file_path.append(file_id)
-#     for i, cur_name in enumerate(in_struct[1:-1]):
-#       file_result = []
-#       file_list = self.my_gdrive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(cur_name, file_id)}).GetList()
-#       if not file_list:
-#         break
-#       else:
-#         if len(file_list) > 1:
-#           raise FileExistsError('_list_file_dict_ only supports a single parent of the same name, GoogleDrive allows this but this does not')
-#         file_name = file_list[0]['title']
-#         file_id = file_list[0]['id']
-#         file_path.append(file_name)
-#     else:
-#       file_result = []
-#       c_name = in_struct[-1]
-#       file_list = self.my_gdrive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(c_name, file_id)}).GetList()
-#       if file_list:
-#         for file_info in file_list:
-#           file_name = file_info['title']
-#           file_id = file_info['id']
-#           file_type = file_info['mimeType']
-#           file_result.append({"title" : file_name, "id":  file_id, 'mimeType':file_type})
-#         if len(file_list) == 1:
-#           file_path.append(file_name)
-#     #Logging
+    #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
