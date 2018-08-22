@@ -394,9 +394,11 @@ class ColabGDrive:
     pprint(in_str)
     ret_val = None
     work_file_name = os.path.normpath(in_str.strip())
-    if work_file_name == '':
+    pprint(work_file_name)
+    if not work_file_name:
       ret_val = self.getcwd()
     else:
+      pprint('dfgh')
       if work_file_name[0] == '/':
         work_file_name = work_file_name[1:]
       work_file_struct = self._build_path_structure_(work_file_name)
@@ -404,6 +406,7 @@ class ColabGDrive:
         ret_val = os.path.join(self.getcwd(), os.path.normpath(work_file_name))
       else:
         ret_val = os.path.normpath(work_file_name)
+    pprint(ret_val)
     #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
