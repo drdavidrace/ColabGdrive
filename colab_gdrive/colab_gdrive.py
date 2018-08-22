@@ -667,6 +667,7 @@ class ColabGDrive:
       self.colab_gdrive_logger.info("Entering")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       self.colab_gdrive_logger.info(in_str)
+    pprint('asdf')
     pprint(in_str)
     w_str = self._build_full_path_(in_str)
     pprint(w_str)
