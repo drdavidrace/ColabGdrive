@@ -669,6 +669,7 @@ class ColabGDrive:
       self.colab_gdrive_logger.info(in_str)
     w_str = self._build_full_path_(in_str)
     file_struct = self._build_path_structure_(w_str)
+    pprint(file_struct)
     r_val = self._traverse_structure_list_(file_struct['path_array'])
     p_val = r_val['file_result']
     ret_val = None
