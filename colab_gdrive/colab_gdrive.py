@@ -393,7 +393,7 @@ class ColabGDrive:
     ret_val = None
     work_file_name = os.path.normpath(in_str.strip())
     if work_file_name == '':
-      ret_val = self.getcwd() + '/*'
+      ret_val = self.getcwd()
     else:
       if work_file_name[0] == '/':
         work_file_name = work_file_name[1:]
