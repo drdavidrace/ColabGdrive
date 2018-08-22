@@ -393,12 +393,11 @@ class ColabGDrive:
     pprint('sdfg')
     pprint(in_str)
     ret_val = None
-    work_file_name = os.path.normpath(in_str.strip())
-    pprint(work_file_name)
-    if not work_file_name:
+    if not in_str.strip():
       ret_val = self.getcwd()
     else:
       pprint('dfgh')
+      work_file_name = os.path.normpath(in_str.strip())
       if work_file_name[0] == '/':
         work_file_name = work_file_name[1:]
       work_file_struct = self._build_path_structure_(work_file_name)
