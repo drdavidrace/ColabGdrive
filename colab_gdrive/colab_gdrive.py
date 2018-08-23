@@ -594,13 +594,8 @@ class ColabGDrive:
           if len(file_list) == 1:
             file_path.append(file_name)
       else:
-        drive_file = self.my_gdrive.CreateFile({'id': '{:s}'.format('root')})
-        pprint(list(drive_file.FetchMetadata(fetch_all=True).keys()))
+        drive_file = self.my_gdrive.CreateFile({'id': '{:s}'.format(c_name)})
         t_dict = {'title': drive_file['title'], 'id': drive_file['id'], 'mimeType': drive_file['mimeType']}
-        try:
-          t_dict['fileSize'] = drive_file['fileSize']
-        except KeyError as e:
-          pass
         file_result.append(t_dict)
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
