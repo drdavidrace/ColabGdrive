@@ -595,8 +595,7 @@ class ColabGDrive:
             file_path.append(file_name)
       else:
         drive_file = self.my_gdrive.CreateFile({'id': '{:s}'.format('root')})
-        drive_file.FetchMetadata(fetch_all=True)
-        pprint(drive_file['fileSize'])
+        pprint(list(drive_file.FetchMetadata(fetch_all=True).keys()))
         t_dict = {'title': drive_file['title'], 'id': drive_file['id'], 'mimeType': drive_file['mimeType']}
         try:
           t_dict['fileSize'] = drive_file['fileSize']
