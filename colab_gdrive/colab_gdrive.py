@@ -590,7 +590,7 @@ class ColabGDrive:
             file_path.append(file_name)
       else:
         drive_file = self.my_gdrive.CreateFile({'id': '{:s}'.format('root')})
-        file_result.append({'title': drive_file['title'], 'id': drive_file['id'], 'mimeType': drive_file['mimeType']})
+        file_result.append({'title': drive_file['title'], 'id': drive_file['id'], 'mimeType': drive_file['mimeType'], 'fileSize':drive_file['fileSize']})
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
