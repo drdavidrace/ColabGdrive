@@ -217,7 +217,7 @@ class ColabGDrive:
     ret_val = False
     if in_str:
       f_info = self.get_file_metadata(in_str)
-      if f_info and ( 'folder' not in pformat(f_info['mimeType'])):
+      if f_info and ( 'folder' not in f_info['mimeType']):
         ret_val = True
     return ret_val
   #
@@ -237,13 +237,8 @@ class ColabGDrive:
     ret_val = False
     f_info = self.get_file_metadata(in_str)
     if f_info['mimeType']:
-      pprint(f_info['kind'])
-      pprint(f_info['mimeType'])
-      pprint(type(f_info['mimeType']))
-      if 'folder' in pformat(f_info['mimeType']):
+      if 'folder' f_info['mimeType']:
         ret_val = True
-        
-    pprint(ret_val)
     return ret_val
   #
   #
@@ -392,13 +387,10 @@ class ColabGDrive:
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       self.colab_gdrive_logger.info(pformat(in_str))
     #
-    pprint('sdfg')
-    pprint(in_str)
     ret_val = None
     if not in_str.strip():
       ret_val = self.getcwd()
     else:
-      pprint('dfgh')
       work_file_name = os.path.normpath(in_str.strip())
       if work_file_name[0] == '/':
         work_file_name = work_file_name[1:]
@@ -407,7 +399,6 @@ class ColabGDrive:
         ret_val = os.path.join(self.getcwd(), os.path.normpath(work_file_name))
       else:
         ret_val = os.path.normpath(work_file_name)
-    pprint(ret_val)
     #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Leaving")
@@ -573,7 +564,6 @@ class ColabGDrive:
     file_id = 'root'
     file_path = []
     file_path.append(file_id)
-    pprint(in_struct)
     for cur_name in in_struct[1:-1]:
       file_result = []
       file_list = self.my_gdrive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(cur_name, file_id)}).GetList()
@@ -672,12 +662,8 @@ class ColabGDrive:
       self.colab_gdrive_logger.info("Entering")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       self.colab_gdrive_logger.info(in_str)
-    pprint('asdf')
-    pprint(in_str)
     w_str = self._build_full_path_(in_str)
-    pprint(w_str)
     file_struct = self._build_path_structure_(w_str)
-    pprint(file_struct)
     r_val = self._traverse_structure_list_(file_struct['path_array'])
     p_val = r_val['file_result']
     ret_val = None
