@@ -585,7 +585,12 @@ class ColabGDrive:
             file_name = file_info['title']
             file_id = file_info['id']
             file_type = file_info['mimeType']
-            file_result.append({"title" : file_name, "id":  file_id, 'mimeType':file_type})
+            t_dict = {"title" : file_name, "id":  file_id, 'mimeType':file_type}
+            try:
+              t_dict['fileSize'] = file_info['fileSize']
+            except KeyError as e:
+              pass
+            file_result.append(t_dict)
           if len(file_list) == 1:
             file_path.append(file_name)
       else:
