@@ -640,7 +640,7 @@ class ColabGDrive(GoogleDrive):
 #     if len(in_struct) == 1 and in_struct[0] == 'root':
 #       in_struct.append('*')
     if in_struct[0] != 'root':
-      in_struct = self.getcwd() + in_struct
+      in_struct = self._build_path_structure_(self.getcwd()).append(in_struct)
     t_struct = None
     if in_struct[-1] == '*':
       t_struct = in_struct[:-1]
