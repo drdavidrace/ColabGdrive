@@ -93,7 +93,7 @@ class ColabGDrive(GoogleDrive):
     self.cur_dir = 'root'
     #self.my_gdrive = self._connect_gdrive_()
     self.initialized = True
-    self._basic_log("Exiting", logging_level=logging.INFO)
+    self._basic_log_("Exiting", logging_level=logging.INFO)
     return None
   #
   #  Connect the drive
