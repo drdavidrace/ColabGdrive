@@ -329,7 +329,6 @@ class ColabGDrive(GoogleDrive):
 
     '''
     work_name = self._build_full_path_(name.strip())
-    pprint('****' + work_name)
     #Logging
     self._basic_log_("Entering", call_name=pformat(inspect.currentframe().f_code.co_name), logging_level=logging.INFO)
     #
