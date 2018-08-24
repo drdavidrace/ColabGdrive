@@ -17,7 +17,7 @@ from oauth2client.client import GoogleCredentials
 #
 #  Set logging level
 #
-class ColabGDrive:
+class ColabGDrive(GoogleDrive):
   '''
   The class manages the connection to a user's Google Drive.
   #
