@@ -80,7 +80,7 @@ class ColabGDrive(GoogleDrive):
     except Exception as e:
       raise ConnectionError("No GoogleDrive is connected")
     try:
-      super.__init__(gauth)
+      super().__init__(gauth)
       directory_dictionary = None
       directory_dictionary = self.ls('*')
       if directory_dictionary is None:
