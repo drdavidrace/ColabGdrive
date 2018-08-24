@@ -162,7 +162,7 @@ class ColabGDrive(GoogleDrive):
     -----
     (1)  Just checks the local variable.  Probably should check the drive just incase it was timed out.
     '''
-    return True if(self.GetAbout()['kind'] is 'drive#about') else False
+    return True if(self.GetAbout()['kind'] == 'drive#about') else False
 
   #  Basic information
   def get_info(self):
