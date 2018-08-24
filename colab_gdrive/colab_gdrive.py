@@ -400,9 +400,11 @@ class ColabGDrive(GoogleDrive):
       work_file_name = os.path.normpath(in_str.strip())
       if work_file_name[0] == '/':
         work_file_name = work_file_name[1:]
+      else:
+        work_file_name = os.path.join(self.getcwd(),work_file_name)
       work_file_struct = self._build_path_structure_(work_file_name)
       if work_file_struct['path_array'][0] != 'root':
-        ret_val = os.path.join(self.getcwd(), os.path.normpath(work_file_name))
+        raise FileNotFoundError('_build_full_path_ ' + 'path must begin with root ' + work_file_name)
       else:
         ret_val = os.path.normpath(work_file_name)
     #Logging
@@ -639,8 +641,6 @@ class ColabGDrive(GoogleDrive):
       in_struct.append('*')
 #     if len(in_struct) == 1 and in_struct[0] == 'root':
 #       in_struct.append('*')
-    if in_struct[0] != 'root':
-      in_struct = self._build_path_structure_(self.getcwd())['path_array'].append(in_struct)
     t_struct = None
     if in_struct[-1] == '*':
       t_struct = in_struct[:-1]
