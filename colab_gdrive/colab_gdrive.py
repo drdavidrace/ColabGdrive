@@ -141,11 +141,12 @@ class ColabGDrive(GoogleDrive):
   #
   def __str__(self):
     #out_str = pformat(self.my_gdrive) + " : " + pformat(self.cur_dir) + " : " + pformat(self.initialized)
-    out_str = pformat(self) + " : " + pformat(self.cur_dir) + " : " + pformat(self.initialized)
+    out_str = pformat(self.get_info()) + " : " + pformat(self.cur_dir) + " : " + pformat(self.initialized)
+    
     return out_str
   def __repr__(self):
     #out_str = pformat(self.my_gdrive) + " : " + pformat(self.cur_dir) + " : " + pformat(self.initialized)
-    out_str = pformat(self) + " : " + pformat(self.cur_dir) + " : " + pformat(self.initialized)
+    out_str = pformat(self.get_info()) + " : " + pformat(self.cur_dir) + " : " + pformat(self.initialized)
     return out_str
   #  Check drive/file/directory information
   def  is_connected(self):
