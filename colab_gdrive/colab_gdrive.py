@@ -329,6 +329,7 @@ class ColabGDrive(GoogleDrive):
 
     '''
     work_name = self._build_full_path_(name.strip())
+    pprint('****' + work_name)
     #Logging
     self._basic_log_("Entering",logging_level=logging.INFO)
     #
@@ -391,10 +392,6 @@ class ColabGDrive(GoogleDrive):
     '''
     #Logging
     self._basic_log_('Entering', call_name=pformat(inspect.currentframe().f_code.co_name), logging_level=logging.INFO)
-#     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-#       self.colab_gdrive_logger.info("Entering")
-#       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
-#       self.colab_gdrive_logger.info(pformat(in_str))
     #
     ret_val = None
     if not in_str.strip():
@@ -410,10 +407,6 @@ class ColabGDrive(GoogleDrive):
         ret_val = os.path.normpath(work_file_name)
     #Logging
     self._basic_log_('Exiting', call_name=pformat(inspect.currentframe().f_code.co_name), logging_level=logging.INFO)
-#     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-#       self.colab_gdrive_logger.info("Leaving")
-#       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
-#       self.colab_gdrive_logger.info(pformat(ret_val))
     return ret_val
   #
   #  Data movement functions
@@ -543,7 +536,7 @@ class ColabGDrive(GoogleDrive):
     ret_val = self._traverse_structure_list_(in_struct)
     #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-      self.colab_gdrive_logger.info("Leaving")
+      self.colab_gdrive_logger.info("Exiting")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       self.colab_gdrive_logger.info(pformat(file_path))
     return ret_val
@@ -608,7 +601,7 @@ class ColabGDrive(GoogleDrive):
         t_dict = {'title': drive_file['title'], 'id': drive_file['id'], 'mimeType': drive_file['mimeType']}
         file_result.append(t_dict)
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-      self.colab_gdrive_logger.info("Leaving")
+      self.colab_gdrive_logger.info("Exiting")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       self.colab_gdrive_logger.info(pformat(file_path))
     return {'full_name': os.path.join(*file_path), 'file_result':file_result}
@@ -656,7 +649,7 @@ class ColabGDrive(GoogleDrive):
     full_name = os.path.join(*t_struct)
     #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-      self.colab_gdrive_logger.info("Leaving")
+      self.colab_gdrive_logger.info("Exiting")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
 
     return {'full_name':full_name, 'path_array':in_struct}
@@ -689,7 +682,7 @@ class ColabGDrive(GoogleDrive):
       ret_val = {'full_name':r_val['full_name'], 'id': p_val[0]['id']}
     #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-      self.colab_gdrive_logger.info("Leaving")
+      self.colab_gdrive_logger.info("Exiting")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
       self.colab_gdrive_logger.info(pformat(p_val))
     return ret_val
