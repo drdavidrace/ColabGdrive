@@ -71,7 +71,7 @@ class ColabGDrive(GoogleDrive):
     #DEBUG, INFO, WARNING, ERROR, CRITICAL
     self.set_log_level(logging_level)
     #Logging
-    self._basic_log_("Entering",logging_level=logging.INFO)
+    self._basic_log_("Entering", call_name=pformat(inspect.currentframe().f_code.co_name), logging_level=logging.INFO)
     #
     try:
       auth.authenticate_user()
@@ -93,7 +93,7 @@ class ColabGDrive(GoogleDrive):
     self.cur_dir = 'root'
     #self.my_gdrive = self._connect_gdrive_()
     self.initialized = True
-    self._basic_log_("Exiting", logging_level=logging.INFO)
+    self._basic_log_("Exiting", call_name=pformat(inspect.currentframe().f_code.co_name), logging_level=logging.INFO)
     return None
   #
   #  Connect the drive
@@ -207,8 +207,8 @@ class ColabGDrive(GoogleDrive):
     The entire metadata if the file is found
     '''
     #Logging
-    self._basic_log_('Entering',call_name=pformat(inspect.currentframe().f_code.co_name),logging_level=logging.INFO)
-    #
+    self._basic_log_('Entering', call_name=pformat(inspect.currentframe().f_code.co_name), logging_level=logging.INFO)
+    # 
     ret_val = None
     file_info = self._find_file_id_(in_str)
     if file_info:
@@ -331,7 +331,7 @@ class ColabGDrive(GoogleDrive):
     work_name = self._build_full_path_(name.strip())
     pprint('****' + work_name)
     #Logging
-    self._basic_log_("Entering",logging_level=logging.INFO)
+    self._basic_log_("Entering", call_name=pformat(inspect.currentframe().f_code.co_name), logging_level=logging.INFO)
     #
     ret_val = None
     if work_name == '':
@@ -340,7 +340,7 @@ class ColabGDrive(GoogleDrive):
       ls_file_dict = self._list_file_dict_(work_name)
       ret_val = ls_file_dict
     #Logging
-    self._basic_log_("Exiting",logging_level=logging.INFO)
+    self._basic_log_("Exiting", call_name=pformat(inspect.currentframe().f_code.co_name), logging_level=logging.INFO)
     return ret_val
   #
   #Directory Management, uses a quasi linux methodology
@@ -640,7 +640,7 @@ class ColabGDrive(GoogleDrive):
 #     if len(in_struct) == 1 and in_struct[0] == 'root':
 #       in_struct.append('*')
     if in_struct[0] != 'root':
-      in_struct = ['root'] + in_struct
+      in_struct = self.getcwd() + in_struct
     t_struct = None
     if in_struct[-1] == '*':
       t_struct = in_struct[:-1]
