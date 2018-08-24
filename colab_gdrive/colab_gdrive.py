@@ -132,12 +132,10 @@ class ColabGDrive(GoogleDrive):
   #
   #  Basic Logging Function
   #
-  def _basic_log_(self, in_str='Please use Entering/Exiting', logging_level=logging.INFO):
+  def _basic_log_(self, in_str='Please use Entering/Exiting', call_name='',logging_level=logging.INFO):
     if self.colab_gdrive_logger.isEnabledFor(logging_level):
       self.colab_gdrive_logger.info(in_str)
-      cur_frame = inspect.currentframe()
-      call_frame = inspect.getouterframes(cur_frame,2)
-      self.colab_gdrive_logger.info(pformat(call_frame))
+      self.colab_gdrive_logger.info(call_name)
   #
   #  Basic Overrides
   #
@@ -209,7 +207,7 @@ class ColabGDrive(GoogleDrive):
     The entire metadata if the file is found
     '''
     #Logging
-    self._basic_log_('Entering',logging_level=logging.INFO)
+    self._basic_log_('Entering',call_name=pformat(inspect.currentframe().f_code.co_name),logging_level=logging.INFO)
     #
     ret_val = None
     file_info = self._find_file_id_(in_str)
@@ -217,7 +215,7 @@ class ColabGDrive(GoogleDrive):
       drive_file = self.CreateFile({'id': '{:s}'.format(file_info['id'])})
       ret_val = drive_file
     #Logging
-    self._basic_log_('Exiting',logging_level=logging.INFO)
+    self._basic_log_('Exiting',call_name=pformat(inspect.currentframe().f_code.co_name),logging_level=logging.INFO)
     return ret_val
   #
   #
@@ -360,7 +358,7 @@ class ColabGDrive(GoogleDrive):
     The current working directory
     '''
     #Logging
-    self._basic_log_('Entering',logging_level=logging.INFO)
+    self._basic_log_('Entering',call_name=pformat(inspect.currentframe().f_code.co_name),logging_level=logging.INFO)
     #
     if name == '':
       name = 'root'
@@ -373,7 +371,7 @@ class ColabGDrive(GoogleDrive):
       elif work_file_info['full_name'] == 'root':
         self.cur_dir = work_file_info['full_name']
     #Logging
-    self._basic_log_('Exiting',logging_level=logging.INFO)
+    self._basic_log_('Exiting',call_name=pformat(inspect.currentframe().f_code.co_name)logging_level=logging.INFO)
     return self.getcwd()
   #
   #  Helper functions
@@ -392,7 +390,7 @@ class ColabGDrive(GoogleDrive):
     An absolute path starting at 'root'
     '''
     #Logging
-    self._basic_log_('Entering', logging_level=logging.INFO)
+    self._basic_log_('Entering', call_name=pformat(inspect.currentframe().f_code.co_name), logging_level=logging.INFO)
 #     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
 #       self.colab_gdrive_logger.info("Entering")
 #       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
@@ -411,7 +409,7 @@ class ColabGDrive(GoogleDrive):
       else:
         ret_val = os.path.normpath(work_file_name)
     #Logging
-    self._basic_log_('Exiting', logging_level=logging.INFO)
+    self._basic_log_('Exiting', call_name=pformat(inspect.currentframe().f_code.co_name), logging_level=logging.INFO)
 #     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
 #       self.colab_gdrive_logger.info("Leaving")
 #       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
