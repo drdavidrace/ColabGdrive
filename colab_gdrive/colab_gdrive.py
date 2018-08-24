@@ -135,7 +135,7 @@ class ColabGDrive(GoogleDrive):
   def _basic_log_(self, in_str='Please use Entering/Exiting', logging_level=logging.INFO):
     if self.colab_gdrive_logger.isEnabledFor(logging_level):
       self.colab_gdrive_logger.info(in_str)
-      self.colab_gdrive_logger.info(pformat(inspect.currentframe().getmembers()))
+      self.colab_gdrive_logger.info(pformat(inspect.currentframe()))
   #
   #  Basic Overrides
   #
