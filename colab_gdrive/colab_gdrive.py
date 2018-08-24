@@ -371,7 +371,7 @@ class ColabGDrive(GoogleDrive):
       elif work_file_info['full_name'] == 'root':
         self.cur_dir = work_file_info['full_name']
     #Logging
-    self._basic_log_('Exiting',call_name=pformat(inspect.currentframe().f_code.co_name)logging_level=logging.INFO)
+    self._basic_log_('Exiting', call_name=pformat(inspect.currentframe().f_code.co_name), logging_level=logging.INFO)
     return self.getcwd()
   #
   #  Helper functions
