@@ -72,6 +72,7 @@ class ColabGDrive(GoogleDrive):
     self.set_log_level(logging_level)
     #Logging
     self._basic_log_("Entering", call_name=pformat(inspect.currentframe().f_code.co_name), logging_level=logging.INFO)
+    self.cur_dir = 'root'
     #
     try:
       auth.authenticate_user()
@@ -90,7 +91,6 @@ class ColabGDrive(GoogleDrive):
     #
     #  Set up the local information
     #
-    self.cur_dir = 'root'
     #self.my_gdrive = self._connect_gdrive_()
     self.initialized = True
     self._basic_log_("Exiting", call_name=pformat(inspect.currentframe().f_code.co_name), logging_level=logging.INFO)
