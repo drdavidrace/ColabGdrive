@@ -144,7 +144,8 @@ class ColabGDrive(GoogleDrive):
     out_str = pformat(self) + " : " + pformat(self.cur_dir) + " : " + pformat(self.initialized)
     return out_str
   def __repr__(self):
-    out_str = pformat(self.my_gdrive) + " : " + pformat(self.cur_dir) + " : " + pformat(self.initialized)
+    #out_str = pformat(self.my_gdrive) + " : " + pformat(self.cur_dir) + " : " + pformat(self.initialized)
+    out_str = pformat(self) + " : " + pformat(self.cur_dir) + " : " + pformat(self.initialized)
     return out_str
   #  Check drive/file/directory information
   def  is_connected(self):
@@ -176,7 +177,7 @@ class ColabGDrive(GoogleDrive):
 
     WARNING:  I am not sure what this entails at this point, so it is just information.WARNING
     '''
-    return self.my_gdrive
+    return self.GetAbout()
   #
   #
   #
@@ -216,7 +217,7 @@ class ColabGDrive(GoogleDrive):
     ret_val = None
     file_info = self._find_file_id_(in_str)
     if file_info:
-      drive_file = self.my_gdrive.CreateFile({'id': '{:s}'.format(file_info['id'])})
+      drive_file = self.CreateFile({'id': '{:s}'.format(file_info['id'])})
       ret_val = drive_file
     #Logging
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
@@ -460,7 +461,7 @@ class ColabGDrive(GoogleDrive):
     file_name = download_file_info['full_name']
     _, file_short_name = os.path.split(file_name)
     #  Now build the tranfer operations
-    to_download = self.my_gdrive.CreateFile({'id': '{:s}'.format(file_id)})
+    to_download = self.CreateFile({'id': '{:s}'.format(file_id)})
     ret_val = False
     if over_write:
       if os.path.isfile(file_short_name):
@@ -510,11 +511,11 @@ class ColabGDrive(GoogleDrive):
     if over_write:
       if self.isfile(full_name):
         full_id = self.get_file_metadata(full_name)['id']
-        to_delete = self.my_gdrive.CreateFile({'id':'{:s}'.format(full_id)})
+        to_delete = self.CreateFile({'id':'{:s}'.format(full_id)})
         to_delete.Trash()
         to_delete.Delete()
     #  Now build the tranfer operations
-    to_upload = self.my_gdrive.CreateFile({'parents':[{'id':"{:s}".format(dir_id)}],'title': local_file})
+    to_upload = self.CreateFile({'parents':[{'id':"{:s}".format(dir_id)}],'title': local_file})
     to_upload.SetContentFile(local_file)
     to_upload.Upload()
     ret_val = False
@@ -545,10 +546,10 @@ class ColabGDrive(GoogleDrive):
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
       self.colab_gdrive_logger.info("Entering")
       self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
-      self.colab_gdrive_logger.info(pformat(self.my_gdrive))
+      self.colab_gdrive_logger.info(pformat(self.GetAbout()))
       self.colab_gdrive_logger.info(in_str)
     #
-    if self.my_gdrive is None:
+    if self.GetAbout() is None:
       raise ConnectionError("No GoogleDrive is connected, check for a timeout since it was connected at one time")
     file_path = self._build_path_structure_(in_str)
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
@@ -594,7 +595,7 @@ class ColabGDrive(GoogleDrive):
     file_path.append(file_id)
     for cur_name in in_struct[1:-1]:
       file_result = []
-      file_list = self.my_gdrive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(cur_name, file_id)}).GetList()
+      file_list = self.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(cur_name, file_id)}).GetList()
       if not file_list:
         break
       else:
@@ -607,7 +608,7 @@ class ColabGDrive(GoogleDrive):
       file_result = []
       c_name = in_struct[-1]
       if len(in_struct) > 1:
-        file_list = self.my_gdrive.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(c_name, file_id)}).GetList()
+        file_list = self.ListFile({'q': "title contains '{:s}' and '{:s}' in parents and trashed=false".format(c_name, file_id)}).GetList()
         if file_list:
           for file_info in file_list:
             file_name = file_info['title']
@@ -622,7 +623,7 @@ class ColabGDrive(GoogleDrive):
           if len(file_list) == 1:
             file_path.append(file_name)
       else:
-        drive_file = self.my_gdrive.CreateFile({'id': '{:s}'.format(c_name)})
+        drive_file = self.CreateFile({'id': '{:s}'.format(c_name)})
         t_dict = {'title': drive_file['title'], 'id': drive_file['id'], 'mimeType': drive_file['mimeType']}
         file_result.append(t_dict)
     if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
