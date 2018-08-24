@@ -140,12 +140,9 @@ class ColabGDrive(GoogleDrive):
   #  Basic Overrides
   #
   def __str__(self):
-    #out_str = pformat(self.my_gdrive) + " : " + pformat(self.cur_dir) + " : " + pformat(self.initialized)
     out_str = pformat(self.get_info()) + " : " + pformat(self.cur_dir) + " : " + pformat(self.initialized)
-    
     return out_str
   def __repr__(self):
-    #out_str = pformat(self.my_gdrive) + " : " + pformat(self.cur_dir) + " : " + pformat(self.initialized)
     out_str = pformat(self.get_info()) + " : " + pformat(self.cur_dir) + " : " + pformat(self.initialized)
     return out_str
   #  Check drive/file/directory information
@@ -165,7 +162,7 @@ class ColabGDrive(GoogleDrive):
     -----
     (1)  Just checks the local variable.  Probably should check the drive just incase it was timed out.
     '''
-    return True if(self.my_gdrive is not None) else False
+    return True if(self.GetAbout()['kind'] is 'drive#about') else False
 
   #  Basic information
   def get_info(self):
