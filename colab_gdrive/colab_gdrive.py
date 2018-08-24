@@ -363,7 +363,7 @@ class ColabGDrive(GoogleDrive):
     if name == '':
       name = 'root'
     if self.isdir(name):
-      pprint(self._build_full_path_(name))
+      pprint(self._build_full_path_(name) )
       pprint(self.get_file_metadata(name))
       work_file_info = self.ls(name)
       if(len(work_file_info['file_result']) == 1 and 'folder' in work_file_info['file_result'][0]['mimeType']):
