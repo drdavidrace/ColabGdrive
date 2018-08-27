@@ -610,6 +610,8 @@ class ColabGDrive(GoogleDrive):
       t_struct = in_struct[:-1]
     else:
       t_struct = in_struct
+    if not t_struct:
+      t_struct = self._build_path_structure_(self.getcwd())
     full_name = os.path.join(*t_struct)
     #Logging
     self._basic_log_('Exiting', call_name=pformat(inspect.currentframe().f_code.co_name), logging_level=logging.INFO)
