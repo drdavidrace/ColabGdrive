@@ -365,7 +365,8 @@ class ColabGDrive(GoogleDrive):
       work_file_name = os.path.normpath(in_str.strip())
       if work_file_name[0] == '/':
         work_file_name = work_file_name[1:]
-      else:
+      work_file_struct = self._build_path_structure_(work_file_name)
+      if work_file_struct['path_array'][0] != 'root':
         work_file_name = os.path.join(self.getcwd(),work_file_name)
       work_file_struct = self._build_path_structure_(work_file_name)
       if work_file_struct['path_array'][0] != 'root':
@@ -592,10 +593,7 @@ class ColabGDrive(GoogleDrive):
 
     '''
     #Logging
-    if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-      self.colab_gdrive_logger.info("Entering")
-      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
-      self.colab_gdrive_logger.info(in_str)
+    self._basic_log_('Entering', call_name=pformat(inspect.currentframe().f_code.co_name), logging_level=logging.INFO)
     work_str = os.path.normpath(in_str)
     in_struct = []
     while work_str != '':
@@ -614,10 +612,7 @@ class ColabGDrive(GoogleDrive):
       t_struct = in_struct
     full_name = os.path.join(*t_struct)
     #Logging
-    if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-      self.colab_gdrive_logger.info("Exiting")
-      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
-
+    self._basic_log_('Exiting', call_name=pformat(inspect.currentframe().f_code.co_name), logging_level=logging.INFO)
     return {'full_name':full_name, 'path_array':in_struct}
   #
   #  Find the file id for a file on GoogleDrive
