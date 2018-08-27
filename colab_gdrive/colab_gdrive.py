@@ -329,8 +329,6 @@ class ColabGDrive(GoogleDrive):
     if name == '':
       name = 'root'
     if self.isdir(name):
-      pprint(self._build_full_path_(name) )
-      pprint(self.get_file_metadata(name))
       work_file_info = self.ls(name)
       if(len(work_file_info['file_result']) == 1 and 'folder' in work_file_info['file_result'][0]['mimeType']):
         self.cur_dir = work_file_info['full_name']
@@ -397,7 +395,6 @@ class ColabGDrive(GoogleDrive):
     if not google_path:
       raise FileNotFoundError('copy_from requires a file name to download')
     download_file_info = self._find_file_id_(google_path)
-    pprint(download_file_info)
     if not download_file_info:
       raise FileNotFoundError('copy_from could not find the google file' + pformat(google_path))
     file_id = download_file_info['id']
@@ -635,10 +632,6 @@ class ColabGDrive(GoogleDrive):
     file_struct = self._build_path_structure_(w_str)
     r_val = self._traverse_structure_list_(file_struct['path_array'])
     p_val = r_val['file_result']
-    pprint(w_str)
-    pprint(file_struct)
-    pprint(r_val)
-    pprint(p_val)
     ret_val = None
     if p_val:
       if len(p_val) > 1:
