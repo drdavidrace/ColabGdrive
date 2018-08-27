@@ -96,40 +96,6 @@ class ColabGDrive(GoogleDrive):
     self._basic_log_("Exiting", call_name=pformat(inspect.currentframe().f_code.co_name), logging_level=logging.INFO)
     return None
   #
-  #  Connect the drive
-  #
-#   def _connect_gdrive_(self):
-#     '''
-#     Internal routine:
-#     Attempts to connect to a GoogleDrive
-#     Performs two checks:
-#       (1)  Checks to see if the drive can be connected
-#       (2)  Checks to see if the root directory exits
-
-#     Both of these are considered fatal.  These raise exceptions, prints the stack and exits
-
-#     Paramters
-#     =========
-#     None
-
-#     '''
-#     #
-#     #
-#     #
-#     auth.authenticate_user()
-#     gauth = GoogleAuth()
-#     gauth.credentials = GoogleCredentials.get_application_default()
-#     t_gdrive = GoogleDrive(gauth)
-#     if t_gdrive is not None:
-#       self.my_gdrive = t_gdrive
-#       directory_dictionary = None
-#       directory_dictionary = self.ls('*')
-#       if directory_dictionary is None:
-#         raise FileNotFoundError("Root directory of the GoogleDrive was not found")
-#     else:
-#       raise ConnectionError("No GoogleDrive is connected")
-#     return t_gdrive
-  #
   #  Basic Logging Function
   #
   def _basic_log_(self, in_str='Please use Entering/Exiting', call_name='',logging_level=logging.INFO):
@@ -430,6 +396,7 @@ class ColabGDrive(GoogleDrive):
     if not google_path:
       raise FileNotFoundError('copy_from requires a file name to download')
     download_file_info = self._find_file_id_(google_path)
+    pprint(download_file_info)
     if not download_file_info:
       raise FileNotFoundError('copy_from could not find the google file' + pformat(google_path))
     file_id = download_file_info['id']
