@@ -633,22 +633,20 @@ class ColabGDrive(GoogleDrive):
     A file id for a path or None
     '''
     #Logging
-    if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-      self.colab_gdrive_logger.info("Entering")
-      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
-      self.colab_gdrive_logger.info(in_str)
+    self._basic_log_('Entering', call_name=pformat(inspect.currentframe().f_code.co_name), logging_level=logging.INFO)
     w_str = self._build_full_path_(in_str)
     file_struct = self._build_path_structure_(w_str)
     r_val = self._traverse_structure_list_(file_struct['path_array'])
     p_val = r_val['file_result']
+    pprint(w_str)
+    pprint(file_struct)
+    pprint(r_val)
+    pprint(p_val)
     ret_val = None
     if p_val:
       if len(p_val) > 1:
         raise FileNotFoundError('_find_file_id found too many files' + pformat(p_val))
       ret_val = {'full_name':r_val['full_name'], 'id': p_val[0]['id']}
     #Logging
-    if self.colab_gdrive_logger.isEnabledFor(logging.INFO):
-      self.colab_gdrive_logger.info("Exiting")
-      self.colab_gdrive_logger.info(pformat(inspect.currentframe().f_code.co_name))
-      self.colab_gdrive_logger.info(pformat(p_val))
+    self._basic_log_('Exiting', call_name=pformat(inspect.currentframe().f_code.co_name), logging_level=logging.INFO)
     return ret_val
