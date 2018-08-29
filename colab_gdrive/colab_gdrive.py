@@ -379,9 +379,10 @@ class ColabGDrive(GoogleDrive):
   #    These function move data to/from a Google drive to a local file system.  The process is a little different because
   #    the file has to be found and then transferred.
   #
-  def copy_from(self, google_path=None, over_write=True):
+  def _copy_from_(self, google_path=None, over_write=True):
     '''
-    Copy from a GoogleDrive file to the current working directory
+    Copy from a GoogleDrive file to the current working directory.  This is an internal routine that handles one 
+    file at a time.
     Parameters:
     ===========
     google_path:  The path of file to download
@@ -416,6 +417,26 @@ class ColabGDrive(GoogleDrive):
           ret_val = True
     
     return ret_val
+  def copy_from(self, google_paths=None, overwrite=True):
+    '''
+    Copies a list of files from a GoogleDrive to the current working directory.
+    Parameters:
+    ===========
+    google_paths:  A list of files to copy.  Each is processed independently and not in parallel.google_paths
+    overwrite:  True/False to overwrite current files.  The default is True
+    Results:
+    ========
+    List of files that was successfully transferred.  An empty list if none were successfully transferred.
+    '''
+    if not google_paths:
+      raise ValueError('An array of files must be provided, None was provided.')
+    good_copies = []
+    for gpath in google_paths:
+      result = self._copy_from_(google_path=gpath, over_write=overwrite)
+      if result:
+        good_copies.append(gpath)
+    return good_copies
+      
   #
   #
   #
